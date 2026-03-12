@@ -1,0 +1,102 @@
+﻿@page "/Register"
+@rendermode InteractiveServer
+@using AVWintory.ModulesDb
+@inject NavigationManager NavManager
+@inject ILoginService LoginService
+
+<MudPaper Width="100%" Height="60vh" 
+          Style="background-color: transparent; display: flex; justify-content: center; flex-direction: column" Elevation="0">
+    <MudText Style="text-align: center; font-size: 32px;">Klatdona</MudText>
+    <MudPaper Style="align-items: center; flex-direction: column; width: 30%; padding: 20px; 
+              backdrop-filter: blur(20px); background-color: rgba(255, 255, 255, 0.1); margin: 10px auto;">
+        <MudText>Registrarse</MudText>
+        <label style="color: red">@_warningUserRegister</label>
+        <MudTextField @bind-Value="UserRegister" Placeholder="Nombre de usuario"/>
+        
+        <label style="color: red"></label>
+        <MudTextField @bind-Value="PasswordRegister" Placeholder="Contraseña"/>
+        
+        <label style="color: red">@_warningPasswordVerificationRegister</label>
+        <MudTextField @bind-Value="PasswordVerificationRegister" Placeholder="Confirmar contraseña"/>
+        <br/>
+        <select style="border-bottom: 1px solid darkgrey; padding: 5px; font-size: 16px; width: 300px">
+            <option Value="Administrador">Administrador</option>
+            <option Value="Cajero">Cajero</option>
+            <option Value="Ceo">CEO</option>
+        </select>
+        <div style="display: flex; justify-content: center; margin-top: 30px">
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" @onclick="LoginBack" Style="margin-right: 40px">
+                Regresar
+            </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" 
+                       @onclick="CheckRegister">
+                Registrarse
+            </MudButton>
+        </div>
+    </MudPaper>
+</MudPaper>
+
+@code {
+    public string UserRegister { get; set; } = "";
+    public string PasswordRegister { get; set; } = "";
+    public string PasswordVerificationRegister { get; set; } = "";
+    public string RolRegister { get; set; } = "Cajero";
+    
+    private string _warningUserRegister = "";
+    private string _warningPasswordVerificationRegister = "";
+
+    public async Task CheckRegister()
+    {
+        // 1. Limpiar advertencias previas
+        _warningUserRegister = "";
+        _warningPasswordVerificationRegister = "";
+
+        // 2. Obtener lista actual para validar si el nombre existe
+        var allUsers = LoginService.GetUser();
+        bool userExists = allUsers.Any(u => u.Name.ToLower() == UserRegister.ToLower());
+
+        // 3. Validaciones lógicas
+        if (string.IsNullOrWhiteSpace(UserRegister)) {
+            _warningUserRegister = "El nombre de usuario es obligatorio.";
+            return;
+        }
+
+        if (userExists) {
+            _warningUserRegister = "Este nombre de usuario ya está registrado.";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(PasswordRegister)) {
+            _warningPasswordVerificationRegister = "La contraseña no puede estar vacía.";
+            return;
+        }
+
+        if (PasswordRegister != PasswordVerificationRegister) {
+            _warningPasswordVerificationRegister = "Las contraseñas no coinciden.";
+            return;
+        }
+
+        // 4. Crear el usuario (UNA SOLA VEZ, sin bucles)
+        User newUser = new User
+        {
+            // Usamos Guid para asegurar que el ID sea único siempre
+            Id = Guid.NewGuid().ToString().Substring(0, 8), 
+            Name = UserRegister,
+            Password = PasswordRegister, // Nota: ¡Deberías usar Hash en el futuro!
+            Rol = RolRegister
+        };
+
+        try 
+        {
+            await LoginService.AddUser(newUser);
+            NavManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            _warningUserRegister = "Error al guardar en la base de datos.";
+        }
+    }
+    
+    public void LoginBack() => NavManager.NavigateTo("/");
+}
+}

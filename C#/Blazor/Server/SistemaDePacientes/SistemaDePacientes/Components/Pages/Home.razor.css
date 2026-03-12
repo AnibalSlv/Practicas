@@ -1,0 +1,23 @@
+﻿#data input{
+    width: 400px;
+    border: 1px solid black;
+    padding: 2px;
+}
+
+#data label{
+    margin: 2px;
+}
+
+#data select{
+    border: 1px solid black;
+    padding: 2px;
+    width: 400px;
+}
+
+#data select:hover{
+    cursor: pointer;
+}
+
+#data option:hover{
+    cursor: pointer;
+}

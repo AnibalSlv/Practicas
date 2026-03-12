@@ -1,0 +1,447 @@
+body{
+    margin:  0;
+    height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #222;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    position: relative;
+    margin: 0;
+}
+
+.navbar-logo {  
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-links li {
+    margin-left: 1.5rem;
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+    color: #4fc3f7;
+}
+
+.navbar-toggle {
+    display: none;
+}
+
+.navbar-icon {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+#titulo{
+    margin:0% auto auto auto 
+}
+
+#div_titulo{
+    margin: 0%;
+    border:solid none 1px;
+   background: #6490C3;
+    background: #090979;
+    background: linear-gradient(90deg, rgba(9, 9, 121, 1) 0%, rgba(0, 0, 0, 0.92) 50%, rgba(9, 9, 121, 1) 100%); 
+    text-align: center;
+    color:#fff;
+}
+
+#Tipogra{
+    color: #fff;
+}
+
+#opcion{
+    display: flex;
+    justify-content: center;
+}
+
+.opciones {
+    position: relative;
+    margin: 2vh;
+    font-size: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 15vh;
+    width: 15vh;
+    height: 5vh;
+    text-align: center;
+    transform: translateY(-10px);
+    transition: 1s;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: BLACK 20px 20px 30px;
+    color: #fff;
+    background: rgba(28, 44, 92, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 10px;
+}
+
+.ver_t_img::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("bodegon-con-la-balanza-de-la-justicia.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    animation: fadeThenScale 1s ease-in forwards;
+}
+.anadir_d_img::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("add-info.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    animation: fadeThenScale 1s ease-in forwards;
+}
+
+.subir_d_img::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("subir-doc.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    animation: fadeThenScale 1s ease-in forwards;
+}
+
+.ver_d_img::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("ver-doc.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 1;
+    animation: fadeThenScale 1s ease-in forwards;
+}
+
+.opciones > * {
+    position: relative;
+    z-index: 1;
+}
+
+.opciones_hover{
+    animation: prueba0 1s ease-in forwards;
+}
+
+@keyframes fadeThenScale {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.opciones:hover{
+    cursor: pointer;
+    border-radius: 20px;
+    color: #fff;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    background-color: black;
+    transform: translateY(10px);
+}
+
+#opcion_dos{
+    display: flex;
+    justify-content: center;
+}
+
+/* -------------------------- Modal --------------------------*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal.mostrar {
+    display: block;
+}
+
+.modal-contenido {
+    background: #fff;
+    margin: 1% auto 1% auto;
+    padding: 0;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 90%;
+    height: 90%;
+    max-height: 750px;
+    border: solid #000 4px;
+    box-shadow: #000 20px 20px 50px;
+    text-align: center;
+    font-size: 17px;
+    height: 120%;
+    animation: slideDown 1s ease forwards;
+}
+
+.modal-contenido-edit label{
+    margin: 15px;
+}
+
+.modal-contenido-edit input{
+    margin: 15px;
+}
+
+.modal-contenido-edit button{
+    margin: 15px;
+    transition: all 1s;
+}
+
+.modal-contenido-edit button:hover{
+    border-radius: 10px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.save-info-edit{
+    background-color: black;
+    color: #fff;
+}
+
+.close-info-edit{
+    background-color: transparent;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cerrar {
+    position: absolute;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#modal_contenedor_tablas {
+    background: #222; 
+    color: #fff; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
+    justify-content: flex-start; 
+    width: 200px; 
+    min-width: 150px;
+    height: 100%;
+    padding: 0;
+}
+
+.modal_opcion_tabla {
+    padding: 10px;
+    width: 100%;
+    margin: 0 0 10px 0;
+    background-color: #222;
+    transition: .8s;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+}
+
+.modal_opcion_tabla:hover{
+    cursor: pointer;
+    background-color: #373737;
+}
+
+#cerrarModal{
+    margin-top:auto; 
+    background: #c00; 
+    color: #fff;
+    transition: 1s;
+    border: none;
+}
+
+#cerrarModal:hover{
+    cursor: pointer;
+    background-color: rgb(155, 6, 6);
+    border-radius: 5px;
+}
+
+#modal_tabla_contenido tr {
+    border-color: #222;
+}
+
+#modal_tabla_contenido th {
+    padding: 5px 10px;
+}
+
+#modal_tabla_contenido td {
+    padding: 5px 10px;
+}
+
+#modal_tabla_contenido tbody tr:hover {
+    cursor: default;
+    background-color: #aeaeae;
+}
+
+.mostar-modal-editar{
+    display: block;
+}
+
+.ocultar-modal-editar{
+    display: none;
+}
+
+.modal-estilo{
+    text-align: center;
+    font-size: 19px;
+    height: 120%;
+}
+
+.modal-anadir-estilo-interno{
+    padding: 0.5vh 0 0 0;
+    height: 1000px;
+}
+
+.modal-anadir-estilo-form label{
+    margin: 0px 0 0 0;
+}
+
+.modal-anadir-estilo-form input{
+    margin: 20px 0 10px 0;
+    width: 30vh;
+}
+
+.modal-anadir-estilo-form button{
+    margin: 20px 0 0 0;
+    transition: 1s;
+}
+
+.modal-anadir-estilo-form button:hover{
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+#select-modelo{
+    padding: 5px;
+    margin: 20px;
+}
+
+#btn-empleado-modal-anadir{
+    width: 0;
+    height: 100vh;
+}
+
+#titulo-anadir{
+    margin: 0 auto auto auto;
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 900px) {
+    .modal-contenido {
+        width: 98%;
+        max-width: 98%;
+        padding: 0;
+        font-size: 15px;
+    }
+    #modal_contenedor_tablas {
+        width: 100px;
+        min-width: 80px;
+        font-size: 13px;
+    }
+    .modal_opcion_tabla {
+        font-size: 13px;
+        padding: 7px;
+    }
+    #modal_tabla_contenido {
+        padding: 10px !important;
+    }
+    table {
+        font-size: 13px;
+    }
+    .opciones {
+        font-size: 16px;
+        padding: 7vh;
+        width: 10vh;
+        height: 4vh;
+    }
+}
+
+@media (max-width: 600px) {
+    #div_titulo h1, #div_titulo p {
+        font-size: 18px !important;
+    }
+    .modal-contenido {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        padding: 0;
+        font-size: 13px;
+    }
+    #modal_contenedor_tablas {
+        width: 70px;
+        min-width: 60px;
+        font-size: 11px;
+    }
+    .modal_opcion_tabla {
+        font-size: 11px;
+        padding: 5px;
+    }
+    #modal_tabla_contenido {
+        padding: 2px !important;
+    }
+    table, th, td {
+        font-size: 11px;
+        padding: 2px !important;
+    }
+    .opciones {
+        font-size: 12px;
+        padding: 3vh;
+        width: 7vh;
+        height: 3vh;
+        margin: 1vh;
+    }
+    .modal-anadir-estilo-form input,
+    .modal-anadir-estilo-form select {
+        width: 90vw !important;
+        font-size: 13px;
+    }
+    .modal-anadir-estilo-form button {
+        width: 90vw !important;
+        font-size: 13px;
+    }
+    .modal-anadir-estilo-interno {
+        height: auto;
+        padding: 0;
+    }
+}

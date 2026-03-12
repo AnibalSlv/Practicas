@@ -1,0 +1,331 @@
+﻿@using SGCMP.ModelsDB
+@using SGCMP.Components.Services
+@inject IOperationDbServices DbServices;
+
+<p class="sub-title">Fecha</p>
+<div id="container-com-pat">
+    <div id="companion">
+        <p>Nombre del Representante: </p>
+        <input type="text" placeholder="" @bind="inputCompanion">
+        <p>Numero Telefónico: </p>
+        <input type="tel" placeholder="" @bind="inputTelephone">
+        <p>Relación: </p>
+        <input type="text" placeholder="" @bind="inputRelationShip">
+        <p>situación Económica: </p>
+        <input type="text" placeholder="" @bind="inputStatusEconomic">
+        <p>Observación social: </p>
+        <input type="text" placeholder="" @bind="inputObservationSocial">
+        <br>
+
+    </div>
+    <MudText>Paciente:</MudText>
+    <div id="patient">
+        <p>Primer Nombre</p>
+        <input type="text" placeholder="" @bind="inputFirtName">
+        <p>Segundo Nombre</p>
+        <input type="text" placeholder="" @bind="inputSecondName">
+        <p>Primer Apellido</p>
+        <input type="text" placeholder="" @bind="inputFirtLastName">
+        <p>Segundo Apellido</p>
+        <input type="text" placeholder="" @bind="inputSecondLastName">
+        <p>Edad: </p>
+        <input type="number" placeholder="" @bind="inputAge">
+        <p>Nutrición: </p>
+        <input type="text" placeholder="" @bind="inputNutrition">
+        <br>
+
+    </div>
+</div>
+<div id="container-per-his">
+    <hr>
+    <p class="sub-title">Antecedentes Personales</p>
+    <p>Alergia: </p>
+    <div>
+        <label for="inputAllergyOff">No: </label>
+        <input type="checkbox"
+               class="input-check"
+               id="inputAllergyOff"
+               @bind="allergy">
+        <input type="text"
+               placeholder="Polen, Sudor, Plata..."
+               id="inputAllergyOn"
+               disabled="@(allergy)"
+               @bind="inputAllergy">
+    </div>
+
+    <p>Medicamentos Diabetes: </p>
+    <div>
+        <label for="inputDiabetesOff">No: </label>
+        <input name="diabetes"
+               type="radio"
+               class="input-radio"
+               id="inputDiabetesOff"
+               value="diabetesN"
+               checked="@Diabetes("diabetesN").ToString()"
+               @onchange='e => OffDiabetes("No")'>
+        <label for="inputDiabetesOn">Si: </label>
+        <input name="diabetes"
+               type="radio"
+               class="input-radio"
+               id="inputDiabetesOn"
+               value="diabetesY"
+               @onchange='e => OnDiabetes("Si")'>
+        <label for="inputDiabetesTreatment">Tratamiento: </label>
+        <input type="text"
+               placeholder=""
+               id="inputDiabetesTreatment"
+               disabled='@(diabetes != "Si")'
+               @bind="inputDiabetes">
+    </div>
+
+    <p>Asma: </p>
+    <div>
+        <label for="inputAsthmaOff">No: </label>
+        <input type="radio"
+               name="asthma"
+               class="input-radio"
+               id="inputAsthmaOff"
+               value="asthmaN"
+               checked="@Asthma("asthmaN").ToString()"
+               @onchange='e => OffAsthma("No")'>
+        <label for="inputAsthmaOn">Si: </label>
+        <input type="radio"
+               name="asthma"
+               class="input-radio"
+               id="inputAsthmaOn"
+               value="asthmaY"
+               @onchange='e => OnAsthma("Si")'>
+        <label for="inputAsthmaLC">Ultima Crisis: </label>
+        <input type="text"
+               placeholder=""
+               id="inputAsthmaLC"
+               disabled="@(asthma != "Si")"
+               @bind="inputAshtmaLastCrisis">
+        <label for="inputAsthmaTreatment">Tratamiento: </label>
+        <input type="text"
+               placeholder=""
+               id="inputAsthmaTreatment"
+               disabled="@(asthma != "Si")"
+               @bind="inputAshtmaTreatment">
+    </div>
+
+    <p>HTA: </p>
+    <div>
+        <label for="inputHTAOff">No: </label>
+        <input type="radio"
+               name="hta"
+               class="input-radio"
+               id="inputHTAOff"
+               value="HTAN"
+               checked="@Hta("HtaN").ToString()"
+               @onchange='e => OffHta("No")'>
+        <label for="inputHTAOn">Si: </label>
+        <input type="radio"
+               name="hta"
+               class="input-radio"
+               id="inputHTAOn"
+               value="HTAY"
+               @onchange='e => OnHTA("Si")'>
+        <label for="inputHTATreatment">Tratamiento: </label>
+        <input type="text"
+               placeholder=""
+               id="inputHTATreatment"
+               disabled="@(hta != "Si")"
+               @bind="inputHtaTreatment">
+
+        <p>Nefropatía: </p>
+        <label for="inputNephropathyOff">No: </label>
+        <input type="radio"
+               name="nephropathy"
+               class="input-radio"
+               id="inputNephropathyOff"
+               value="nephropathyN"
+               checked="@Nephropathy("NephropathyN").ToString()"
+               @onchange='e=> OffNephropathy("No")'>
+        <label for="inputNephropathyOn">Si: </label>
+        <input type="radio"
+               name="nephropathy"
+               class="input-radio"
+               id="inputNephropathyOn"
+               value="nephropathyY"
+               @onchange='e => OnNephropathy("Si")'>
+        <label for="inputNephropathyTreatment">Tratamiento: </label>
+        <input type="text"
+               placeholder=""
+               id="inputNephropathyTreatment"
+               disabled="@(nephropathy != "Si")"
+               @bind="inputNephropathyTreatment">
+    </div>
+
+    <p>Hospitalizaciones: </p>
+    <div>
+        <label for="inputHosOff">No: </label>
+        <input type="radio"
+               name="hospitalization"
+               class="input-radio"
+               id="inputHosOff"
+               value="hospitalizationN"
+               checked="@Hospitalization("hospitalizationN").ToString()"
+               @onchange='e => OffHospitalization("No")'>
+        <label for="inputHosOn">Si: </label>
+        <input type="radio"
+               name="hospitalization"
+               class="input-radio"
+               id="inputHosOn"
+               value="hospitalizationY"
+               @onchange='e => OnHospitalization("Si")'>
+        <label for="inputHosExplain">Explique: </label>
+        <input type="text"
+               placeholder=""
+               id="inputHosExplain"
+               disabled="@(hospitalization != "Si")"
+               @bind="inputHospitalization">
+    </div>
+
+    <p>Quirúrgico: </p>
+    <div>
+        <label for="inputSurgicalOff">No: </label>
+        <input type="radio"
+               name="surgical"
+               class="input-radio"
+               id="inputSurgicalOff"
+               value="surgicalN"
+               checked="@Surgical("surgicalN").ToString()"
+               @onchange='e => OffSurgical("No")'>
+        <label for="inputSurgicalOn">Si: </label>
+        <input type="radio"
+               name="surgical"
+               class="input-radio"
+               id="inputSurgicalOn"
+               value="surgicalY"
+               @onchange='e => OnSurgical("Si")'>
+        <label for="inputSurgicalExplain">Explique: </label>
+        <input type="text"
+               name="surgical"
+               placeholder=""
+               id="inputSurgicalExplain"
+               disabled="@(surgical != "Si")"
+               @bind="inputSurgical">
+    </div>
+    <br>
+</div>
+@code {
+    private bool allergy = true;
+    private string diabetes, asthma, hta, nephropathy, hospitalization, surgical;
+
+    [CascadingParameter] public int patientId { get; set; }
+    [Parameter] public Patient? patientData { get; set; }
+    [Parameter] public PersonDatum? patientPersonalData { get; set; }
+    [Parameter] public AntecedentPerson? antecedentPersonData { get; set; }
+    
+    private int idPersonData; 
+    private int idAntecedent;
+    
+    private string? inputCompanion;
+    private int? inputTelephone;
+    private string? inputRelationShip;
+    private string? inputStatusEconomic;
+    private string? inputObservationSocial;
+    private string? inputFirtName;
+    private string? inputSecondName;
+    private string? inputFirtLastName;
+    private string? inputSecondLastName;
+    private string? inputAge;
+    private string? inputNutrition;
+    private string? inputAllergy;
+    private string? inputDiabetes;
+    private string? inputAshtmaLastCrisis;
+    private string? inputAshtmaTreatment;
+    private string? inputHtaTreatment;
+    private string? inputNephropathyTreatment;
+    private string? inputHospitalization;
+    private string? inputSurgical;
+
+    public Patient GetModelPatient() => new Patient()
+    {
+        IdPatient = patientId,
+        Name = inputFirtName,
+        SecondName = inputSecondName,
+        LastName = inputFirtLastName,
+        SecondLastName = inputSecondLastName,
+    };
+
+    public PersonDatum GetModelPersonaldata() => new PersonDatum()
+    {
+        IdPersonData = idPersonData,
+        PkPatient = patientId,
+        Nutrition = inputNutrition,
+        NameRepresentative = inputCompanion,
+        TelephoneNumber = inputTelephone,
+        Relationship = inputRelationShip,
+        StatusEconomic = inputStatusEconomic,
+        ObservationSocial = inputObservationSocial,
+    };
+
+    public AntecedentPerson GetModelAntecedentPerson() => new AntecedentPerson()
+    {
+        PkPatient = patientId,
+        Allergy = inputAllergy,
+        DiabetesMedicine = inputDiabetes,
+        AsthmaLastCrisis = inputAshtmaLastCrisis,
+        AsthmaTreatment = inputAshtmaTreatment,
+        HtaTreatment = inputHtaTreatment,
+        NephropathyTreatment = inputNephropathyTreatment,
+        HospitalizationExplanation = inputHospitalization,
+        SurgicalExplanation = inputSurgical,
+    };
+
+    protected override void OnParametersSet()
+    {
+        idPersonData = patientPersonalData?.IdPersonData ?? 0;
+        idAntecedent = antecedentPersonData?.IdAntecedentPerson ?? 0;
+        
+        inputFirtName = patientData?.Name ?? "Error al guardar paciente";
+        inputSecondName = patientData?.SecondName ?? "Error al guardar paciente";
+        inputFirtLastName = patientData?.LastName ?? "Error al guardar paciente";
+        inputSecondLastName = patientData?.SecondLastName ?? "Error al guardar paciente";
+
+        inputCompanion = patientPersonalData?.NameRepresentative;
+        inputTelephone = patientPersonalData?.TelephoneNumber;
+        inputRelationShip = patientPersonalData?.Relationship;
+        inputStatusEconomic = patientPersonalData?.StatusEconomic;
+        inputNutrition = patientPersonalData?.Nutrition;
+        inputObservationSocial = patientPersonalData?.ObservationSocial;
+
+        inputAllergy = antecedentPersonData?.Allergy;
+        inputDiabetes = antecedentPersonData?.DiabetesMedicine;
+        inputAshtmaLastCrisis = antecedentPersonData?.AsthmaLastCrisis;
+        inputAshtmaTreatment = antecedentPersonData?.AsthmaTreatment;
+        inputHtaTreatment = antecedentPersonData?.HtaTreatment;
+        inputNephropathyTreatment = antecedentPersonData?.NephropathyTreatment;
+        inputHospitalization = antecedentPersonData?.HospitalizationExplanation;
+        inputSurgical = antecedentPersonData?.SurgicalExplanation;
+    }
+
+    //Control manual sobre el marcado por defecto y asignación de valores / Manual control over default marking and value assignment
+
+    bool Diabetes(string v) => diabetes == v;
+    void OnDiabetes(string v) => diabetes = v;
+    void OffDiabetes(string v) => diabetes = v;
+
+    bool Asthma(string v) => asthma == v;
+    void OffAsthma(string v) => asthma = v;
+    void OnAsthma(string v) => asthma = v;
+
+    bool Hta(string v) => hta == v;
+    void OffHta(string v) => hta = v;
+    void OnHTA(string v) => hta = v;
+
+    bool Nephropathy(string v) => nephropathy == v;
+    void OnNephropathy(string v) => nephropathy = v;
+    void OffNephropathy(string v) => nephropathy = v;
+    
+    bool Hospitalization (string v) => hospitalization == v;
+    void OnHospitalization(string v) => hospitalization = v;
+    void OffHospitalization(string v) => hospitalization = v;
+
+    bool Surgical(string v) => surgical == v;
+    void OnSurgical(string v) => surgical = v;
+    void OffSurgical(string v) => surgical = v;
+    
+}

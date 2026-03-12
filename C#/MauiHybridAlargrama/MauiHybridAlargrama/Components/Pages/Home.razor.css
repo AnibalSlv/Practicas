@@ -1,0 +1,29 @@
+﻿#wordContainerInput {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 5px; 
+    margin: 5px;
+    width: 100%; 
+    flex-wrap: wrap;
+    justify-content:center;
+}
+
+.wordInput {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    text-align: center;
+    font-size: 18px;
+    background-color: rgb(211, 211, 211);
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px gray;
+    transition: .5s all;
+}
+
+    .wordInput:focus {
+        transform: translateY(-5px);
+        outline: none;
+        border: 2px solid rgb(42, 41, 41);
+        background-color: white;
+    }

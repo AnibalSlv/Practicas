@@ -1,0 +1,73 @@
+﻿@namespace MSistema_de_Control_de_Finanzas.Components.Pages
+@page "/AddDataM"
+
+@using MSistema_de_Control_de_Finanzas.Components.Services
+@inject IncomeService IncomeS
+
+<link rel="stylesheet" href="css/AddDateM.css" />
+
+<NavMenu />
+
+<section>
+	<div class="div-container">
+		<div class="div-container-left">
+			<p>Ingrese la descripcion del pago</p>
+			<input type="text" @bind-value="context"/>
+
+			<p>Ingreso o Egreso</p>
+			<div class="div-Rbox">
+				<p>a</p>
+				<input type="radio" name="income" @bind-value="income"/>
+				<input type="radio" name="income"/>
+			</div>
+
+			<p>Ingrese el Metodo de Pago</p>
+			<input type="text" @bind-value="metod" />
+		</div>
+
+		<div class="div-container-rigth">
+			<p>Ingrese el monto en $</p>
+			<input type="number" @bind-value="amount"/>
+			<p>Ingrese la Fecha de Inicio del Pago</p>
+			<input type="date" @bind-value="dateStart"/>
+
+			<p>Ingrese la Fecha Final del Pago</p>
+			<input type="date" @bind-value="dateFinal"/>
+		</div>
+	</div>
+<div id="center-btn">
+	<button class="btnSave" @onclick="save">Guardar ingreso</button>
+</div>
+</section>
+<br />
+<br />	
+@dateStart
+<br />
+@dateFinal
+<br />
+<br />
+<br />
+
+
+<!--Eliminar cuando salgas de produccion-->
+<p style="color: red;">Ruta de la base de datos: @dbPath</p>
+
+@code {
+	string dbPath = Path.Combine(FileSystem.AppDataDirectory, "finanzas.db");
+
+	DateOnly dateStart;
+	DateOnly dateFinal;
+
+	string? context; // Description of income
+	string income; // Tiype of income (e.g. income or encome)
+	string metod; // Metod of pay
+
+	int amount; // Amount of income
+	int dStart; // Date start of pay
+	int dFinal; // Date final of pay
+
+	void save()
+	{
+		IncomeS.InsertIncome(context, income, amount, metod, dStart, dFinal);
+	}
+}

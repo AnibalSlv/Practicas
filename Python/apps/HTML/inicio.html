@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="formulario">
+        <h1>INICIO DE SESIÓN</h1>
+        <form id="main-form" autocomplete="off">
+            <div id="login-identification" class="form-fade active">
+                <div class="ini">
+                    <input type="text" name="login_user" required placeholder="">
+                    <label>Nombre de usuario</label>
+                </div>  
+                <div class="ini">
+                    <input type="password" name="login_pass" required placeholder="">
+                    <label>Contraseña</label>
+                </div>        
+                <div class="recordar">¿olvidó la Contraseña?</div>
+                <div class="botones">
+                    <input type="button" class="iniciar" value="Iniciar Sesión" id="login-btn">
+                    <input type="button" value="Registrar" class="registrar" id="registrer-login">
+                </div>
+            </div>
+
+            <div class="form-fade" id="registrer-identification">
+                <div class="profesion-container">
+                    <label class="profesion-label">Profesión:</label>
+                    <div class="seleccion">
+                        <select name="profesion" required>
+                            <option value="vacio">...</option>
+                            <option value="Abogado">Abogado/a</option>
+                            <option value="administrador">administrador/a</option>
+                            <option value="secretaria">secretario/a</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Solo muestra los inputs afectados, el resto de la estructura queda igual -->
+<div class="ini name">
+    <input type="text" name="nombre_apellido" required placeholder=" ">
+    <label>Nombre y Apellido:</label>
+</div>
+<div class="triple user">
+    <div class="campo2">
+        <input type="text" name="usuario" required placeholder=" ">
+        <label>Nombre de Usuario</label>
+    </div>
+    <div class="campo2 cedula">
+        <input type="text" name="cedula" required placeholder=" ">
+        <label>Cédula</label>
+    </div>
+</div>
+<div class="doble age">
+    <div class="campo">
+        <input type="text" name="edad" required placeholder=" ">
+        <label>Edad</label>
+    </div>
+    <div class="campo telephone">
+        <input type="text" name="telefono" required placeholder=" ">
+        <label>Número de Teléfono</label>
+    </div>
+</div>
+<div class="ini password">
+    <input type="password" name="password" required placeholder=" ">
+    <label>Contraseña</label>
+</div>
+<div class="ini folder">
+    <input type="text" name="carpeta" required placeholder=" ">
+    <label>Carpeta de Trabajo</label>
+</div>
+<div class="ini admin-key">
+    <input type="text" name="clave_admin" required placeholder=" ">
+    <label>Clave de Administrador</label>
+</div>
+                <div class="botones">
+                    <input type="button" value="Volver al Inicio" class="iniciar" id="to-return-button-identification">
+                    <input type="button" class="registrar" value="Registrar" id="registrer-button-identification">
+                </div>
+            </div>
+        </form>
+    </div>
+        <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginForm = document.getElementById("login-identification");
+        const regForm = document.getElementById("registrer-identification");
+    
+        document.getElementById("registrer-login").addEventListener("click", function() {
+            loginForm.classList.remove("active");
+            regForm.classList.add("active");
+        });
+    
+        document.getElementById("to-return-button-identification").addEventListener("click", function() {
+            regForm.classList.remove("active");
+            loginForm.classList.add("active");
+        });
+    
+        // Validación de solo letras para nombre
+        document.querySelector('input[name="nombre_apellido"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, '');
+        });
+    
+        // Validación de solo números para cédula, edad y teléfono
+        document.querySelector('input[name="cedula"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        document.querySelector('input[name="edad"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        document.querySelector('input[name="telefono"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    
+        // Validación y registro
+        document.getElementById("registrer-button-identification").addEventListener("click", function() {
+            const profesion = document.querySelector(".profesion-container select").value;
+            if (profesion === "vacio") {
+                alert("Por favor, seleccione una profesión.");
+                return;
+            }
+            const inputs = document.querySelectorAll("#registrer-identification input[required], #registrer-identification select[required]");
+            for (let input of inputs) {
+                if (input.value.trim() === "") {
+                    alert("Por favor, complete todos los campos.");
+                    return;
+                }
+            }
+            alert("Registro exitoso");
+            window.location.href = "inicio.html";
+        });
+    
+        document.getElementById("login-btn").addEventListener("click", function() {
+            const user = document.querySelector('input[name="login_user"]').value.trim();
+            const pass = document.querySelector('input[name="login_pass"]').value.trim();
+            if (!user || !pass) {
+                alert("Por favor, complete usuario y contraseña.");
+                return;
+            } else if (user !== "admin" || pass !== "1234") {
+                alert("Usuario o contraseña incorrectos.");
+                return;
+            }
+            alert("Inicio de sesión exitoso");
+        });
+    });
+    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById("login-identification");
+    const regForm = document.getElementById("registrer-identification");
+    const mainForm = document.getElementById("main-form");
+
+    function ajustarAlturaForm() {
+        // Busca el formulario activo
+        const activo = document.querySelector('.form-fade.active');
+        if (activo) {
+            // Ajusta la altura del form al contenido visible
+            mainForm.style.height = activo.offsetHeight + "px";
+        }
+    }
+
+    // Llama al cargar y al cambiar de formulario
+    ajustarAlturaForm();
+
+    document.getElementById("registrer-login").addEventListener("click", function() {
+        loginForm.classList.remove("active");
+        regForm.classList.add("active");
+        ajustarAlturaForm();
+    });
+
+    document.getElementById("to-return-button-identification").addEventListener("click", function() {
+        regForm.classList.remove("active");
+        loginForm.classList.add("active");
+        ajustarAlturaForm();
+    });
+
+    // Si el usuario cambia el tamaño de la ventana
+    window.addEventListener("resize", ajustarAlturaForm);
+});
+</script>
+</body>
+</html>

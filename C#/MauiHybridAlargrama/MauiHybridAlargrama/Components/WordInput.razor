@@ -1,0 +1,144 @@
+﻿@page "/"
+
+<h3>@word</h3>
+
+<div style="display:flex; gap:5px;">
+    <input maxlength="1" @bind="Input0" @bind:event="oninput" @ref="Ref0" />
+    <input maxlength="1" @bind="Input1" @bind:event="oninput" @ref="Ref1" />
+    <input maxlength="1" @bind="Input2" @bind:event="oninput" @ref="Ref2" />
+    <input maxlength="1" @bind="Input3" @bind:event="oninput" @ref="Ref3" />
+    <input maxlength="1" @bind="Input4" @bind:event="oninput" @ref="Ref4" />
+    <input maxlength="1" @bind="Input5" @bind:event="oninput" @ref="Ref5" />
+    <input maxlength="1" @bind="Input6" @bind:event="oninput" @ref="Ref6" />
+    <input maxlength="1" @bind="Input7" @bind:event="oninput" @ref="Ref7" />
+    <input maxlength="1" @bind="Input8" @bind:event="oninput" @ref="Ref8" />
+    <input maxlength="1" @bind="Input9" @bind:event="oninput" @ref="Ref9" />
+</div>
+
+@code {
+    string word = "Murcielago";
+
+    string _input0 = "", _input1 = "", _input2 = "", _input3 = "", _input4 = "";
+    string _input5 = "", _input6 = "", _input7 = "", _input8 = "", _input9 = "";
+
+    ElementReference Ref0, Ref1, Ref2, Ref3, Ref4;
+    ElementReference Ref5, Ref6, Ref7, Ref8, Ref9;
+
+    bool domReady = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            domReady = true;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    string Input0
+    {
+        get => _input0;
+        set
+        {
+            _input0 = value;
+            _ = TryFocus(_input0, Ref1);
+        }
+    }
+
+    string Input1
+    {
+        get => _input1;
+        set
+        {
+            _input1 = value;
+            _ = TryFocus(_input1, Ref2);
+        }
+    }
+
+    string Input2
+    {
+        get => _input2;
+        set
+        {
+            _input2 = value;
+            _ = TryFocus(_input2, Ref3);
+        }
+    }
+
+    string Input3
+    {
+        get => _input3;
+        set
+        {
+            _input3 = value;
+            _ = TryFocus(_input3, Ref4);
+        }
+    }
+
+    string Input4
+    {
+        get => _input4;
+        set
+        {
+            _input4 = value;
+            _ = TryFocus(_input4, Ref5);
+        }
+    }
+
+    string Input5
+    {
+        get => _input5;
+        set
+        {
+            _input5 = value;
+            _ = TryFocus(_input5, Ref6);
+        }
+    }
+
+    string Input6
+    {
+        get => _input6;
+        set
+        {
+            _input6 = value;
+            _ = TryFocus(_input6, Ref7);
+        }
+    }
+
+    string Input7
+    {
+        get => _input7;
+        set
+        {
+            _input7 = value;
+            _ = TryFocus(_input7, Ref8);
+        }
+    }
+
+    string Input8
+    {
+        get => _input8;
+        set
+        {
+            _input8 = value;
+            _ = TryFocus(_input8, Ref9);
+        }
+    }
+
+    string Input9
+    {
+        get => _input9;
+        set
+        {
+            _input9 = value;
+            // Último input, no hace foco
+        }
+    }
+
+    private async Task TryFocus(string value, ElementReference nextRef)
+    {
+        if (!domReady || value.Length != 1) return;
+        await Task.Delay(50); // mejora compatibilidad en Android
+        await nextRef.FocusAsync();
+    }
+}

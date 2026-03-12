@@ -1,0 +1,8 @@
+﻿@page "/Report/{Username}"
+@rendermode InteractiveServer
+
+<NavMenu UserName="@UserName"/>
+
+@code {
+    [Parameter] public string UserName { get; set; }
+}

@@ -1,0 +1,96 @@
+﻿@page "/AddDetailProduct/{UserName}"
+@rendermode InteractiveServer
+@using AVWintory.ModulesDb
+@inject NavigationManager NavManager
+@inject IProductService ProductS
+
+<PageTitle>AVWintory</PageTitle>
+
+@if (NewProduct == null)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <NavMenu UserName="@UserName"/>
+    <MudPaper Class="pa-6" Style="margin: 90px" Height="60vh">
+        <MudText Style="text-align: center; font-size: 18px" Color="Color.Secondary">Compra</MudText>
+        <MudGrid Spacing="20" Justify="Justify.Center">
+            <MudItem>
+                <MudTextField @bind-Value="Disabled" Label="Marca" Variant="Variant.Text" Disabled="true" Style="width: 400px"/>
+                <br/>
+                <MudTextField @bind-Value="NewProduct.Description" Label="Descripción" Variant="Variant.Outlined" Style="width: 300px;" Lines="4"/>
+                <br/>
+                <select style="border-bottom: 1px solid darkgrey; padding: 5px; font-size: 16px; width: 300px" @bind="NewProduct.Category">
+                    <option Value="Playa">Playa</option>
+                    <option Value="Casual">Casual</option>
+                    <option Value="Gimnasio">Gimnasio</option>
+                    <option Value="Vestidos">Vestidos</option>
+                    <option Value="Enterizos">Enterizos</option>
+                    <option Value="Accesorios">Accesorios</option>
+                    <option Value="Otros">Otros</option>
+                </select>
+            </MudItem>
+            <MudItem/>
+            <MudItem>
+                <label style="color: red">@WarningNBill</label>
+                <MudNumericField @bind-Value="NewProduct.NBillProduct" Label="Numero de Factura" Variant="Variant.Text" Style="width: 400px"/>
+                <br/>
+                <label style="color: red">@WarningCodeClothes</label>
+                <MudNumericField @bind-Value="NewProduct.Code" Label="Codigo de Ropa" Variant="Variant.Text" Style="width: 400px"/>
+            </MudItem>
+        </MudGrid>
+        <div style="width: 100%; display: flex; justify-content: center">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Style="margin: 50px" Href="/Inventory">Regresar</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin: 50px" @onclick="ContinueButton">Continuar</MudButton>
+        </div>
+    </MudPaper>
+}
+
+@code {
+    [Parameter] public string UserName { get; set; }
+    
+    public Product? NewProduct { get; set; }
+    
+    public string Disabled = "Sin Marca";
+    /*
+    public string Description = "";
+    public string? NBill;
+    public string? CodeClothes;
+    */
+    public string WarningNBill = "";
+    public string WarningCodeClothes = "";
+    
+    protected override void OnInitialized()
+    {
+        NewProduct = new Product{
+        Code = "", 
+        Description = "", 
+        Category = "", 
+        Stock = "0", 
+        PriceBase = "0", 
+        PriceSale = "0", 
+        NBillProduct = ""
+        }; 
+    }
+    
+    public void ContinueButton()
+    {
+        if (string.IsNullOrWhiteSpace(NewProduct.NBillProduct))
+        {
+            WarningNBill = "Necesita rellenar este campo";
+            WarningCodeClothes = "";
+        }
+        else if (string.IsNullOrWhiteSpace(NewProduct.Code))
+        {
+            WarningNBill = "";
+            WarningCodeClothes = "Necesita rellenar este campo";
+        }
+        else
+        {
+            ProductS.AddProduct(NewProduct);
+            NavManager.NavigateTo($"/AddProduct/{UserName}/{NewProduct.Code}");
+        }
+    }
+}
+

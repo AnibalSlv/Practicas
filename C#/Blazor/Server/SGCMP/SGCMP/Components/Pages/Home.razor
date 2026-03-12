@@ -1,0 +1,34 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+<ToolBar/>
+<section>
+    <SideBar HomeClass="active"/>
+    
+    <div id="container">
+        <div id="graph">
+            <div id="options">
+                <p>Ingresos</p>
+                <p>Consultas</p>
+                <p>Pacientes</p>
+            </div>
+            <MudChart ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="90%" Height="auto">
+                <CustomGraphics></CustomGraphics>
+            </MudChart>
+        </div>
+    </div>
+</section>
+
+@code {
+    public List<ChartSeries> Series = new List<ChartSeries>()
+    {
+        new ChartSeries() { Name = "Ingresos", Data = new double[] { 40, 20, 25, 27, 46, 60, 48, 80, 15, 10, 20, 30 } },
+    };
+    public string[] XAxisLabels = { "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" };
+
+    protected override void OnInitialized()
+    {
+        // Siempre muestra los marcadores en la grafica / Always show the markers in the graph
+        Series.ForEach(x => x.ShowDataMarkers = true);    
+    }
+}

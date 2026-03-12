@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="formulario">
+        <form id="main-form" method="POST" action="{% url 'index' %}" autocomplete="off">
+            {% csrf_token %}
+            <div id="login-identification" class="form-fade active">
+                <h1>INICIO DE SESIÓN</h1>
+                <div class="ini">
+                    <input type="text" name="login_user" placeholder=""">
+                    <label style="background-color: transparent;">Nombre de usuario</label>
+                </div>  
+                <div class="ini">
+                    <input type="password" name="login_pass" placeholder="">
+                    <label style="background-color: transparent;">Contraseña</label>
+                </div>        
+                <div class="recordar">¿olvidó la Contraseña?</div>
+                <div class="botones">
+                <input type="submit" id="login-btn" class="iniciar" value="Iniciar Sesión">
+                    <input type="button" value="Registrar" class="registrar" id="registrer-login">
+                </div>
+            </div>
+        </form>
+            <form class="form-fade" id="registrer-identification">
+                <h1>REGISTRO</h1>
+                <div class="profesion-container">
+                    <label class="profesion-label">Profesión:</label>
+                    <div class="seleccion">
+                        <select name="profesion" required>
+                            <option value="vacio">...</option>
+                            <option value="Abogado">Abogado/a</option>
+                            <option value="administrador">administrador/a</option>
+                            <option value="secretaria">secretario/a</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Solo muestra los inputs afectados, el resto de la estructura queda igual -->
+                <div class="ini name">
+                    <input type="text" name="nombre_apellido" required placeholder=" ">
+                    <label style="background-color: transparent;">Nombre y Apellido:</label>
+                </div>
+                <div class="triple user">
+                    <div class="campo2">
+                        <input type="text" name="usuario" required placeholder=" ">
+                        <label style="background-color: transparent;">Nombre de Usuario</label>
+                    </div>
+                    <div class="campo2 cedula">
+                        <input type="text" name="cedula" required placeholder=" ">
+                        <label style="background-color: transparent;">Cédula</label>
+                    </div>
+                </div>
+                <div class="doble age">
+                    <div class="campo">
+                        <input type="text" name="edad" required placeholder=" ">
+                        <label style="background-color: transparent;">Edad</label>
+                    </div>
+                    <div class="campo telephone">
+                        <input type="text" name="telefono" required placeholder=" ">
+                        <label style="background-color: transparent;">Número de Teléfono</label>
+                    </div>
+                </div>
+                <div class="ini password">
+                    <input type="password" name="password" required placeholder=" ">
+                    <label style="background-color: transparent;">Contraseña</label>
+                </div>
+                <div class="ini admin-key">
+                    <input type="text" name="clave_admin" required placeholder=" ">
+                    <label style="background-color: transparent;">Clave de Administrador</label>
+                </div>
+                <div class="botones">
+                    <input type="button" value="Volver al Inicio" class="iniciar" id="to-return-button-identification">
+                    <input type="button" class="registrar" value="Registrar" id="registrer-button-identification">
+                </div>
+            </form>
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginForm = document.getElementById("login-identification");
+        const regForm = document.getElementById("registrer-identification");
+    
+        document.getElementById("registrer-login").addEventListener("click", function() {
+            loginForm.classList.remove("active");
+            regForm.classList.add("active");
+        });
+    
+        document.getElementById("to-return-button-identification").addEventListener("click", function() {
+            regForm.classList.remove("active");
+            loginForm.classList.add("active");
+        });
+    
+        // Validación de solo letras para nombre
+        document.querySelector('input[name="nombre_apellido"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, '');
+        });
+    
+        // Validación de solo números para cédula, edad y teléfono
+        document.querySelector('input[name="cedula"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        document.querySelector('input[name="edad"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+        document.querySelector('input[name="telefono"]').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    
+    });
+    </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginForm = document.getElementById("login-identification");
+        const regForm = document.getElementById("registrer-identification");
+        const mainForm = document.getElementById("main-form");
+
+        function ajustarAlturaForm() {
+            // Busca el formulario activo
+            const activo = document.querySelector('.form-fade.active');
+            if (activo) {
+                // Ajusta la altura del form al contenido visible
+                mainForm.style.height = activo.offsetHeight + "px";
+            }
+        }
+
+        // Llama al cargar y al cambiar de formulario
+        ajustarAlturaForm();
+
+        document.getElementById("registrer-login").addEventListener("click", function() {
+            loginForm.classList.remove("active");
+            regForm.classList.add("active");
+            ajustarAlturaForm();
+        });
+
+        document.getElementById("to-return-button-identification").addEventListener("click", function() {
+            regForm.classList.remove("active");
+            loginForm.classList.add("active");
+            ajustarAlturaForm();
+        });
+
+        // Si el usuario cambia el tamaño de la ventana
+        window.addEventListener("resize", ajustarAlturaForm);
+    });
+    </script>
+    <script>
+    // LOGIN
+    
+
+    // REGISTRO
+    document.getElementById("registrer-button-identification").addEventListener("click", function() {
+    const usuario = document.querySelector('input[name="usuario"]').value.trim();
+    const password = document.querySelector('input[name="password"]').value.trim();
+    const rol = document.querySelector('select[name="profesion"]').value;
+    const nombre_apellido = document.querySelector('input[name="nombre_apellido"]').value.trim();
+    const cedula = document.querySelector('input[name="cedula"]').value.trim();
+    const edad = document.querySelector('input[name="edad"]').value.trim();
+    const telefono = document.querySelector('input[name="telefono"]').value.trim();
+    const clave_admin = document.querySelector('input[name="clave_admin"]').value.trim();
+
+    if (!usuario || !password || rol === "vacio" || !nombre_apellido || !cedula || !edad || !telefono || !clave_admin) {
+        alert("Por favor, complete todos los campos y seleccione una profesión.");
+        return;
+    }
+
+    // Envía los demás datos al backend Django
+    fetch('/agregar_empleado/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: new URLSearchParams({
+            nombre: nombre_apellido,
+            cedula: cedula,
+            edad: edad,
+            profesion: rol,
+            ntelefonico: telefono,
+            clave_admin: clave_admin,
+            user: usuario,
+            password: password
+        })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.ok) {
+            alert("Usuario registrado exitosamente. Ahora puede iniciar sesión.");
+            document.getElementById("to-return-button-identification").click();
+        } else {
+            alert("Error al registrar en la base de datos.");
+        }
+    });
+});
+
+// Función para obtener el CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+    </script>
+</body>
+</html>

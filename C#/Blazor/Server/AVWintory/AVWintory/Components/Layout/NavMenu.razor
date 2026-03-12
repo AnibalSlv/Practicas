@@ -1,0 +1,54 @@
+﻿@* Este es el cuerpo del navegador / This is body of navbar *@
+@* 
+    Open: Mantiene el nav abierto / maintains the nav open
+    Variant: Persistent empuja el contenido / Persistent push the content
+    Anchor: El valor por defecto es left / The default value is left
+*@
+
+<MudLayout>
+    <MudAppBar Elevation="0" Style="background-color: #fce4ec; border-bottom: 2px solid #f56b9c">
+        <MudIcon Icon="@Icons.Material.Filled.Menu" Color="Color.Secondary" Edge="Edge.Start" @onclick="ToggleDrawer"/>
+        <MudSpacer/>
+        <MudText Color="Color.Secondary">@UserName</MudText>
+    </MudAppBar>
+
+    <MudDrawer Open="@_open" Variant="DrawerVariant.Responsive" ClipMode="DrawerClipMode.Always"
+               Style="background-color: #fce4ec; border-right: 2px solid #f56b9c;">
+        
+        <div class="pa-6 d-flex justify-center">
+            <MudText Typo="Typo.h5" Color="Color.Secondary" Style="font-weight: bold;">
+                <a href="@($"/Home/{UserName}")" style="color: #ff4081" >Klatdona</a>
+            </MudText>
+        </div>
+        
+        <MudNavMenu Class="pa-2 d-flex flex-column" Style="height: 100%">
+            <MudNavLink Href="@($"/Inventory/{UserName}")" Icon="@Icons.Material.Filled.Inventory" IconColor="Color.Secondary">
+                <MudText Color="Color.Secondary">Inventario</MudText>
+            </MudNavLink>
+            <MudNavLink Href="@($"/Reports/{UserName}")" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Secondary">
+                <MudText Color="Color.Secondary">Reportes</MudText>
+            </MudNavLink>
+            <MudNavLink Href="@($"/ClientBilling/{UserName}")" Icon="@Icons.Material.Filled.Receipt" IconColor="Color.Secondary">
+                <MudText Color="Color.Secondary">Facturación</MudText>
+            </MudNavLink>
+
+            <MudDivider Class="my-4" Style="color: #f56b9c"/>
+
+            @* MudSpacer Para dejar un espacio arriba / MudSpacer for leave space top *@
+            <MudSpacer/>
+            <MudText Class="pa-3" Style="color: #f56b9c">AVWintory</MudText>
+        </MudNavMenu>
+    </MudDrawer>
+</MudLayout>
+
+@code{
+    [Parameter] public string UserName { get; set; }
+    
+    private bool _open = false;
+    
+    private void ToggleDrawer()
+    {
+        _open = !_open;
+    }
+
+}

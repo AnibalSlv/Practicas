@@ -1,0 +1,26 @@
+1. Modularizar el código (Check)
+Separar funciones como crearTarea(), consultarTareas(), completarTarea(), eliminarTarea() para que el main() sea limpio.
+
+Crear un archivo task.go con la definición del struct y funciones asociadas.
+
+2. Persistencia de datos
+Guardar las tareas en un archivo .txt, .json o .csv.
+
+Leer y escribir tareas al iniciar y cerrar el programa.
+
+3. Validaciones y UX
+Verificar si el ID existe antes de completar o eliminar.
+
+Mostrar mensajes claros si no hay tareas.
+
+Evitar duplicados o entradas vacías.
+
+4. Interfaz CLI más pro
+Usar librerías como github.com/manifoldco/promptui para menús interactivos.
+
+Colores con github.com/fatih/color para tareas completadas.
+
+5. Tests básicos
+Crear funciones testeables.
+
+Usar go test para validar que eliminarTareaPorID() y completarTarea() funcionan correctamente.

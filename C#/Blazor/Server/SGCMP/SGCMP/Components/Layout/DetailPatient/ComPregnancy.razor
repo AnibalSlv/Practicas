@@ -1,0 +1,158 @@
+﻿@using SGCMP.ModelsDB
+<p class="sub-title">Antecedentes prenatales y obstétricos</p>
+<p class="sub-title">Control del embarazo: </p>
+<div>
+    <label for="inputControlPOff">No: </label>
+    <input type="radio"
+           name="ControlP"
+           class="input-radio"
+           id="inputControlPOff"
+           value="controlPOff"
+           checked="@ControlPregnancy("controlPOff").ToString()"
+           @onchange='e => OffControlPregnancy("No")'>
+    <label for="inputControlPOn">Si: </label>
+    <input type="radio"
+           name="ControlP"
+           class="input-radio"
+           id="inputControlPOn"
+           value="controlPOn"
+           @onchange='e => OnControlPregnancy("Si")'>
+    <label for="inputNConsult">N° Consultas: </label>
+    <input type="number"
+           name="nConsult"
+           placeholder=""
+           id="inputNConsult"
+           disabled="@(controlPregnancy != "Si")"
+           @bind="inputNConsult">
+    <br>
+    <div id="container-control-pregnancy">
+        <label for="inputGestas">Gestas: </label>
+        <input type="number"
+               placeholder=""
+               id="inputGestas"
+               @bind="inputDeeds">
+        <br/>
+        <label for="inputComplicationsPreg">Complicaciones: </label>
+        <input type="text"
+               placeholder=""
+               id="inputComplicationsPreg"
+               @bind="inputComplicationsPreg">
+    </div>
+</div>
+
+<p class="sub-title">Tipo de Parto:</p>
+<div>
+    <label for="inputPES">PES: </label>
+    <input type="text"
+           placeholder=""
+           id="inputPES"
+           @bind="inputPes">
+    <label for="inputDist">Distócico: </label>
+    <input type="radio"
+           name="delivery"
+           class="input-radio"
+           id="inputDist"
+           checked="@Dystotic("dystocic").ToString()"
+           @onchange='e => OnDystotic("No")'>
+    <label for="inputCaesarea">Cesárea: </label>
+    <input type="radio"
+           name="delivery"
+           class="input-radio"
+           id="inputCaesarea"
+           value="caesarea"
+           @onchange='e => OnCaesarea("Si")'>
+    <label for="inputIndication">Indicación: </label>
+    <input type="text"
+           placeholder=""
+           id="inputIndication"
+           disabled="@(caesarea != "Si")"
+           @bind="inputCesareanIndication">
+    <br>
+
+</div>
+<p class="sub-title">Antecedentes Neonatales:</p>
+<div id="container-pregnancy">
+    <label for="inputPAN">PAN:</label>
+    <input type="text"
+           placeholder=""
+           id="inputPAN"
+           @bind="inputPan">
+    <br>
+
+    <label for="inputTAN">TAN:</label>
+    <input type="number"
+           placeholder=""
+           id="inputTAN"
+           @bind="inputTan">
+    <br>
+
+    <label for="inputCCAN">CCAN:</label>
+    <input type="number"
+           placeholder=""
+           id="inputCCAN"
+           @bind="inputCcan">
+    <br>
+
+    <label for="inputComplicationsAN">Complicaciones:</label>
+    <input type="text"
+           placeholder=""
+           id="inputComplicationsAN"
+           @bind="inputComplicationsNeonatal">
+</div>
+@code {
+    private string controlPregnancy, nConsult, gestas, dystotic, caesarea;
+
+    [CascadingParameter] public int patientId { get; set; }
+    [Parameter] public Pregnancy? pregnancyData { get; set; }
+
+    private int idPregnancy;
+    
+    private int? inputNConsult;
+    private int? inputDeeds;
+    private string? inputComplicationsPreg;
+    private string? inputPes;
+    private string? inputCesareanIndication;
+    private string? inputPan;
+    private int? inputTan;
+    private int? inputCcan;
+    private string? inputComplicationsNeonatal;
+
+    public Pregnancy GetModulePregnancy() => new Pregnancy()
+    {
+        IdPregnancy = idPregnancy,
+        PkPatient = patientId,
+        NumberQueries = inputNConsult,
+        Deeds = inputDeeds,
+        Complications = inputComplicationsPreg,
+        Pes = inputPes,
+        CesareanOperation = inputCesareanIndication,
+        Pan = inputPan,
+        Tan = inputTan,
+        Ccan = inputCcan,
+        NeonatalComplications = inputComplicationsNeonatal,
+    };
+    
+    protected override void OnParametersSet()
+    {
+        idPregnancy = pregnancyData?.IdPregnancy ?? 0;
+        inputNConsult = pregnancyData?.NumberQueries;
+        inputDeeds = pregnancyData?.Deeds;
+        inputComplicationsNeonatal = pregnancyData?.Complications;
+        inputPes = pregnancyData?.Pes;
+        inputCesareanIndication = pregnancyData?.CesareanOperation;
+        inputPan = pregnancyData?.Pan;
+        inputTan = pregnancyData?.Tan;
+        inputCcan = pregnancyData?.Ccan;
+        inputComplicationsNeonatal = pregnancyData?.NeonatalComplications;
+    }
+    
+    //Control manual sobre el marcado por defecto y asignación de valores / Manual control over default marking and value assignment
+    bool ControlPregnancy(string v) => controlPregnancy == v;
+    void OnControlPregnancy(string v) => controlPregnancy = v;
+    void OffControlPregnancy(string v) => controlPregnancy = v;
+
+    bool Dystotic(string v) => dystotic == v;
+    void OnDystotic(string v) => caesarea = v;
+
+    void OnCaesarea(string v) => caesarea = v;
+}

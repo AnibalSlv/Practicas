@@ -1,0 +1,173 @@
+.container{
+    display:flex;
+    justify-content:space-around;
+    flex-direction: column;
+    flex-wrap:wrap;
+    padding: 40px 0;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory; 
+    -webkit-overflow-scrolling: touch; 
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.container::-webkit-scrollbar{
+    display: flex;
+}
+
+.containerCards{
+    display: flex;
+    flex-direction: row;
+}
+
+.card{
+    display:flex;
+    flex-direction:column;
+    width:400px;
+    margin: 0 20px 20px 20px;
+    scroll-snap-align: start; 
+    transition: .5s;
+}
+
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.card>div{
+    box-shadow:0 15px 20px 0 rgba(0,0,0,0.5);
+}
+.cardImage{
+    width:400px;
+    height:250px;
+}
+
+.cardImage>img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:bottom;
+}
+
+.cardMeal{
+    font-style:italic;
+    color: #bababa;
+    padding: 0;
+    margin: 0;
+}
+
+.cardText{
+    margin:-30px auto;
+    margin-bottom:10px;
+    height:55px;
+    width:300px;
+    background-color:#1D1C20;
+    color:#fff;
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardTitle{
+    font-size: 1.4rem;
+    margin: auto auto;
+}
+
+
+/* -------------------------------------------------- Carrusel options ------------------------------------- */
+
+.left,
+.right {
+    background-color: #fb666675;
+    color: #fff;
+    padding: 10px 8px 8px 13px;
+    margin: 0 20px;
+    border-radius: 50%;
+    position: relative;
+    top: 0;
+    bottom: 0;
+    margin: auto 10px;
+    height: 25px;
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+}
+
+.left:hover, .right:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.carousel_indicator {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.dot {
+    background-color: #333;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.dot:hover{
+    cursor: pointer;
+}
+
+.active {
+    background-color: rgb(255, 143, 161);
+}
+
+@media (max-width: 1024px) { 
+    .container{
+        display:flex;
+        justify-content:center;
+        flex-direction: column;
+        flex-wrap:wrap;
+        padding: 0 0;
+        overflow-x: scroll;
+        height: 400px;
+    }
+
+    .containerCards{
+        width: 1px;
+        justify-content: center;
+    }
+
+    .card:hover{
+        transform: none;
+    }
+
+
+    .cardImage{
+        width:330px;
+        height:200px;
+    }
+
+
+    .cardText{
+        width:200px;    
+    }
+
+    .otherCard{
+        display: none;
+    }
+
+    .left, .right{
+        position: absolute;
+        top: 40%;
+    }
+
+    .left{
+        left: 0;
+    }
+
+    .right{
+        right: 0;
+    }
+
+}

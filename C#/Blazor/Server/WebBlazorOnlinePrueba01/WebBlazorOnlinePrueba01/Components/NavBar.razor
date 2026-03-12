@@ -1,0 +1,80 @@
+﻿<nav id="nav-bar">
+    <ul>
+        <li id="nav-bar-title">Titulo</li>
+        <li id="nav-bar-search"><input type="text" name="search" value="" placeholder="Buscar..." /></li>
+        <li id="nav-bar-user">Cuenta</li>
+        <li id="nav-bar-shop-list">Carrito</li>
+    </ul>
+    
+</nav>
+<style>
+    #nav-bar{
+        background-color: black;
+        color: white;
+        height: 50px;
+        margin: 0;
+        padding: 10px 10px 0 10px;
+    }
+    
+    #nav-bar ul{
+        display: flex;
+        align-items:center;
+        /*justify-content:space-between;*/
+        padding:0 50px;
+        margin:8px 0;
+        justify-content: center;
+        list-style: none;
+    }
+
+    #nav-bar-search{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #nav-bar-search input{
+        width: 250px;
+        height: 30px;
+        border-radius:30px;
+        padding:5px;
+        padding: 0 10px;
+    }
+
+    #nav-bar-user{
+        padding:0 10px;
+        margin-left:auto;
+        width: 0;
+        margin-right: 46px;
+        border-bottom: solid 0px black;
+        transition:.5s;
+    }
+
+    #nav-bar-user:hover{
+        cursor:pointer;
+        width: 46px;
+        margin-right: 0;
+        border-bottom: solid 1px white;
+    }
+
+    #nav-bar-shop-list{
+        padding: 0 10px;
+        margin-left:20px;
+        border-bottom:solid 0px black;
+        width:0;
+        text-align:center;
+        margin-right:46px;
+        transition: .5s;
+    }
+    
+    #nav-bar-shop-list:hover{
+        cursor:pointer;
+        width:46px;
+        margin-right: 0;
+        border-bottom:solid 1px white;
+    }
+
+</style>
+
+@code {
+
+}

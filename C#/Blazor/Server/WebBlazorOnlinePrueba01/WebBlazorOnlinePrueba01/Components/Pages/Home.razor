@@ -1,0 +1,39 @@
+﻿@page "/"
+@rendermode InteractiveServer //Esto es importante para que los valores puedan cambiarse durante la ejecucion
+
+@using WebBlazorOnlinePrueba01.Components.Models;
+
+<!--
+    El using hace referencia a donde se encuentran las clases auxiliares asi separo esa parte del codigo del html
+    Modularice el codigo, Use clases auxiliares para meter la clase Product y las funciones IncrementPrice, DecrementPrice y EquializationPrice
+    Ademas hice un archivo code-beheing en donde esta el resto del codigo suelto del home
+-->
+
+<PageTitle>Home</PageTitle>
+<NavBar></NavBar>
+<h1 class="text-center">"Titulo"</h1>
+<div id="pather-container-element">
+    @foreach (Product product in products)
+    {
+        <div id="container-element">
+            <h3>@product.Name</h3>
+            @if (product.Description != "")
+            {
+                <p>@product.Description</p>
+            }
+            else
+            {
+                <br />
+            }
+            <div id="container-btn-enter">
+                <div>
+                    <button id="btn-price-add" class="btn-price" @onclick="() => ProductPrices.IncrementPrice(product)">+</button>
+                    <label>@product.price2$</label>
+                    <button id="btn-price-delete" class="btn-price" @onclick="() => ProductPrices.DecrementPrice(product)">-</button>
+                    <label>X @product.CounterProduct</label>
+                </div>
+                <button id="btn-enter" class="rounded"> Entrar</button>
+            </div>
+        </div>
+    }
+</div>

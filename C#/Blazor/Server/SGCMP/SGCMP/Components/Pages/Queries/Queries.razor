@@ -1,0 +1,111 @@
+﻿@page "/Queries" 
+@rendermode  InteractiveServer
+@using SGCMP.Components.Services
+@using SGCMP.ModelsDB
+@inject IOperationDbServices DbServices
+
+<ToolBar/>
+<section>
+    <SideBar ConsultsClass="active"/>
+    
+    <main>
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Segundo Nombre</th>
+                <th>Apellido</th>
+                <th>Segundo Apellido</th>
+                <!--<th>Prox. Consulta</th> Esto es un dato fantasma para luego, piensa-->
+				    
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var data in listPatient)
+            {	
+                <tr onclick="location.href='@($"/patient/{data.IdPatient}")'">
+                    <td>@data.Name</td>
+                    <td>@data.SecondName</td>
+                    <td>@data.LastName</td>
+                    <td>@data.SecondLastName</td>
+                </tr>
+            }
+            </tbody>		
+        </table>
+        <ul class="pagination">
+            <li><a href="#" class="disabled">&larr;</a></li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&rarr;</a></li>
+        </ul>
+    </main>
+</section>
+
+<div id="modal" class="@_cssModalVisible" >
+    <div id="modal-container">
+        <div id="modal-title">
+            <h2>Agregar paciente</h2>
+            <button id="exit" @onclick="ModalVisible">X</button>
+        </div>
+        <form id="modal-elements">
+            <label for="first-name-patient">Primer Nombre del paciente:</label>
+            <input type="text" id="first-name-patient" name="first-name-patient" @bind="inputFirstName"/>
+            <label for="second-name-patient">Segundo nombre del paciente:</label>
+            <input type="text" id="second-name-patient" name="second-name-patient" @bind="inputSecondName"/>
+            <label for="first-last-name-patient">Primer Apellido del paciente:</label>
+            <input type="text" id="first-last-name-patient" name="first-last-name-patient" @bind="inputFirstLastName"/>
+            <label for="second-last-name-patient">Segundo Apellido del paciente:</label>
+            <input type="text" id="second-last-name-patient" name="second-last-name-patient" @bind="inputSecondLastName"/>
+        </form>
+        <div id="x">
+            <div id="container-button">
+                <button @onclick="CreatePatient">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="button-floating">
+    <button @onclick="ModalVisible">Agregar <img src="/Recurses/masculino.png"/></button>
+</div>
+
+@code {
+    private string _cssModalVisible = "modal-visible-n";
+    private List<Patient> listPatient;
+    private string? inputFirstName;
+    private string? inputSecondName;
+    private string? inputFirstLastName;
+    private string? inputSecondLastName;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        listPatient = await DbServices.GetPatients();
+    }
+    
+    public void ModalVisible()
+    {
+        //Esto es un if simplificado / This is one if simple 
+        _cssModalVisible = _cssModalVisible == "modal-visible-n" ? "modal-visible-y" : "modal-visible-n"; 
+    }
+
+    public async Task CreatePatient()
+    {
+        Patient newPatient = new Patient()
+        {
+            Name = inputFirstName,
+            SecondName = inputSecondName,
+            LastName = inputFirstLastName,
+            SecondLastName = inputSecondLastName,
+        };
+
+        await DbServices.CreatePatientAsync(newPatient);
+
+        listPatient = await DbServices.GetPatients();
+
+        inputFirstName = inputSecondName = inputFirstLastName = inputSecondLastName = string.Empty;
+    }
+
+}

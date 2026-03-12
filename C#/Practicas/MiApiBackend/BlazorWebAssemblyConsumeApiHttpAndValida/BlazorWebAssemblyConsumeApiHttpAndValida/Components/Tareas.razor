@@ -1,0 +1,22 @@
+﻿@inject HttpClient Http 
+
+<h3>Tareas</h3>
+
+@foreach(var tarea in tareas)
+{
+    <p>@tarea</p>
+}
+
+@code {
+    private List<string> tareas = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        tareas = await Http.GetFromJsonAsync<List<string>>("api/tareas") ?? new List<string>(); //Si viene null usamos una lista vacia
+        // It all the makes -> GetFromJsonAsync:
+        // var response = await httpclient.getasync("api/tareas"); 
+        // var json = await response.content.readasstringasync();
+        // var tareas = jsonserializer.deserialize<list<string>>(json);
+    }
+}

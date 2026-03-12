@@ -1,0 +1,267 @@
+﻿section{
+    display: flex;
+}
+
+main{
+    width: 100%;
+}
+
+table{
+    table-layout: fixed;
+    width: 90%;
+    border-collapse: separate;
+    border-spacing: 0 15px;
+    margin: 20px auto;
+}
+
+th{
+    background-color: rgb(204, 204, 204);
+    padding: 5px;
+}
+
+th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+th:last-child {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+td{
+    border-top: solid 1px rgb(0, 116, 211);
+    border-bottom: solid 1px rgb(0, 116, 211);
+    padding: 10px;
+    text-align: center;
+    transition: .5s;
+}
+
+td:first-child {
+    border-left: 2px solid rgb(0, 116, 211);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: .5s;
+}
+
+td:last-child {
+    border-right: 2px solid rgb(0, 116, 211);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+tr:hover > td{
+    cursor: pointer;
+    background-color: rgb(0, 116, 211);
+    color: white;
+}
+
+.income{
+    background-color: rgb(94, 224, 94);
+    width: 50px;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: rgb(28, 105, 28);
+    transition: .5s;
+}
+
+tr:hover > td > .income{
+    background-color: rgb(36, 140, 36);
+    color: rgb(12, 37, 12);
+}
+
+tr{
+    transition: .5s;
+}
+
+tr:hover{
+    transform: translateY(-10px);
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination li a {
+    color: rgb(0, 116, 211);
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.pagination li a:hover {
+    background-color: rgb(0, 116, 211);
+    color: white;
+}
+
+.pagination li a.active {
+    background-color: rgb(0, 116, 211);
+    color: white;
+    border: 1px solid rgb(0, 116, 211);
+}
+
+.pagination li a.disabled {
+    color: #ccc;
+    pointer-events: none;
+    border: 1px solid #ddd;
+}
+
+#button-floating{
+    bottom: 0;
+    right: 0;
+    margin: 0 60px 25px 0;
+    position:absolute;
+}
+
+    #button-floating button {
+        width: auto;
+        padding: 0 10px;
+        height: 50px;
+        box-shadow: none;
+        border: #007bff 1px solid;
+        border-radius: 20px;
+        transform: scale(1.01); /*Esto es para que no se vea un salto de tamaño cuando se hace el hover / It is for so that not view one jump of scale when make the hover*/
+        transition: .5s ease;
+    }
+    
+    #button-floating button img{
+        width: 30px;
+        margin-left: 5px;
+    }
+
+    #button-floating button:hover {
+        box-shadow: none;
+        cursor:pointer;
+        transform:scale(1.2);
+    }
+
+
+    
+/*-------------------------------------------------------Modal-------------------------------------------------------*/
+    
+#modal{
+    position: absolute;
+    background-color: rgba(0,0,0,0.4);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+
+#exit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ec0000;
+    color: rgb(224, 224, 224);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+#exit:hover {
+    background-color: red;
+    box-shadow: rgba(117, 0, 0, 0.4) 0 2px 4px, rgba(117, 0, 0, 0.3) 0 7px 13px -3px, rgba(117, 0, 0, 0.2) 0 -3px 0 inset;
+}
+
+#modal-container{
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    position: relative;
+    padding: 2% 4%;
+    border-radius: 5%;
+    overflow: scroll;
+    margin: 5% auto;
+    width: 50%;
+    height: 70%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#modal-container::-webkit-scrollbar {
+    display: none;
+}
+
+#modal-title{
+    text-align: center;
+    font-size: 18px;
+    color: rgb(0, 116, 211);
+    margin-bottom: 30px;
+}
+
+#modal-elements{
+    display: grid;
+    grid-template-columns: 25% 75% ;
+    gap: 10px 10px;
+    align-items: center;
+}
+
+label, input, textarea, select{
+    color: rgb(0, 116, 211);
+    padding: 1%;
+}
+
+input, textarea, select{
+    border: solid 1px rgb(0, 116, 211);
+    transition: .5s;
+}
+
+input:focus, textarea:focus, select:focus{
+    outline: none;
+    background-color: rgb(132, 192, 255, .3);
+}
+
+input:hover, textarea:hover, select:hover{
+    background-color: rgb(132, 192, 255, .3);
+}
+
+option{
+    background-color: white;
+}
+
+option:hover{
+    background-color: rgb(132, 192, 255, .3);
+}
+
+#container-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+}
+
+button{
+    height: 30px;
+    width: 80px;
+    box-shadow: rgb(0, 116, 211, 0.5) 0 0 1px, rgba(0, 116, 211, 0.4) 0 0 1px, rgba(0, 116, 211, 0.3) 0 0 1px inset;
+    background-color: rgb(255, 255, 255, .3);
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 116, 211);
+    transition: .5s;
+}
+
+button:hover{
+    cursor: pointer;
+    color: rgb(0, 135, 245);
+    transform: translateY(-5px);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+}
+
+.modal-visible-n{
+    display: none;
+}
+
+.modal-visible-y{
+    display: block;
+}

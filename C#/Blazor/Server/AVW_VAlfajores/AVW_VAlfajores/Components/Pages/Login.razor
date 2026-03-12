@@ -1,0 +1,24 @@
+﻿@page "/login"
+
+<h3>Login</h3>
+
+<a href="/employee">Dame click para ir a la pagina empleados</a>
+<a href="/clients">Dame click para ir a la pagina clientes</a>
+
+<button @onclick="CambiarEstado">Presionar</button>
+
+@if (ok)
+{
+    <p style="color:green;">¡Cambio exitoso!</p>
+}
+
+@code {
+    private bool ok = false;
+
+    private void CambiarEstado()
+    {
+        ok = true;
+    }
+}
+
+

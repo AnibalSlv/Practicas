@@ -1,0 +1,5 @@
+﻿Mira, explicar esto es medio confuso pq no te puedo poner los pasos que hice y para eso mejor toma:
+https://learn.microsoft.com/es-es/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0&tabs=visual-studio
+
+Esa es la documentacion oficial de como crear una API asi que solo dejaré comentarios un poco explicativos
+si es que puedo claro esta

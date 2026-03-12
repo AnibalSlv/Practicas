@@ -1,0 +1,133 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using SistemaDePacientes.Components.Services
+@using SistemaDePacientes.Components.Modules
+@inject IPatientService PatientService
+
+<PageTitle>Home</PageTitle>
+
+<MudPaper Width="100%" Height="100vh" Class="pa-0 ma-0" Style="overflow: auto; display: flex;">
+    @* SECCIÓN DE REGISTRO *@
+    <MudContainer Class="pa-0" MaxWidth="MaxWidth.Small" Style="display: flex; flex-direction: column; align-items: center; background-color: #fcc6c6">
+        <MudPaper Style="background-color: #ff4747; width: 100%; text-align: center" Class="pa-2">
+            <MudText Style="color: white">Registro de paciente</MudText>
+        </MudPaper>
+        
+        <div id="data" class="pa-5">
+            <div id="name">
+                <label>Nombre</label><br/>
+                <input @bind="name" class="mud-input-slot" placeholder="Nombre"/>
+            </div>
+            <br/>
+            <div id="last-name">
+                <label>Apellido</label><br/>
+                <input @bind="lastName" class="mud-input-slot" placeholder="Apellido"/>
+            </div>
+            <br/>
+            <div id="age">
+                <label>Edad</label><br/>
+                <input type="number" @bind="age" class="mud-input-slot" placeholder="Edad"/>
+            </div>
+            <br/>
+            <div id="triage-select">
+                <label>Prioridad (Triage)</label><br/>
+                <select @bind="triage" style="width: 100%; padding: 5px;">
+                    <option value="red">Rojo (Emergencia)</option>
+                    <option value="yellow">Amarillo (Urgente)</option>
+                    <option value="green">Verde (Estándar)</option>
+                </select> 
+            </div>
+            <br/>
+            <MudButton Variant="Variant.Filled" 
+                       Color="Color.Primary"
+                       OnClick="SendData" 
+                       Style="width: 100%" 
+                       Class="pa-3">
+                Agregar Paciente
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Secondary"
+                       OnClick="DeleteData"
+                       Style="width: 100%; margin-top: 10px"
+                       Class="pa-3">
+                Atender Paciente
+            </MudButton>
+        </div>
+    </MudContainer>
+
+    @* SECCIÓN DE LISTAS *@
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="display: flex; justify-content: space-between; padding-top: 20px;">
+        @* COLUMNA ROJA *@
+        <MudPaper Width="32%" Elevation="3">
+            <MudContainer Style="background-color: #ff4747; text-align: center; color: white" Class="pa-2">
+                <MudText Typo="Typo.h6">Emergencia</MudText>
+            </MudContainer>
+            <div class="pa-2">
+                @foreach (var p in PatientService.PatientQueueRed)
+                {
+                    <MudPaper Elevation="1" Class="pa-2 mb-2" Style="border-left: 5px solid red">
+                        <MudText><b>#@p.Id</b> - @p.Name @p.LastName (@p.Age años)</MudText>
+                    </MudPaper>
+                }
+            </div>
+        </MudPaper>
+
+        @* COLUMNA AMARILLA *@
+        <MudPaper Width="32%" Elevation="3">
+            <MudContainer Style="background-color: #fafa5a; text-align: center" Class="pa-2">
+                <MudText Typo="Typo.h6">Urgente</MudText>
+            </MudContainer>
+            <div class="pa-2">
+                @foreach (var p in PatientService.PatientQueueYellow)
+                {
+                    <MudPaper Elevation="1" Class="pa-2 mb-2" Style="border-left: 5px solid yellow">
+                        <MudText><b>#@p.Id</b> - @p.Name @p.LastName (@p.Age años)</MudText>
+                    </MudPaper>
+                }
+            </div>
+        </MudPaper>
+
+        @* COLUMNA VERDE *@
+        <MudPaper Width="32%" Elevation="3">
+            <MudContainer Style="background-color: #60f860; text-align: center" Class="pa-2">
+                <MudText Typo="Typo.h6">Estándar</MudText>
+            </MudContainer>
+            <div class="pa-2">
+                @foreach (var p in PatientService.PatientQueueGreen)
+                {
+                    <MudPaper Elevation="1" Class="pa-2 mb-2" Style="border-left: 5px solid green">
+                        <MudText><b>#@p.Id</b> - @p.Name @p.LastName (@p.Age años)</MudText>
+                    </MudPaper>
+                }
+            </div>
+        </MudPaper>
+    </MudContainer>
+</MudPaper>
+
+@code{
+    int currentId = 0;
+    string name = "";
+    string lastName = "";
+    int age = 0;
+    string triage = "green";
+
+    void SendData()
+    {
+        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(lastName)) return;
+
+        currentId++;
+        Patient newPatient = new Patient(currentId, name, lastName, age, triage);
+        
+        PatientService.AddPatient(newPatient);
+
+        name = "";
+        lastName = "";
+        age = 0;
+        triage = "green";
+    }
+
+    void DeleteData()
+    {
+        PatientService.DeletePatient();
+    }
+}

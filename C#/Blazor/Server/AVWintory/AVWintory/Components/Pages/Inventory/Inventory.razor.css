@@ -1,0 +1,49 @@
+body {
+    
+}
+
+#tr-head {
+    background-color: #fce4ec;
+}
+
+th {
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    border-bottom: 2px solid #f8bbd0;
+}
+
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(248, 187, 208, 0.3);
+    font-size: 0.9rem;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+tbody tr:hover {
+    background-color: rgba(252, 228, 236, 0.5);
+    transition: 0.3s;
+}
+
+.btn-edit {
+    color: #ec407a;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-delete {
+    color: #ff5252;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    color: #d32f2f;
+}

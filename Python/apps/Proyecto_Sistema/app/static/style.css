@@ -1,0 +1,587 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient( #313131);
+    height: 100vh;
+    background-image: url('fondo-login.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.formulario {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background: rgba(32,32,32,0.5);
+    border-radius: 10px;
+    border: solid 2px rgb(32, 73, 199);
+    box-shadow: 20px 20px 50px  #000000;
+    transition: all 0.5s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.formulario h1 {
+    text-align: center;
+    color: white;
+    padding: 0 0 0 0;
+}
+
+.formulario form {
+    padding: 0 40px;
+    box-sizing: border-box;
+
+}
+
+form .ini{
+    position:  relative;
+    border-bottom: 2px solid white;
+    margin: 30px 0;
+}
+
+.ini input{
+    width: 100%;
+    padding:  0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.ini label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: white;
+    transform: translateY(-50%);
+    font-size:  16px;
+    pointer-events: none;
+}
+
+.ini span::before{
+    content: '';
+    position: absolute;
+    top:  40px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: white;
+}
+
+.ini input:focus ~ label,
+.ini input:focus ~ label{
+    top: -5px;
+    color: white;
+}
+
+.ini input:focus ~ span::before,
+.ini input:focus ~ span::before{
+    width: 100%;
+}
+
+.recordar{
+    margin: -5px 0 20px;
+    color: rgb(0, 132, 255);
+    cursor: pointer;
+}
+
+.recordar:hover{
+    text-decoration: underline;
+}
+
+.botones{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    
+}
+
+.iniciar {
+    flex: 1 1 0;
+    height: 50px;
+    border: 0;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    outline: 0;
+    max-width: 180px;
+    border: solid 2px rgba(9, 9, 121, 1);
+    background: rgb(32, 73, 199);
+    transition: background 0.5s;
+    box-shadow: 20px 20px 50px black;
+    
+}
+
+.registrar{
+   flex: 1 1 0;
+    height: 50px;
+    border: 0;
+    background: transparent;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    outline: 0;
+    max-width: 180px;
+    transition: background 0.5s;
+    box-shadow: 20px 20px 50px black;
+}
+
+.registrar{
+    transition: 0.5s;
+}
+.iniciar{
+    transition: 0.5s;
+}
+
+.registrar:hover{
+     background: transparent;
+     border: solid 2px rgb(32, 73, 199);
+     transform: translateY(5px);
+}
+
+.iniciar:hover{
+     background: rgb(2, 13, 48);
+     transform: translateY(5px);
+     border: solid 2px rgb(9, 9, 95);
+}
+
+/*-----------------------------------REGISTER-----------------------------------*/
+
+
+
+.hidde-form{
+    display: none;
+}
+
+.show-form{
+    display: inline;
+}
+
+.profesion-container {  
+    display: flex;  
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 10px;
+}  
+.profesion-label {  
+    color: white;  
+    font-size: 16px;  
+}  
+
+form .profesion label{
+    position: relative;
+    top: 50%;
+    left: 5px;
+    color: white;
+    font-size:  16px;
+    pointer-events: none;
+     pointer-events: none;
+    margin-bottom: 10px; 
+    display: inline-block;
+}
+
+.seleccion select {
+    width: 100%;
+    padding: 5px 50px 5px 15px;
+    font-size: 16px;
+    color: white;
+    background: #191919;
+    border: 2px solid rgb(32, 73, 199);;
+    border-radius: 20px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    align-items:baseline;
+}
+.seleccion {
+    position: relative;
+}
+
+.seleccion::after {
+    content: "▼";
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(32, 73, 199);;
+    font-size: 16px;
+    pointer-events: none;
+}
+
+form .ini{
+    position:  relative;
+    border-bottom: 2px solid white;
+    margin: 30px 0;
+}
+
+
+.ini input{
+    width: 100%;
+    padding:  0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.ini label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: white;
+    transform: translateY(-50%);
+    font-size:  16px;
+    pointer-events: none;
+}
+
+.ini span::before{
+    content: '';
+    position: absolute;
+    top:  40px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: white;
+}
+
+.ini input:focus ~ label,
+.ini input:focus ~ label{
+    top: -5px;
+    color: white;
+}
+
+.ini input:focus ~ span::before,
+.ini input:focus ~ span::before{
+    width: 100%;
+}
+
+/* Estilo para los campos dobles (edad y teléfono) */
+.doble {
+    position: relative;
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+/* Cada campo en la fila doble */
+.campo {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+/* Línea debajo de cada campo */
+.campo::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: white;
+}
+/* Input y label en los campos dobles */
+.doble input {
+    width: 100%;
+    padding: 0 5px;
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.doble label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: white;
+    transform: translateY(-50%);
+    font-size:  16px;
+    pointer-events: none;
+}
+.doble input:focus ~ label {
+    top: -5px;
+    color: white;
+}
+.doble input:focus ~ span::before {
+    width: 100%;
+}
+
+.campo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/*tercera parte*/
+
+.triple {
+    position: relative;
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+/* Cada campo en la fila doble */
+.campo2 {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+/* Línea debajo de cada campo */
+.campo2::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: white;
+}
+/* Input y label en los campos dobles */
+.triple input {
+    width: 100%;
+    padding: 0 5px;
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+.triple label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    color: white;
+    transform: translateY(-50%);
+    font-size:  16px;
+    pointer-events: none;
+}
+.triple input:focus ~ label {
+    top: -5px;
+    color: white;
+}
+.triple input:focus ~ span::before {
+    width: 100%;
+}
+
+.campo2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.botones{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.registrar {
+    flex: 1 1 0;
+    height: 50px;
+    border: 0;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    outline: 0;
+    max-width: 180px;
+    border: solid 2px rgba(9, 9, 121, 1);
+    background: transparent;
+    transition: background 0.5s;
+    box-shadow: 20px 20px 50px black;
+    
+}
+
+.registrar{
+    transition: 0.5s;
+}
+.iniciar{
+    transition: 0.5s;
+}
+
+.registrar:hover{
+     background: black;
+     transform: translateY(5px);
+     border: solid 2px rgb(9, 9, 95);
+}
+
+.hide-form{
+    display: none;
+}
+
+.show-form{
+    display: inline;
+}
+
+*{
+    color: white;
+}
+
+.ini {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.ini input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.ini label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transition: 0.3s ease all;
+  pointer-events: none;
+  color: gray;
+}
+
+/* Cuando el input está enfocado o tiene contenido */
+.ini input:focus + label,
+.ini input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  color: #007bff;
+}
+
+/* Efecto label flotante para todos los inputs */
+.ini input,
+.doble .campo input,
+.triple .campo2 input {
+  width: 100%;
+  padding: 10px 5px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+}
+
+.ini label,
+.doble .campo label,
+.triple .campo2 label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  color: #aaa;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: #202020;
+  padding: 0 4px;
+}
+
+/* Cuando el input está enfocado o tiene texto */
+.ini input:focus + label,
+.ini input:not(:placeholder-shown) + label,
+.doble .campo input:focus + label,
+.doble .campo input:not(:placeholder-shown) + label,
+.triple .campo2 input:focus + label,
+.triple .campo2 input:not(:placeholder-shown) + label {
+  top: -12px;
+  left: 5px;
+  font-size: 13px;
+  color: #007bff;
+  background: #202020;
+}
+
+/* Animación de opacidad para el cambio de formulario */
+.form-fade {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  transition: opacity 0.4s;
+  z-index: 1;
+}
+.form-fade.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+#main-form {
+  position: relative;
+  min-height: 300px;
+  /* Transición suave de altura */
+  transition: height 0.4s;
+  overflow: hidden;
+}
+
+.formulario form {
+    padding: 0;
+    box-sizing: border-box;
+}
+.form-fade {
+    padding: 0px 30px 10px 30px;
+    box-sizing: border-box;
+}
+
+.ini input,
+.doble .campo input,
+.triple .campo2 input {
+  width: 100%;
+  padding: 10px 5px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  box-sizing: border-box; /* <-- Añade esto también */
+}
+
+#registrer-button-identification {
+  background: rgb(32, 73, 199);;
+}
+
+#registrer-button-identification:hover{
+    background: rgb(2, 13, 48);
+    transform: translateY(5px);
+    border: solid 2px rgb(9, 9, 95);
+}
+
+#to-return-button-identification{
+    flex: 1 1 0;
+    height: 50px;
+    border: 2px solid transparent;
+    background: transparent;
+    border-radius: 20px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+    outline: 0;
+    max-width: 180px;
+    transition: background 0.5s;
+    box-shadow: 20px 20px 50px black;
+    transition: all 0.5s;
+}
+
+#to-return-button-identification:hover{
+    background: black;
+    transform: translateY(5px);
+    border: solid 2px rgb(9, 9, 95);
+}

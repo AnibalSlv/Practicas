@@ -1,0 +1,21 @@
+Login
+Home
+
+Reportes
+    Resumen
+        Mejor mes
+        Ganancias
+    Ingresar datos
+    Graficas detalladas 
+        Top ventas
+        Gastos
+    Obtener costos
+
+Inventario
+    Ingresar producto
+    Eliminar producto
+    Ver producto
+    Buscar producto
+
+Crear DB
+Implementar DB

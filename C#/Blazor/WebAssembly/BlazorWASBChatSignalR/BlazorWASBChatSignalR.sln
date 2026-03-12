@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWASBChatSignalR", "BlazorWASBChatSignalR\BlazorWASBChatSignalR\BlazorWASBChatSignalR.csproj", "{93C77B7D-9E98-4840-98FF-C23C47B7A5D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWASBChatSignalR.Client", "BlazorWASBChatSignalR\BlazorWASBChatSignalR.Client\BlazorWASBChatSignalR.Client.csproj", "{E8EAF24B-6843-47E6-A283-531E34F8172B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93C77B7D-9E98-4840-98FF-C23C47B7A5D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C77B7D-9E98-4840-98FF-C23C47B7A5D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C77B7D-9E98-4840-98FF-C23C47B7A5D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C77B7D-9E98-4840-98FF-C23C47B7A5D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8EAF24B-6843-47E6-A283-531E34F8172B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8EAF24B-6843-47E6-A283-531E34F8172B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8EAF24B-6843-47E6-A283-531E34F8172B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8EAF24B-6843-47E6-A283-531E34F8172B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4DE94E78-43BE-410B-BA2A-711B91FD415C}
+	EndGlobalSection
+EndGlobal

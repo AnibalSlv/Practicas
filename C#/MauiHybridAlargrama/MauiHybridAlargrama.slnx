@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="MauiHybridAlargrama/MauiHybridAlargrama.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

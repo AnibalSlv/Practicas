@@ -1,0 +1,54 @@
+﻿@page "/"   
+@rendermode InteractiveServer
+@inject NavigationManager NavManager
+@inject ILoginService LoginService
+
+<MudPaper Width="100%" Height="60vh" 
+          Style="background-color: transparent; display: flex; justify-content: center; flex-direction: column" Elevation="0">
+    <MudText Style="text-align: center; font-size: 32px;">Klatdona</MudText>
+    <MudPaper Style="align-items: center; flex-direction: column; width: 30%; padding: 20px; 
+              backdrop-filter: blur(20px); background-color: rgba(255, 255, 255, 0.1); margin: 10px auto;">
+        <MudText>Iniciar Sesion</MudText>
+        <label style="color: red">@_warningLogin</label>
+        <MudTextField @bind-Value="UserLogin" Placeholder="Nombre de usuario"/>
+        <br/>
+        <MudTextField @bind-Value="PasswordLogin" Placeholder="Contraseña"/>
+        <div style="display: flex; justify-content: center; margin-top: 30px">
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" @onclick="Register" Style="margin-right: 40px">
+                Registrarse
+            </MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" 
+                       @onclick="() => CheckLogin(UserLogin, PasswordLogin)">
+                Iniciar Sesion
+            </MudButton>
+        </div>
+    </MudPaper>
+</MudPaper>
+
+@code {
+    public string UserLogin = "";
+    public string PasswordLogin = "";
+    private string _warningLogin = "";
+    
+    private async Task CheckLogin(string userLogin, string passwordLogin)
+    {
+        foreach (var u in LoginService.GetUser())
+        {
+            if (userLogin == u.Name && passwordLogin == u.Password)
+            {
+                _warningLogin = "";
+                NavManager.NavigateTo($"/Home/{userLogin}");
+            }
+            else
+            {
+                _warningLogin = "Usuario o contraseña incorrecta";
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    private void Register()
+    {
+        NavManager.NavigateTo("/Register");
+    }
+}

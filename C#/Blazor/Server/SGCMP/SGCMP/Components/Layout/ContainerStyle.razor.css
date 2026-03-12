@@ -1,0 +1,16 @@
+﻿.section-one {
+    padding: 10px;
+    margin: 20px auto 40px auto;
+    background: rgb(255, 255, 255, 0.5);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    width: 25%;
+    text-align: center;
+    color: rgb(0, 116, 211);
+}
+
+hr {
+    width: 50%;
+    border: solid 1px rgb(0, 116, 211);
+    margin: auto;
+
+}

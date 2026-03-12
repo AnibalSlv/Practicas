@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="style_registrar.css">
+</head>
+<body>
+    <div class="formulario">
+        <h1>REGISTRO DE EMPLEADOS</h1>
+        <form method="post">
+            <div class="profesion-container">
+                <label class="profesion-label" >Profesión:</label>
+                <div class="seleccion">
+                    <select>
+                        <option value="vacio">...</option>
+                        <option value="Abogado">Abogado/a</option>
+                        <option value="administrador">administrador/a</option>
+                        <option value="secretaria">secretario/a</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ini">
+                <input type="text" required>
+                <label >Nombre y Apellido:</label>
+            </div>
+            <div class="triple">
+                <div class="campo2">
+                    <input type="text" required>
+                    <label >Nombre de Usuario</label>
+                </div>
+                <div class="campo2">
+                    <input type="text" required>
+                    <label >Cédula</label>
+                </div>
+            </div>
+            <div class="doble">
+                <div class="campo">
+                    <input type="text" required>
+                    <label >Edad</label>
+                </div>
+                <div class="campo">
+                    <input type="text" required>
+                    <label >Número de Teléfono</label>
+                </div>
+            </div>
+            <div class="ini">
+                <input type="password" required>
+                <label>Contraseña</label>
+            </div>
+            <div class="ini">
+                <input type="text" required>
+                <label>Carpeta de Trabajo</label>
+            </div>
+            <div class="ini">
+                <input type="text" required>
+                <label>Clave de Administrador</label>
+            </div>
+           <div class="botones">
+            <input type="button" value="Volver al Inicio" onclick="location.href='inicio.html'" id="iniciar">
+            <input type="button" id="registrar" value="Registrar" >
+            </div>
+        </form>
+    </div>
+</body>
+</html>

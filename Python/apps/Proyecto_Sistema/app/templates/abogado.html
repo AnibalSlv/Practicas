@@ -1,0 +1,901 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AVW CRM</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kings&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'tabla_style_abogado.css' %}">
+        <link rel="stylesheet" href="{% static 'tabla_style.css' %}">
+    </head>
+   <body style=" 
+   background-image: url('{% static 'fondo-2.jpg' %}');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+">
+            <div id="div_titulo">
+                <h1 id="titulo">UNION OF LAWYERS</h1>
+                <p id="Tipogra" style='  font-family: "Kings", sans-serif;'>AVW CRM</p>
+            </div>
+        <sectio id="seccion_dos">
+            <div id="opcion">
+                <div class="opciones" id="ver_t">
+                    <p>Ver tabla</p>
+                </div>
+                <div class="opciones" id="ver_d">
+                    <p>Ver documento</p>
+                </div>
+            </div>
+            <div id="opcion_dos">
+                <div class="opciones" id="subir_d" style="display: none;">
+                    <p>Subir documento</p>
+                </div>
+                <div class="opciones" id="anadir_d" style="display: none;">
+                    <p>Añadir dato</p>
+                </div>
+            </div>
+        </sectio>
+
+        <div id="modal" class="modal" role="dialog" aria-modal="true">
+            <div class="modal-contenido" style="display: flex; height: 90%; max-height: 625px;">
+                <!-- Opciones a la derecha -->
+                <div id="modal_contenedor_tablas">
+                    <button class="modal_opcion_tabla" data-tabla="empleados">Empleados</button>
+                    <button class="modal_opcion_tabla" data-tabla="clientes">Clientes</button>
+                    <button class="modal_opcion_tabla" data-tabla="casos">Casos</button>
+                    <button class="modal_opcion_tabla" data-tabla="pagos">Pagos</button>
+                    <button class="cerrar_tabla" id="cerrarModal">X</button>
+                </div>
+                <!-- Contenido dinámico -->
+                <div id="modal_tabla_contenido" style="flex: 1; padding: 40px; overflow-y: auto;">
+                    <p id="mensaje_seleccion">Selecciona una opción para ver la información.</p>
+                    <input type="text" id="filtro_tabla" placeholder="Buscar..." style="margin-bottom: 20px;width: 98%;padding: 0.8%;font-size: 16px;display: block;">
+                    <div id="tabla_empleados" style="display:none;">
+                        <h2>Empleados</h2>
+                        <table border="1" >
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Cédula</th>
+                                <th>Edad</th>
+                                <th>Profesión</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for e in empleados %}
+                            <tr>
+                                <td>{{ e.id_empleado }}</td>
+                                <td>{{ e.nombre }}</td>
+                                <td>{{ e.cedula }}</td>
+                                <td>{{ e.edad }}</td>
+                                <td>{{ e.profesion }}</td>
+                                <td>{{ e.ntelefonico }}</td>
+                                <td>
+                                        <button onclick="editarEmpleado({{ e.id_empleado }})">Editar</button>
+                                        <button onclick="eliminarEmpleado({{ e.id_empleado }})">Eliminar</button>
+                                    </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tabla_clientes" style="display:none;">
+                        <h2>Clientes</h2>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Cédula</th>
+                                    <th>Teléfono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in clientes %}
+                                <tr>
+                                    <td>{{ c.id_cliente }}</td>
+                                    <td>{{ c.nombre }}</td>
+                                    <td>{{ c.cedula }}</td>
+                                    <td>{{ c.ntelefonico }}</td>
+                                    <td>
+                                        <button onclick="editarCliente({{ c.id_cliente }})">Editar</button>
+                                        <button onclick="eliminarCliente({{ c.id_cliente }})">Eliminar</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tabla_casos" style="display:none;">
+                        <h2>Casos</h2>
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Fecha</th>
+                                    <th>Información</th>
+                                    <th>N° de Caso</th>
+                                    <th>Cliente</th>
+                                    <th>Cédula Cliente</th>
+                                    <th>Abogados</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for caso in casos %}
+                                <tr>
+                                    <td>{{ caso.id_caso }}</td>
+                                    <td>{{ caso.fecha }}</td>
+                                    <td>{{ caso.informacion }}</td>
+                                    <td>{{ caso.n_de_caso }}</td>
+                                    <td>{% if caso.pk_cliente %}{{ caso.pk_cliente.nombre }}{% endif %}</td>
+                                    <td>{% if caso.pk_cliente %}{{ caso.pk_cliente.cedula }}{% endif %}</td>
+                                    <td>
+                                        {% for abogado in caso.abogados.all %}
+                                            {{ abogado.nombre }}{% if not forloop.last %}, {% endif %}
+                                        {% empty %}
+                                            Sin abogados
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <button onclick="editarCaso({{ caso.id_caso }})">Editar</button>
+                                        <button onclick="eliminarCaso({{ caso.id_caso }})">Eliminar</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                        <div id="tabla_pagos" style="display:none;">
+                            <h2>Pagos</h2>
+                            <table border="1">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Cliente</th>
+                                        <th>Cédula</th>
+                                        <th>Caso</th>
+                                        <th>Monto</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in pagos %}
+                                    <tr>
+                                        <td>{{ p.id_pago }}</td>
+                                        <td>{{ p.pk_cliente.nombre }}</td>
+                                        <td>{{ p.pk_cliente.cedula }}</td>
+                                        <td>{{ p.pk_caso.n_de_caso }}</td>
+                                        <td>{{ p.pago }}</td>
+                                        <td>
+                                            <button onclick="editarPago({{ p.id_pago }})">Editar</button>
+                                            <button onclick="eliminarPago({{ p.id_pago }})">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Añadir Dato -->
+        <div id="modal-anadir" class="modal" role="dialog" aria-modal="true">
+            <div class="modal-contenido modal-estilo">
+                <span class="cerrar" id="cerrarAnadir">&times;</span>
+                <div class="modal-anadir-estilo-interno">
+                    <h2 id="titulo-anadir">Añadir Dato</h2>
+                    <label for="select-modelo">¿Qué quieres añadir?</label> <br>
+                        <select id="select-modelo">
+                            <option value="cliente">Cliente</option>
+                            <option value="empleado">Empleado</option>
+                            <option value="caso">Caso</option>
+                            <option value="pago">Pago</option>
+                        </select>
+                    <div class="modal-anadir-estilo-form">
+                        <form id="form-anadir-dato"></form>
+                        <div id="mensaje_anadir"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Editar Empleado -->
+        <div id="modal-editar" class="modal" style="display:none;">
+            <div class="modal-contenido modal-contenido-edit">
+                <h2>Editar Empleado</h2>
+                <form id="form-editar-empleado">
+                    <input type="hidden" name="id_empleado" id="edit_id_empleado">
+                    <label>Nombre:</label><br>
+                    <input type="text" name="nombre" id="edit_nombre"><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cedula" id="edit_cedula"><br>
+                    <label>Edad:</label><br>
+                    <input type="number" name="edad" id="edit_edad"><br>
+                    <label>Profesión:</label><br>
+                    <input type="text" name="profesion" id="edit_profesion"><br>
+                    <label>Teléfono:</label><br>
+                    <input type="number" name="ntelefonico" id="edit_ntelefonico"><br>
+                    <label>Activo:</label>
+
+                    <button type="submit" class="save-info-edit">Guardar cambios</button>
+                    <button type="button" class="close-info-edit" onclick="cerrarModalEditar()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+        <!-- Modal Editar Cliente -->
+        <div id="modal-editar-cliente" class="modal" style="display:none;">
+            <div class="modal-contenido modal-contenido-edit">
+                <h2>Editar Cliente</h2>
+                <form id="form-editar-cliente">
+                    <input type="hidden" name="id_cliente" id="edit_id_cliente">
+                    <label>Nombre:</label><br>
+                    <input type="text" name="nombre" id="edit_nombre_cliente"><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cedula" id="edit_cedula_cliente"><br>
+                    <label>Teléfono:</label><br>
+                    <input type="number" name="ntelefonico" id="edit_ntelefonico_cliente"><br>
+                    <button type="submit" class="save-info-edit">Guardar cambios</button>
+                    <button type="button" class="close-info-edit" onclick="cerrarModalEditarCliente()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+
+        
+
+        <!-- Modal Editar Pago -->
+        <div id="modal-editar-pago" class="modal" style="display:none;">
+            <div class="modal-contenido modal-contenido-edit">
+                <h2>Editar Pago</h2>
+                <form id="form-editar-pago">
+                    <input type="hidden" name="id_pago" id="edit_id_pago">
+                    <label>Cliente:</label><br>
+                    <input type="text" name="cliente_nombre" id="edit_cliente_pago"><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cliente_cedula" id="edit_cedula_pago"><br>
+                    <label>Caso:</label><br>
+                    <input type="text" name="caso_nombre" id="edit_caso_pago"><br>
+                    <label>Monto:</label><br>
+                    <input type="number" name="pago" id="edit_monto_pago"><br>
+                    <button type="submit" class="save-info-edit">Guardar cambios</button>
+                    <button type="button" class="close-info-edit" onclick="cerrarModalEditarPago()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Editar Caso -->
+        <div id="modal-editar-caso" class="modal" style="display:none;">
+            <div class="modal-contenido modal-contenido-edit">
+                <h2>Editar Caso</h2>
+                <form id="form-editar-caso">
+                    <input type="hidden" name="id_caso" id="edit_id_caso">
+                    <label>Fecha:</label><br>
+                    <input type="text" name="fecha" id="edit_fecha_caso"><br>
+                    <label>Información:</label><br>
+                    <input type="text" name="informacion" id="edit_informacion_caso"><br>
+                    <label>N° de Caso:</label><br>
+                    <input type="number" name="n_de_caso" id="edit_n_de_caso_caso"><br>
+                    <label>Cliente:</label><br>
+                    <input type="text" name="cliente_nombre" id="edit_cliente_caso"><br>
+                    <label>Abogados:</label><br>
+                    <select name="abogados" id="edit_abogados_caso" multiple>
+                        {% for e in empleados %}
+                            {% if e.profesion == "Abogado" %}
+                                <option value="{{ e.id_empleado }}">{{ e.nombre }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select><br>
+                    <button type="submit" class="save-info-edit">Guardar cambios</button>
+                    <button type="button" class="close-info-edit" onclick="cerrarModalEditarCaso()">Cancelar</button>
+                </form>
+            </div>
+        </div>
+        <script>
+            // Hover y animaciones
+            const preloadImages = [
+                '{% static "add-info.jpg" %}',
+                '{% static "bodegon-con-la-balanza-de-la-justicia.jpg" %}',
+                '{% static "subir-doc.jpg" %}',
+                '{% static "ver-doc.jpg" %}',
+            ];
+
+            preloadImages.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
+
+            let tiempo;
+            document.querySelector("#ver_t").addEventListener("mouseover", function () {
+                tiempo = setTimeout(() => {
+                document.querySelector("#ver_t").classList.add("ver_t_img");
+                document.querySelector(".opciones").classList.add("opciones_hover");
+                }, 400);
+            });
+
+            document.querySelector("#ver_t").addEventListener("mouseout", function () {
+                clearTimeout(tiempo);
+                document.querySelector("#ver_t").classList.remove("ver_t_img");
+                document.querySelector(".opciones").classList.remove("opciones_hover");
+            });
+            
+            document.querySelector("#anadir_d").addEventListener("mouseover", function () {
+                tiempo = setTimeout(() => {
+                document.querySelector("#anadir_d").classList.add("anadir_d_img");
+                document.querySelector(".opciones").classList.add("opciones_hover");
+                }, 400);
+            });
+
+            document.querySelector("#anadir_d").addEventListener("mouseout", function () {
+                clearTimeout(tiempo);
+                document.querySelector("#anadir_d").classList.remove("anadir_d_img");
+                document.querySelector(".opciones").classList.remove("opciones_hover");
+            });
+
+            
+            document.querySelector("#subir_d").addEventListener("mouseover", function () {
+                tiempo = setTimeout(() => {
+                document.querySelector("#subir_d").classList.add("subir_d_img");
+                document.querySelector(".opciones").classList.add("opciones_hover");
+                }, 400);
+            });
+
+            document.querySelector("#subir_d").addEventListener("mouseout", function () {
+                clearTimeout(tiempo);
+                document.querySelector("#subir_d").classList.remove("subir_d_img");
+                document.querySelector(".opciones").classList.remove("opciones_hover");
+            });
+            
+            document.querySelector("#ver_d").addEventListener("mouseover", function () {
+                tiempo = setTimeout(() => {
+                document.querySelector("#ver_d").classList.add("ver_d_img");
+                document.querySelector(".opciones").classList.add("opciones_hover");
+                }, 400);
+            });
+
+            document.querySelector("#ver_d").addEventListener("mouseout", function () {
+                clearTimeout(tiempo);
+                document.querySelector("#ver_d").classList.remove("ver_d_img");
+                document.querySelector(".opciones").classList.remove("opciones_hover");
+            });
+            
+            // Mostrar modal tabla
+            const modal = document.getElementById("modal");
+            const abrirModal = document.getElementById("ver_t");
+            const cerrarModal = document.getElementById("cerrarModal");
+
+            abrirModal.addEventListener("click", () => {
+                modal.classList.add("mostrar");
+            });
+
+            cerrarModal.addEventListener("click", () => {
+                modal.classList.remove("mostrar");
+            });
+
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove("mostrar");
+                }
+                if (e.target === modalAnadir) {
+                    modalAnadir.classList.remove("mostrar");
+                }
+            });
+
+            // Mostrar tablas en el modal
+            const opciones = document.querySelectorAll('.modal_opcion_tabla');
+            const mensajeSeleccion = document.getElementById('mensaje_seleccion');
+            const tablasDivs = {
+                empleados: document.getElementById('tabla_empleados'),
+                clientes: document.getElementById('tabla_clientes'),
+                casos: document.getElementById('tabla_casos'),
+                pagos: document.getElementById('tabla_pagos')
+            };
+
+            opciones.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabla = this.getAttribute('data-tabla');
+                    Object.values(tablasDivs).forEach(div => div.style.display = 'none');
+                    if (mensajeSeleccion) mensajeSeleccion.style.display = 'none';
+                    if (tabla && tablasDivs[tabla]) {
+                        tablasDivs[tabla].style.display = 'block';
+                    }
+                });
+            });
+
+            // Filtro de tablas
+            const filtroInput = document.getElementById('filtro_tabla');
+            opciones.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filtroInput.value = "";
+                    filtroInput.style.display = "block";
+                    filtrarTabla();
+                });
+            });
+            filtroInput.addEventListener('keyup', filtrarTabla);
+
+            function filtrarTabla() {
+                const tablas = document.querySelectorAll('#modal_tabla_contenido table');
+                let tablaVisible = null;
+                tablas.forEach(tabla => {
+                    if (tabla.parentElement.style.display !== "none") {
+                        tablaVisible = tabla;
+                    }
+                });
+                if (!tablaVisible) return;
+                const filtro = filtroInput.value.toLowerCase();
+                const filas = tablaVisible.getElementsByTagName('tr');
+                for (let i = 1; i < filas.length; i++) {
+                    const fila = filas[i];
+                    let textoFila = fila.textContent.toLowerCase();
+                    if (textoFila.indexOf(filtro) > -1) {
+                        fila.style.display = "";
+                    } else {
+                        fila.style.display = "none";
+                    }
+                }
+            }
+            document.getElementById('cerrarModal').addEventListener('click', function() {
+                filtroInput.style.display = "none";
+                filtroInput.value = "";
+            });
+
+            // Modal Añadir Dato
+            const abrirAnadir = document.getElementById("anadir_d");
+            const modalAnadir = document.getElementById("modal-anadir");
+            const cerrarAnadir = document.getElementById("cerrarAnadir");
+            const formAnadir = document.getElementById("form-anadir-dato");
+            const mensajeAnadir = document.getElementById("mensaje_anadir");
+            const tituloAnadir = document.getElementById("titulo-anadir");
+            const selectModelo = document.getElementById("select-modelo");
+
+            let modeloActual = selectModelo.value; // Por defecto
+
+            abrirAnadir.addEventListener("click", () => {
+                modalAnadir.classList.add("mostrar");
+                mostrarFormulario(selectModelo.value);
+            });
+
+            cerrarAnadir.addEventListener("click", () => {
+                modalAnadir.classList.remove("mostrar");
+                formAnadir.innerHTML = "";
+                mensajeAnadir.innerText = "";
+            });
+
+            selectModelo.addEventListener("change", function() {
+                modeloActual = this.value;
+                mostrarFormulario(modeloActual);
+            });
+            
+            function mostrarFormulario(modelo) {
+            tituloAnadir.innerText = "Añadir " + modelo.charAt(0).toUpperCase() + modelo.slice(1);
+            let campos = "";
+            if (modelo === "cliente") {
+                campos = `
+                    <label>Nombre:</label><br>
+                    <input type="text" name="nombre" required><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cedula" required><br>
+                    <label>Teléfono:</label><br>
+                    <input type="number" name="ntelefonico"><br>
+                    <button type="submit">Guardar</button>
+                `;
+            } else if (modelo === "empleado") {
+                campos = `
+                    <label>Nombre:</label><br>
+                    <input type="text" name="nombre" required><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cedula" required><br>
+                    <label>Edad:</label><br>
+                    <input type="number" name="edad" required><br>
+                    <label>Profesión:</label><br>
+                    <input type="text" name="profesion"><br>
+                    <label>Teléfono:</label><br>
+                    <input type="number" name="ntelefonico"><br>
+                    <label>Activo:</label>
+                    <input type="checkbox" name="activo" checked><br>
+                    <button type="submit">Guardar</button>
+            `;
+            } else if (modelo === "caso") {
+                campos = `
+                    <label>Fecha (dd-mm-aaaa):</label><br>
+                    <input type="text" name="fecha" placeholder="01-06-2009"><br>
+                    <label>Información:</label><br>
+                    <input type="text" name="informacion"><br>
+                    <label>N° de Caso:</label><br>
+                    <input type="number" name="n_de_caso"><br>
+                    <label>Cliente:</label><br>
+                    <select name="cliente_nombre" required>
+                        ${clientes.map(c => `<option value="${c.nombre}">${c.nombre} (${c.cedula})</option>`).join('')}
+                    </select><br>
+                    <label>Cédula:</label><br>
+                    <input type="number" name="cliente_cedula" placeholder="Cédula del cliente"><br>
+                    <label>Abogados:</label><br>
+                    <select name="abogados" id="anadir_abogados_caso" multiple>
+                        ${empleados.filter(e => e.profesion === "Abogado").map(e => `<option value="${e.id}">${e.nombre}</option>`).join('')}
+                    </select><br>
+                    <button type="submit">Guardar</button>
+                `;
+            } else if (modelo === "pago") {
+                campos = `
+                    <label>Cliente:</label><br>
+                    <select name="cliente_nombre" required>
+                        ${clientes.map(c => `<option value="${c.nombre}">${c.nombre} (${c.cedula})</option>`).join('')}
+                    </select><br>
+                    <label>Caso:</label><br>
+                    <select name="caso_nombre" required>
+                        ${casos.map(c => `<option value="${c.n_de_caso}">${c.n_de_caso} - ${c.informacion}</option>`).join('')}
+                    </select><br>
+                    <label>Monto:</label><br>
+                    <input type="number" name="pago" required><br>
+                    <button type="submit">Guardar</button>
+                `;
+            }
+            formAnadir.innerHTML = campos;
+            }
+
+            formAnadir.onsubmit = function(e) {
+                e.preventDefault();
+                mensajeAnadir.innerText = "Enviando...";
+                let url = "";
+                if (modeloActual === "cliente") url = "/agregar_cliente/";
+                else if (modeloActual === "empleado") url = "/agregar_empleado/";
+                else if (modeloActual === "caso") url = "/agregar_caso/";
+                else if (modeloActual === "pago") url = "/agregar_pago/";
+
+                // Si es caso, envía los abogados seleccionados como array
+                if (modeloActual === "caso") {
+                    const formData = new FormData(formAnadir);
+                    const abogadosSelect = document.getElementById('anadir_abogados_caso');
+                    const abogados = Array.from(abogadosSelect.selectedOptions).map(opt => opt.value);
+                    formData.delete('abogados');
+                    abogados.forEach(id => formData.append('abogados', id));
+                    fetch(url, {
+                        method: "POST",
+                        body: formData,
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
+                    })
+                    .then(res => {
+    if (res.ok) {
+        mensajeAnadir.innerText = "¡Guardado correctamente!";
+        formAnadir.reset();
+    } else {
+        mensajeAnadir.innerText = res.error || "Error al guardar.";
+    }
+});
+                } else {
+                    fetch(url, {
+                        method: "POST",
+                        body: new FormData(formAnadir),
+                        headers: {'X-Requested-With': 'XMLHttpRequest'}
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                if (res.ok) {
+                    alert("Guardado correctamente")
+                    formAnadir.reset();
+                    location.reload();
+                } else {
+                   alert( res.error || "Error al guardar.")
+                   location.reload();
+                }
+            });
+                            }
+                        };
+            
+            // Empleados
+            const empleados = [
+                {% for e in empleados %}
+                {
+                    id: {{ e.id_empleado }},
+                    nombre: "{{ e.nombre }}",
+                    cedula: "{{ e.cedula }}",
+                    edad: "{{ e.edad }}",
+                    profesion: "{{ e.profesion|default_if_none:'' }}",
+                    ntelefonico: "{{ e.ntelefonico|default_if_none:'' }}",
+                    activo: {{ e.activo|yesno:"true,false" }}
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            // Clientes
+            const clientes = [
+                {% for c in clientes %}
+                {
+                    id: {{ c.id_cliente }},
+                    nombre: "{{ c.nombre }}",
+                    cedula: "{{ c.cedula }}",
+                    ntelefonico: "{{ c.ntelefonico|default_if_none:'' }}"
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            // Casos
+            const casos = [
+                {% for caso in casos %}
+                {
+                    id: {{ caso.id_caso }},
+                    fecha: "{{ caso.fecha|default_if_none:'' }}",
+                    informacion: "{{ caso.informacion|default_if_none:'' }}",
+                    n_de_caso: "{{ caso.n_de_caso|default_if_none:'' }}",
+                    cliente_nombre: "{% if caso.pk_cliente %}{{ caso.pk_cliente.nombre }}{% endif %}",
+                    cliente_cedula: "{% if caso.pk_cliente %}{{ caso.pk_cliente.cedula }}{% endif %}",
+                    abogados: [{% for ab in caso.abogados.all %}{{ ab.id_empleado }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            // Pagos
+            const pagos = [
+                {% for p in pagos %}
+                {
+                    id_pago: {{ p.id_pago }},
+                    cliente_nombre: "{{ p.pk_cliente.nombre }}",
+                    cliente_cedula: "{{ p.pk_cliente.cedula }}",
+                    caso_nombre: "{{ p.pk_caso.n_de_caso }}",
+                    monto: "{{ p.pago }}"
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            function editarEmpleado(id) {
+            // Busca los datos del empleado en la lista de empleados de JS
+            const empleado = empleados.find(e => e.id === id);
+            if (!empleado) return alert("Empleado no encontrado");
+                document.getElementById('edit_id_empleado').value = empleado.id;
+                document.getElementById('edit_nombre').value = empleado.nombre;
+                document.getElementById('edit_cedula').value = empleado.cedula;
+                document.getElementById('edit_edad').value = empleado.edad;
+                document.getElementById('edit_profesion').value = empleado.profesion || '';
+                document.getElementById('edit_ntelefonico').value = empleado.ntelefonico || '';
+
+                document.getElementById('modal-editar').style.display = 'block';
+            }
+
+            function cerrarModalEditar() {
+                document.getElementById('modal-editar').style.display = 'none';
+            }
+
+            function eliminarEmpleado(id) {
+                if (confirm("¿Seguro que quieres eliminar este registro?")) {
+                    fetch(`/eliminar_empleado/`, {
+                        method: "POST",
+                        headers: {'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json'},
+                        body: JSON.stringify({id: id})
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.ok) {
+                            alert("Eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar");
+                        }
+                    });
+                }
+            }
+
+            
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            function editarCliente(id) {
+                const cliente = clientes.find(c => c.id == id);
+                if (!cliente) return alert("Cliente no encontrado");
+                document.getElementById('edit_id_cliente').value = cliente.id;
+                document.getElementById('edit_nombre_cliente').value = cliente.nombre;
+                document.getElementById('edit_cedula_cliente').value = cliente.cedula;
+                document.getElementById('edit_ntelefonico_cliente').value = cliente.ntelefonico;
+                document.getElementById('modal-editar-cliente').style.display = 'block';
+            }
+
+            function cerrarModalEditarCliente() {
+                document.getElementById('modal-editar-cliente').style.display = 'none';
+            }
+
+            document.getElementById('form-editar-cliente').onsubmit = function(e) {
+                e.preventDefault();
+                const data = {
+                    id: document.getElementById('edit_id_cliente').value,
+                    nombre: document.getElementById('edit_nombre_cliente').value,
+                    cedula: document.getElementById('edit_cedula_cliente').value,
+                    ntelefonico: document.getElementById('edit_ntelefonico_cliente').value
+                };
+                fetch('/editar_cliente/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.ok) {
+                        alert('Cliente editado correctamente');
+                        location.reload();
+                    } else {
+                        alert('Error al editar');
+                    }
+                });
+            };
+
+            function eliminarCliente(id) {
+                if (confirm("¿Seguro que quieres eliminar este cliente?")) {
+                    fetch(`/eliminar_cliente/`, {
+                        method: "POST",
+                        headers: {'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json'},
+                        body: JSON.stringify({id: id})
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.ok) {
+                            alert("Eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar");
+                        }
+                    });
+                }
+            }
+
+            function editarPago(id) {
+                const pago = pagos.find(p => p.id_pago == id);
+                if (!pago) return alert("Pago no encontrado");
+                document.getElementById('edit_id_pago').value = pago.id_pago;
+                document.getElementById('edit_cliente_pago').value = pago.cliente_nombre || '';
+                document.getElementById('edit_cedula_pago').value = pago.cliente_cedula || '';
+                document.getElementById('edit_caso_pago').value = pago.caso_nombre || '';
+                document.getElementById('edit_monto_pago').value = pago.monto || '';
+                document.getElementById('modal-editar-pago').style.display = 'block';
+            }
+            
+            function cerrarModalEditarPago() {
+                document.getElementById('modal-editar-pago').style.display = 'none';
+            }
+            
+            document.getElementById('form-editar-pago').onsubmit = function(e) {
+                e.preventDefault();
+                const data = {
+                    id: document.getElementById('edit_id_pago').value,
+                    cliente_nombre: document.getElementById('edit_cliente_pago').value,
+                    cliente_cedula: document.getElementById('edit_cedula_pago').value,
+                    caso_nombre: document.getElementById('edit_caso_pago').value,
+                    monto: document.getElementById('edit_monto_pago').value
+                };
+                fetch('/editar_pago/', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.ok) {
+                        alert('Pago editado correctamente');
+                        location.reload();
+                    } else {
+                        alert('Error al editar');
+                    }
+                });
+            };
+            
+            function eliminarPago(id) {
+                if (confirm("¿Seguro que quieres eliminar este pago?")) {
+                    fetch(`/eliminar_pago/`, {
+                        method: "POST",
+                        headers: {'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json'},
+                        body: JSON.stringify({id: id})
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.ok) {
+                            alert("Eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar");
+                        }
+                    });
+                }
+            }
+
+            function editarCaso(id) {
+                const caso = casos.find(c => c.id == id);
+                if (!caso) return alert("Caso no encontrado");
+                document.getElementById('edit_id_caso').value = caso.id;
+                document.getElementById('edit_fecha_caso').value = caso.fecha || '';
+                document.getElementById('edit_informacion_caso').value = caso.informacion || '';
+                document.getElementById('edit_n_de_caso_caso').value = caso.n_de_caso || '';
+                document.getElementById('edit_cliente_caso').value = caso.cliente_nombre || '';
+
+                // Mostrar cédula del cliente si tienes el dato
+                // Si tienes el campo en el modal, usa:
+                // document.getElementById('edit_cedula_cliente_caso').value = caso.cliente_cedula || '';
+
+                // Seleccionar abogados asociados
+                const abogadosSelect = document.getElementById('edit_abogados_caso');
+                if (abogadosSelect) {
+                    // Limpia selección
+                    Array.from(abogadosSelect.options).forEach(opt => opt.selected = false);
+                    // Si tienes los IDs de abogados en el objeto caso, selecciónalos:
+                    if (caso.abogados && caso.abogados.length) {
+                        caso.abogados.forEach(id => {
+                            const opt = abogadosSelect.querySelector('option[value="' + id + '"]');
+                            if (opt) opt.selected = true;
+                        });
+                    }
+                }
+
+                document.getElementById('modal-editar-caso').style.display = 'block';
+            }
+            
+            function cerrarModalEditarCaso() {
+                document.getElementById('modal-editar-caso').style.display = 'none';
+            }
+            
+            document.getElementById('form-editar-caso').onsubmit = function(e) {
+    e.preventDefault();
+    const abogadosSelect = document.getElementById('edit_abogados_caso');
+    const abogados = Array.from(abogadosSelect.selectedOptions).map(opt => opt.value);
+
+    const data = {
+        id: document.getElementById('edit_id_caso').value,
+        fecha: document.getElementById('edit_fecha_caso').value,
+        informacion: document.getElementById('edit_informacion_caso').value,
+        documentacion: '',
+        n_de_caso: document.getElementById('edit_n_de_caso_caso').value,
+        cliente_nombre: document.getElementById('edit_cliente_caso').value,
+        abogados: abogados 
+    };
+    fetch('/editar_caso/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.ok) {
+            alert('Caso editado correctamente');
+            location.reload();
+        } else {
+            alert('Error al editar');
+        }
+    });
+};
+            
+            function eliminarCaso(id) {
+                if (confirm("¿Seguro que quieres eliminar este caso?")) {
+                    fetch(`/eliminar_caso/`, {
+                        method: "POST",
+                        headers: {'X-CSRFToken': getCookie('csrftoken'), 'Content-Type': 'application/json'},
+                        body: JSON.stringify({id: id})
+                    })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.ok) {
+                            alert("Eliminado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Error al eliminar");
+                        }
+                    });
+                }
+            }
+            
+        </script>
+    </body>
+</html>

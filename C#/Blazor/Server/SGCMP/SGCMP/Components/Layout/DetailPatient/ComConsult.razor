@@ -1,0 +1,35 @@
+﻿@*
+<div class="modal-container">
+    <div class="container">
+        <nav>
+            <ul>
+                <li @onclick="() => ContentOnOF(4)"><a>Examen Físico</a></li>
+                <li @onclick="() => ContentOnOF(5)"><a>Condiciones</a></li>
+                <li @onclick="() => ContentOnOF(6)"><a>Laboratorio</a></li>
+                <li @onclick="() => ContentOnOF(7)"><a>Diagnostico</a></li>
+            </ul>
+            <button id="exit" @onclick="ModalVisible">X</button>
+        </nav>
+        <CascadingValue Value="patientId">
+            <section id="section-laboratory" class="@(listVisibles[4] ? "display-inline" : "display-none")">
+                <ComLaboratory @ref="laboratoryRef"/>
+            </section>
+            <section id="section-p-exam" class="@(listVisibles[5] ? "display-inline" : "display-none")">
+                <ComPhysicalExam @ref="physicalExamRef"/>
+            </section>
+            <section id="section-conditions" class="@(listVisibles[6] ? "display-inline" : "display-none")">
+                <ComConditions @ref="conditionRef"/>
+            </section>
+            <section id="section-diagnosis" class="@(listVisibles[7] ? "display-inline" : "display-none")">
+                <ComDiagnosis @ref="diagnosisRef"/>
+            </section>
+        </CascadingValue>
+        <div class="div-button">
+            <button @onclick="SaveConsultData">Guardar</button>
+        </div>
+    </div>
+</div>
+@code {
+    
+}
+*@

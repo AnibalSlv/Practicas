@@ -1,0 +1,19 @@
+﻿@page "/"
+
+<h3>Focus entre inputs</h3>
+
+<input @ref="input1Ref" placeholder="Primer input" />
+<br />
+<input @ref="input2Ref" placeholder="Segundo input" />
+<br />
+<button @onclick="FocusSegundoInput">Ir al segundo input</button>
+
+@code {
+    private ElementReference input1Ref;
+    private ElementReference input2Ref;
+
+    private async Task FocusSegundoInput()
+    {
+        await input2Ref.FocusAsync();
+    }
+}

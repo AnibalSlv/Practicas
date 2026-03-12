@@ -1,0 +1,162 @@
+﻿@using SGCMP.ModelsDB
+<p class="sub-title">Exmamen Físico: </p>
+<div id="container-data-p-exam">
+    <div class="data-p-exam">
+        <label for="inputFC">FC</label>
+        <input type="number"
+               placeholder=""
+               id="inputFC"
+               @bind="inputFc">
+        <br>
+
+        <label for="inputFR">FR: </label>
+        <input type="number"
+               placeholder=""
+               id="inputFR"
+               @bind="inputFr">
+        <br>
+
+        <label for="inputTA">T/A: </label>
+        <input type="number"
+               placeholder=""
+               id="inputTA"
+               @bind="inputTa">
+        <br>
+
+        <label for="inputSeO2">SeO2:</label>
+        <input type="number"
+               placeholder=""
+               id="inputSeO2"
+               @bind="inputSeo2">
+        <br>
+
+        <label for="inputWeight">Peso: </label>
+        <input type="number"
+               placeholder=""
+               id="inputWeight"
+               @bind="inputWeight">
+        <br>
+
+        <label for="inputSize">Talla: </label>
+        <input type="number"
+               placeholder=""
+               id="inputSize"
+               @bind="inputSize">
+    </div>
+    <div class="data-p-exam">
+        <label for="inputCC">CC: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCC"
+               @bind="inputCc">
+        <br>
+
+        <label for="inputCT">CT: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCT"
+               @bind="inputCt">
+        <br>
+
+        <label for="inputCA">CA: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCA"
+               @bind="inputCa">
+        <br>
+
+        <label for="inputCBI">CBI: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCBI"
+               @bind="inputCbi">
+        <br>
+
+        <label for="inputIMC">IMC: </label>
+        <input type="number"
+               placeholder=""
+               id="inputIMC"
+               @bind="inputImc">
+        <br>
+
+        <label for="inputPE">P/E: </label>
+        <input type="number"
+               placeholder=""
+               id="inputPE"
+               @bind="inputPe">
+    </div>
+    <div class="data-p-exam">
+        <label for="inputTE">T/E: </label>
+        <input type="number"
+               placeholder=""
+               id="inputTE"
+               @bind="inputTe">
+        <br>
+
+        <label for="inputCCE">CC/E: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCCE"
+               @bind="inputCce">
+        <br>
+
+        <label for="inputCBIE">CBI/E: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCBIE"
+               @bind="inputCbie">
+        <br>
+
+        <label for="inputIMCE">IMC/E: </label>
+        <input type="number"
+               placeholder=""
+               id="inputIMCE"
+               @bind="inputImce">
+        <br>
+
+        <p class="filling">&InvisibleComma;</p>
+        <br>
+
+    </div>
+</div>
+@code {
+    [CascadingParameter] public int patientId { get; set; }
+    
+    private int? inputFc;
+    private int? inputFr;
+    private int? inputTa;
+    private int? inputSeo2;
+    private int? inputWeight;
+    private int? inputSize;
+    private int? inputCc;
+    private int? inputCt;
+    private int? inputCa;
+    private int? inputCbi;
+    private int? inputImc;
+    private int? inputPe;
+    private int? inputTe;
+    private int? inputCce;
+    private int? inputCbie;
+    private int? inputImce;
+    
+    public PhysicalExam GetModelPhysicalExam() => new PhysicalExam()
+    {
+        PkPatient = patientId,
+        Fc = inputFc,
+        Fr = inputFr,
+        TA = inputTa,
+        Seo2 = inputSeo2,
+        Weight = inputWeight,
+        Size = inputSize,
+        Cc = inputCc,
+        Ct = inputCt,
+        Ca = inputCa,
+        Cbi = inputCbi,
+        Imc = inputImc,
+        PE = inputPe,
+        TE = inputTe,
+        CcE = inputCce,
+        CbiE = inputCbie,
+        ImcE = inputImc,
+    };
+}

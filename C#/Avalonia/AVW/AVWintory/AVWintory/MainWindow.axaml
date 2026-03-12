@@ -1,0 +1,42 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1420" d:DesignHeight="720"
+        x:Class="AVWintory.MainWindow"
+        Title="AVWintory">
+
+    <!-- Estilos globales -->
+    <Window.Styles>
+        <!-- TextBlocks con clase h1 tendrán tamaño 24 -->
+        <Style Selector="TextBlock.h1">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Styles>
+
+    <!-- Layout principal -->
+    <Grid ShowGridLines="True" ColumnDefinitions="*" RowDefinitions="Auto,*">
+
+        <!-- Encabezado -->
+        <TextBlock Grid.Row="0" Classes="h1" Text="AVWintory" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- Contenido -->
+        <Grid Grid.Row="1" ColumnDefinitions="200,200,200" RowDefinitions="200,200" ShowGridLines="True">
+
+            <!-- Celda 1 -->
+            <Label Grid.Column="0" Grid.Row="0" Content="Hola :b" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <!-- Celda 2 -->
+            <Label Grid.Column="1" Grid.Row="0" Content="Hola :p" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <!-- Celda 3 -->
+            <Label Grid.Column="2" Grid.Row="0" Content="Hola :v" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        </Grid>
+    </Grid>
+</Window>

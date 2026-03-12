@@ -1,0 +1,86 @@
+﻿@page "/clients"
+@rendermode InteractiveServer //Permite cambiar los valores durante la ejecucion / Allow change the values during execution
+
+
+<!-- Este es un componente llamado NavBar se encuentra en la carpeta Layout. Este es el que crea la navbar 
+/ It is one component whit name Navbar is located in the folder Layout, This is the one who create the navbar -->
+
+<NavBar />
+
+<section>
+	<div class="card-container">
+		<!-- Se crean las targetas de manera dinamica con una clase / Create dinamyc cards whit one class -->
+	@foreach(var product in products)
+	{	
+		<div class="card">
+			<div class="card-img">
+				<span class="card-price"><span>$</span>@product.Price</span>
+			</div>
+			<div class="card-content">
+				<p class="card-title">@product.Title</p>
+				<hr class="card-title-line">
+				<div class="card-description">
+					<p>@product.Description</p>
+				</div>
+				<button @onclick="() => AddPShoppingCart (product)">Añadir al carrito</button>
+			</div>
+		</div>
+	}
+	</div>
+
+	<div id="container-shop">
+		<div id="shop-list">
+			@foreach (var item in shoppingCart)
+			{
+				<p>@item.Title x @item.Amount</p>
+			}
+		</div>
+		<button>Comprar</button>
+	</div>
+
+</section>
+@code {
+	new List<Card_content> shoppingCart = new List<Card_content>();
+
+	// Se agregan los datos a la lista que pasara por el foreach / Add data to the list what pass for the foreach
+
+	public List<Card_content> products = new List<Card_content>()
+	{
+		new Card_content ("Alfajor con Chocolate", 58, "Buenas noches mundo", 0),
+		new Card_content ("Alfajor de Maicena", 2, "si", 0),
+		new Card_content ("Alfajor con Glase", 3, "Ejemplo pero si", 0),
+		new Card_content ("Prueba04", 4, "Ejemplo pero si", 0),
+		new Card_content ("Prueba05", 5, "Ejemplo pero si", 0),
+		new Card_content ("Prueba06", 6, "Ejemplo pero si", 0),
+		new Card_content ("Prueba07", 7, "Ejemplo pero si", 0),
+		new Card_content ("Prueba08", 8, "Ejemplo pero si", 0),
+	};
+
+
+	void AddPShoppingCart(Card_content product)
+	{
+		shoppingCart.Add(product);
+	}
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+	}
+
+	public class Card_content
+	{
+		public string Title;
+		public int Price;
+		public string Description;
+		public int Amount;
+
+		public Card_content(string title, int price, string description, int amount)
+		{
+			this.Title = title;
+			this.Price = price;
+			this.Description = description;
+			this.Amount = amount;
+		}
+
+	}
+}

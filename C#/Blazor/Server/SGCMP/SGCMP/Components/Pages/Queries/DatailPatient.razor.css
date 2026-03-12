@@ -1,0 +1,246 @@
+﻿#exit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ec0000;
+    color: rgb(224, 224, 224);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+#exit:hover {
+    background-color: red;
+    box-shadow: rgba(117, 0, 0, 0.4) 0 2px 4px, rgba(117, 0, 0, 0.3) 0 7px 13px -3px, rgba(117, 0, 0, 0.2) 0 -3px 0 inset;
+}
+
+nav{
+    padding: 0;
+    margin: 0;
+    background: white;
+}
+
+nav ul{
+    padding: 0;
+    margin: 0 0 25px 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+nav ul li{
+    padding: 5px 10px;
+    width: 100%;
+    text-align: center;
+    border: none;
+    color: rgb(0, 116, 211);
+    transition: .5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul li:hover{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 135, 245);
+    transform: translateY(-5px);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    z-index: 0;
+}
+
+section{
+    width: auto;
+}
+
+p{
+    color: rgb(0, 116, 211);
+    margin: 0 10px 0 0;
+}
+
+.container{
+    width: 100%;
+    margin: 25px;
+    padding: 0 25px 25px 25px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    overflow: auto;
+    transition: .5s;
+}
+
+#section-patient, #section-pregnancy, #section-family, #section-laboratory, #section-p-exam , #section-conditions,#section-diagnosis, #section-history {
+    padding: 0 20px 20px 20px;
+}
+
+.title{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.div-button{
+    display: flex;
+    justify-content: center;
+}
+
+.div-button button{
+    height: 30px;
+    width: 80px;
+    background-color: rgb(255, 255, 255, .3);
+    border: none;
+    border-radius: 5px;
+    color: rgb(0, 116, 211);
+    transition: .5s;
+}
+
+.div-button button:hover{
+    cursor: pointer;
+    color: rgb(0, 135, 245);
+    transform: translateY(-5px);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+}
+
+.display-none{
+    display: none;
+}
+
+.display-inline{
+    display: inline;
+}
+
+
+
+
+
+
+
+
+th{
+    background-color: rgb(204, 204, 204);
+    padding: 5px;
+}
+
+th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+th:last-child {
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+
+td{
+    border-top: solid 1px rgb(0, 116, 211);
+    border-bottom: solid 1px rgb(0, 116, 211);
+    padding: 10px;
+    text-align: center;
+    transition: .5s;
+}
+
+td:first-child {
+    border-left: 2px solid rgb(0, 116, 211);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: .5s;
+}
+
+td:last-child {
+    border-right: 2px solid rgb(0, 116, 211);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+tr:hover > td{
+    cursor: pointer;
+    background-color: rgb(0, 116, 211);
+    color: white;
+}
+
+.income{
+    background-color: rgb(94, 224, 94);
+    width: 50px;
+    margin: 0 auto;
+    border-radius: 10px;
+    color: rgb(28, 105, 28);
+    transition: .5s;
+}
+
+tr:hover > td > .income{
+    background-color: rgb(36, 140, 36);
+    color: rgb(12, 37, 12);
+}
+
+tr{
+    transition: .5s;
+}
+
+tr:hover{
+    transform: translateY(-10px);
+}
+
+#button-floating{
+    bottom: 0;
+    right: 0;
+    margin: 0 60px 25px 0;
+    position:absolute;
+}
+
+.add-history {
+    width: auto;
+    padding: 0 10px;
+    height: 50px;
+    box-shadow: none;
+    border: #007bff 1px solid;
+    border-radius: 20px;
+    color:#007bff ;
+    /*Esto es para que no se vea un salto de tamaño cuando se hace el hover 
+    / It is for so that not view one jump of scale when make the hover*/
+    transform: scale(1.01); 
+    transition: .5s ease;
+}
+
+.add-history:hover {
+    box-shadow: none;
+    cursor:pointer;
+    transform:scale(1.1);
+}
+
+.button-modal-y{
+    display: flex;
+}
+
+.button-modal-n{
+    display: none;
+}
+
+.modal{
+    position: absolute;
+    background-color: rgba(0,0,0,0.4);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+
+.modal-container{
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    position: relative;
+    padding: 2% 4%;
+    width: 100%;
+    height: 100%;
+    background-color: #44444430;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-visible-n{
+    display: none;
+}
+
+.modal-visible-y{
+    display: block;
+}

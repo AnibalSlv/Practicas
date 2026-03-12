@@ -1,0 +1,27 @@
+﻿<nav>
+    <div>
+        <a class="@HomeClass" href="/">
+            <MudIcon Icon="@Icons.Material.Filled.Dashboard" Style="margin-right: 5px"/>
+            Dashboard
+        </a>
+        <a class="@AppointmentsClass" href="/Appointment">
+            <MudIcon Icon="@Icons.Material.Filled.CalendarMonth"/>
+            Agenda
+        </a>
+        <a class="=@PatientsClass" href="/Patients">
+            <MudIcon Icon="@Icons.Material.Filled.PersonSearch" Style="margin-right: 5px"/>
+            Pacientes
+        </a>
+        <a class="@ConsultsClass" href="/Queries">
+            <MudIcon Icon="@Icons.Material.Filled.History" Style="margin-right: 5px"/>
+            Historias
+        </a>
+    </div>
+</nav>
+
+@code {
+    [Parameter] public string? AppointmentsClass { get; set; }
+    [Parameter] public string? ConsultsClass { get; set; }
+    [Parameter] public string? PatientsClass {get; set; }
+    [Parameter] public string? HomeClass { get; set; }
+}

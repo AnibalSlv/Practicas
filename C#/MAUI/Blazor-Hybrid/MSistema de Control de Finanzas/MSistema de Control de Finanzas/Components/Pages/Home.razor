@@ -1,0 +1,57 @@
+﻿<!--In the dependencies i use microsoft.entityframeworkcore.sqlite for use SQLite and make operation whit the number and save the data-->
+@page "/"
+
+@namespace MSistema_de_Control_de_Finanzas.Components.Services
+@inject IncomeService IncomeS
+
+<PageTitle>Home</PageTitle>
+
+<!--I created a navigation menu to focus on the important aspects of the page and keep everything clean.-->
+<NavMenu />
+
+<section>
+	<div class="list-money">
+	</div>
+	<div class="tools">
+		<p><a href="/AddDataM">Ingresar Ingreso/Egreso</a></p>
+		<p><a>Exportar a Excel</a></p>
+		<p><a>Analisis Personal de Gastos</a></p>
+		<p><a>Calendario de Gastos</a></p>
+		<p><a>Modo Ahorro</a></p>
+		<p><a>DashBoard</a></p>
+		<p><a>Historial</a></p>
+		<p><a>Logros</a></p>
+	</div>
+</section>
+	<table>
+		<tr>
+			<th>Contexto</th> 
+			<th>Ingreso</th>
+			<th>Monto</th>
+			<th>Metodo</th>
+			<th>F. Inicio</th>
+			<th>F. Fin</th>
+		</tr>
+	@foreach (var list in incomeList)
+	{
+		<tr>
+			<td>@list.Context</td>
+			<td>@list.Income</td>
+			<td>@list.Amount</td>
+			<td>@list.Metod</td>
+			<td>@list.DStart</td>
+			<td>@list.DFinal</td>
+		</tr>
+	}
+			
+	</table>
+
+@code
+{
+	private List<IncomeModel> incomeList = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		incomeList = await IncomeS.ReadAllIncomeAsync();
+	}
+}

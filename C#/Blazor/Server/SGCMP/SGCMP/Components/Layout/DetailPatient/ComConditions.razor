@@ -1,0 +1,117 @@
+﻿@using SGCMP.ModelsDB
+
+<p class="sub-title">Condiciones Generales:</p>
+<input type="text"
+       placeholder=""
+       id="">
+<div id="container-data-conditions">
+    <div class="data-conditions">
+        <label for="inputSkin">Piel: </label>
+        <input type="text"
+               placeholder=""
+               id="inputSkin"
+               @bind="inputSkin">
+        <br>
+
+        <label for="inputHead">Cabeza: </label>
+        <input type="text"
+               placeholder=""
+               id="inputHead"
+               @bind="inputHead">
+        <br>
+
+        <label for="inputEyes">Ojos: </label>
+        <input type="text"
+               placeholder=""
+               id="inputEyes"
+               @bind="inputEyes">
+        <br>
+
+        <label for="inputORL">ORL: </label>
+        <input type="text"
+               placeholder=""
+               id="inputORL"
+               @bind="inputOrl">
+        <br>
+
+        <label for="inputThroat">Cuello: </label>
+        <input type="text"
+               placeholder=""
+               id="inputThroat"
+               @bind="inputThroat">
+        <br>
+
+        <label for="inputGanglia">Ganglios: </label>
+        <input type="text"
+               placeholder=""
+               id="inputGanglia"
+               @bind="inputGanglios">
+    </div>
+    <div class="data-conditions">
+        <label for="inputCP">C/P: </label>
+        <input type="text"
+               placeholder=""
+               id="inputCP"
+               @bind="inputCp">
+        <br>
+
+        <label for="inputAbdomen">Abdomen: </label>
+        <input type="text"
+               placeholder=""
+               id="inputAbdomen"
+               @bind="inputAbdomen">
+        <br>
+
+        <label for="inputGenitals">Genitales: </label>
+        <input type="text"
+               placeholder=""
+               id="inputGenitals"
+               @bind="inputGenitals">
+        <br>
+
+        <label for="inputExtremities">Extremidades: </label>
+        <input type="text"
+               placeholder=""
+               id="inputExtremities"
+               @bind="inputExtremities">
+        <br>
+
+        <label for="inputNeum">Neumológico: </label>
+        <input type="text"
+               placeholder=""
+               id="inputNeum"
+               @bind="inputNeum">
+    </div>
+</div>
+@code {
+    [CascadingParameter] public int patientId { get; set; }
+
+    private string? inputSkin;
+     private string? inputHead;
+     private string? inputEyes;
+     private string? inputOrl;
+     private string? inputThroat;
+     private string? inputGanglios;
+     private string? inputCp;
+     private string? inputAbdomen;
+     private string? inputGenitals;
+     private string? inputExtremities;
+     private string? inputNeum;
+
+     public Codition GetModelConditions() => new Codition()
+     {
+        PkPatient = patientId,
+        Skin = inputSkin,
+        Head = inputHead,
+        Eyes = inputEyes,
+        Orl = inputOrl,
+        Neck = inputThroat,
+        Ganglia = inputGanglios,
+        CP = inputCp,
+        Abdomen = inputAbdomen,
+        Genitals = inputGenitals,
+        Limb = inputExtremities,
+        Pulmonological = inputNeum,
+     };
+
+}

@@ -1,0 +1,93 @@
+﻿.text-center{
+    text-align: center;
+}
+
+#pather-container-element {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    overflow-y:visible;
+}
+
+#pather-container-element::-webkit-scrollbar { /*Esto funciona solo con navegadores que agarran webkit*/
+    display: none; /* Oculta la barra de scroll */
+}
+
+#container-element {
+    flex: 1 0 auto;
+    width: 250px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0;
+    padding:10px;
+    margin:10px 15px;
+    border: solid black 3px;
+    border-radius: 15px;
+    transition: .5s;
+}
+
+#container-element:hover {
+    box-shadow: 0px 15px 5px gray;
+    transform: translateY(-10px);
+    background-color:black;
+    color:white;
+    margin:10px 0px;
+}
+
+#container-btn-enter{
+    margin:10px;
+    display:flex
+}
+
+#btn-enter {
+    margin-left: auto;
+    background-color: black;
+    color: white;
+    border-color:white;
+    transition:0.5s;
+}
+
+#btn-enter:hover{
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.btn-price {
+    border:solid black 2px;
+    border-radius:10px;
+    font-size:15px;
+    width: 25px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#btn-price-add {
+    color: green;
+    border-color: green;
+    transition: .5s;
+}
+
+#btn-price-add:hover {
+    background-color: green;
+    color: white;
+}
+
+#btn-price-add:active {
+    background-color: darkgreen;
+    color: lightgray;
+}
+
+#btn-price-delete {
+    color: red;
+    border-color: red;
+    transition: .5s;
+}
+
+#btn-price-delete:hover {
+    background-color: red;
+    color: white;
+}
+
+#btn-price-delete:active {
+    background-color: darkred;
+    color: lightgray;
+}

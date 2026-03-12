@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerChat", "BlazorServerChat\BlazorServerChat.csproj", "{0F02B795-CD9F-456E-A9F5-83D47C4D28BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F02B795-CD9F-456E-A9F5-83D47C4D28BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F02B795-CD9F-456E-A9F5-83D47C4D28BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F02B795-CD9F-456E-A9F5-83D47C4D28BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F02B795-CD9F-456E-A9F5-83D47C4D28BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58D21CB5-8817-440A-9107-3B5F7B2076E0}
+	EndGlobalSection
+EndGlobal

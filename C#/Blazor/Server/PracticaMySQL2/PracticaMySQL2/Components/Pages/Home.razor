@@ -1,0 +1,37 @@
+﻿@page "/"
+@rendermode InteractiveServer //ESTO ES GOOOOOOOOOOOOOOOOOOOOOOOOOOD ESTO ES LO QUE HACE QUE POR FIN LOS DATOS SE PUEDAN INGRESAR A LA DB
+@inject PracticaMySQL2.Components.Data.AplicationDbContext DBConnect
+<PageTitle>Home</PageTitle>
+
+<!-- Toda la explicacion adicional de MySQL y su conexion esta en PracticaMySQL-->
+
+<h1>Hello, world!</h1>
+
+<input type="text" @bind="name"/>
+<input type="number" @bind="value"/>
+<button type="submit" @onclick="Guardar">Guardar</button>
+
+<p>@name</p>
+<p>@value</p>
+
+@code{
+    public string name;
+    public decimal value;
+
+    void Guardar()
+    {
+        Product add = new Product
+        {
+            Nombre = name,
+            Valor = value,
+        };
+        DBConnect.addProduct(add.Nombre, add.Valor);
+    }
+
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; } = string.Empty;
+        public decimal Valor { get; set; }
+    }
+}

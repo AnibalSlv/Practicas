@@ -1,0 +1,70 @@
+﻿@page "/AddProduct/{UserName}/{ProductCode}"
+@using AVWintory.ModulesDb
+@rendermode InteractiveServer
+@inject NavigationManager NavManager
+@inject IProductService ProductS
+
+<PageTitle>AVWintory</PageTitle>
+
+@if (NewProduct == null)
+{
+    @* Mientras busca el producto, mostramos un cargando *@
+    <MudAlert Severity="Severity.Info">Buscando producto con código: @ProductCode...</MudAlert>
+}
+else
+{
+    <NavMenu UserName="@UserName"/>
+    <MudPaper Class="pa-6" Style="margin: 90px" Height="60vh">
+        <MudText Style="text-align: center; font-size: 18px" Color="Color.Secondary">Producto</MudText>
+        <MudGrid Spacing="20" Style="margin-left: 20px">
+            <MudItem>
+                <label style="color: red">@WarningPresentPrice</label>
+                <MudNumericField @bind-Value="NewProduct.PriceBase" Label="Precio Presente" Variant="Variant.Text" Style="width: 300px;"/>
+                <label style="color: red">@WarningSalePrice</label>
+                <MudNumericField @bind-Value="NewProduct.PriceSale" Label="Precio de Venta" Variant="Variant.Text" Style="width: 300px;"/>
+                <br/>
+                <MudNumericField @bind-Value="NewProduct.Stock" Label="Cantidad a Ingresar" Variant="Variant.Text" Style="width: 400px"/>
+            </MudItem>
+        </MudGrid>
+        <div style="width: 100%; display: flex; justify-content: center">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" Style="margin: 50px" Href="/AddDetailProduct">Regresar</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin: 50px" @onclick="ContinueButton">Continuar</MudButton>
+        </div>
+    </MudPaper>
+}
+
+@code
+{
+    [Parameter] public string UserName { get; set; }
+    [Parameter] public string? ProductCode { get; set; } = "0";
+
+    public Product? NewProduct { get; set; }
+
+    public string WarningPresentPrice = "";
+    public string WarningSalePrice = "";
+
+    protected override void OnInitialized()
+    { 
+        NewProduct = ProductS.GetOneProductByCode(ProductCode);
+    }
+    
+    public void ContinueButton()
+    {
+        if (NewProduct.PriceBase == "0")
+        {
+            WarningPresentPrice = "El precio presente esta en cero";
+            WarningSalePrice = "";
+        }
+        else if (NewProduct.PriceSale == "0")
+        {
+            WarningSalePrice = "El precio de venta esta en cero";
+            WarningPresentPrice = "";
+
+        }
+        else
+        {
+            ProductS.UpdateProduct(NewProduct);
+            NavManager.NavigateTo($"/Inventory/{UserName}");
+        }
+    }
+}

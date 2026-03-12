@@ -1,0 +1,8 @@
+.vs/
+bin/
+obj/
+*.log
+*.suo
+*.user
+*.tmp
+AVW_PON_VAlfajores/

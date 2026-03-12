@@ -1,0 +1,353 @@
+﻿@page "/patient/{id}"
+@rendermode InteractiveServer
+@using SGCMP.Components.Layout.DetailPatient
+@using SGCMP.Components.Services
+@using SGCMP.ModelsDB
+@inject IOperationDbServices DbService
+
+<ToolBar/>
+<MudPaper Style="display: flex" MaxHeight="90vh" MaxWidth="100%">
+    <SideBar/>    
+    <div class="container">
+        <nav>
+            <ul>
+                <li @onclick="() => ContentOnOF(0)"><a>Datos Personales</a></li>
+                <li @onclick="() => ContentOnOF(1)"><a>Embarazo</a></li>
+                <li @onclick="() => ContentOnOF(2)"><a>Antecendentes Familiares</a></li>
+                <li @onclick="() => ContentOnOF(3)"><a>Historias</a></li>
+            </ul>
+            @* <button id="exit"><a href="/">X</a></button> *@
+        </nav>
+        <p class="title">@(selectPatient?.Name ?? "Error en la base de datos")</p>
+
+        <!-- class="@(bool ? true : false)" Es como un if con ?: / It is like an if with ?: -->
+        @* CascadingValue sirve para pasarle un valor a todos los componentes dentro sin repetir codigo *@
+        @* El FirstOrDefault es para agarrar el primer elemento de la lista y no la lista completa *@
+        <CascadingValue Value="patientId">
+            <section id="section-patient" class="@(listVisibles[0] ? "display-inline" : "display-none")">
+                <ComPersonalData @ref="personalDataRef" 
+                                 patientData="selectPatient" 
+                                 patientPersonalData="_personDatumsList?.FirstOrDefault()"
+                                 antecedentPersonData="_antecedentPersonsList?.FirstOrDefault()"/>
+            </section>
+            <section id="section-pregnancy" class="@(listVisibles[1] ? "display-inline" : "display-none")">
+                <ComPregnancy @ref="pregnancyRef" pregnancyData="_pregnanciesList?.FirstOrDefault()"/>
+            </section>
+            <section id="section-family" class="@(listVisibles[2] ? "display-inline" : "display-none")">
+                <ComFamilyHistory @ref="familyHistoryRef" familyHistoryData="_familyHistoriesList?.FirstOrDefault()"/>
+            </section>
+        </CascadingValue>
+        <section id="section-history" class="@(listVisibles[3] ? "display-inline" : "display-none")">
+            <MudSimpleTable>
+                <thead> 
+                <tr>
+                    <th>Motivo de la consulta</th>
+                    <th>Tratamiento</th>
+                    <th>Fecha</th>
+                    <!--<th>Prox. Consulta</th> Esto es un dato fantasma para luego, piensa-->
+                </tr>
+                </thead>
+                <tbody>
+                @if (_consultsList != null)
+                {
+                    @foreach (var data in _consultsList)
+                    {   
+                        <tr @onclick="() => GetDataConsult(data.IdConsult)">
+                            @* El PkDiagnosisNavigation es la que si puede acceder a los atributo de esa tabla*@
+                            <td>@(data.PkDiagnosisNavigation.Observations ?? "Sin observaciones")</td>
+                            <td>Motivo de la consulta</td>
+                            <td>@data.Date</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="3">Cargando consultas...</td></tr>
+                }
+                </tbody>
+            </MudSimpleTable>
+            <div id="button-floating">
+                <Button Class="add-history @_cssButtonVisible" @onclick="ModalVisible">
+                    Agregar
+                    <MudIcon Icon="@Icons.Custom.FileFormats.FileDocument" Style="margin-left: 5px"/>
+                </Button>
+            </div>
+        </section>
+        <div class="div-button">
+            <button @onclick="SavePatientData">Guardar</button>
+        </div>
+    </div>
+</MudPaper>
+
+<div class="modal @_cssModalVisible">
+    <div class="modal-container">
+        <div class="container">
+            <MudText>Motivo de la consulta:</MudText>
+            <input @bind="InputReasonConsult" placeholder="Fiebre"/>
+            <div class="div-button">
+                <button @onclick="ModalConsultVisible">Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal @_cssModalConsultVisible">
+    <div class="modal-container">
+        <div class="container">
+            <nav>
+                <ul>
+                    <li @onclick="() => ContentOnOF(4)"><a>Examen Físico</a></li>
+                    <li @onclick="() => ContentOnOF(5)"><a>Condiciones</a></li>
+                    <li @onclick="() => ContentOnOF(6)"><a>Laboratorio</a></li>
+                    <li @onclick="() => ContentOnOF(7)"><a>Diagnostico</a></li>
+                </ul>
+                <button id="exit" @onclick="ModalVisible">X</button>
+            </nav>
+            <CascadingValue Value="patientId">
+                <section id="section-laboratory" class="@(listVisibles[4] ? "display-inline" : "display-none")">
+                    <ComLaboratory @ref="laboratoryRef"
+                                   laboratoryId="_selectedConsult."/>
+                </section>
+                <section id="section-p-exam" class="@(listVisibles[5] ? "display-inline" : "display-none")">
+                    <ComPhysicalExam @ref="physicalExamRef"/>
+                </section>
+                <section id="section-conditions" class="@(listVisibles[6] ? "display-inline" : "display-none")">
+                    <ComConditions @ref="conditionRef"/>
+                </section>
+                <section id="section-diagnosis" class="@(listVisibles[7] ? "display-inline" : "display-none")">
+                    <ComDiagnosis @ref="diagnosisRef"/>
+                </section>
+            </CascadingValue>
+            <div class="div-button">
+                <button @onclick="SaveConsultData">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Recibir id del link / Gets link id
+    [Parameter] public string id { get; set; }
+    private int patientId;
+    
+    // Datos obtenidos de un campo de texto / Data obtained of one input
+    public string? InputReasonConsult;
+    
+    // Mostrar o ocultar modal / Show or hide modal
+    private string _cssModalVisible = "modal-visible-n";
+    private string _cssButtonVisible = "button-modal-y";
+    
+    private string _cssModalConsultVisible = "modal-visible-n";
+    
+    // Mostrar o ocultar secciones / Show or hide sections
+    private bool VisiblePant = true;
+    private bool VisiblePreg, VisibleFamily, VisibleLab, VisiblePhyE, VisibleCond, VisibleDiag, VisibleHistory;
+    private bool[] listVisibles = new bool [8];
+    
+    // Operaciones con la base de datos / Operation whit data base
+    private Patient? selectPatient;
+    private List<Patient> _patientList;
+    private List<Diagnosis> _diagnosisList;
+    private List<PersonDatum> _personDatumsList;
+    private List<AntecedentPerson> _antecedentPersonsList;
+    private List<Pregnancy> _pregnanciesList;
+    private List<FamilyHistory> _familyHistoriesList;
+    private List<Laboratory> _laboratoriesList;
+    private List<PhysicalExam> _physicalExamsList;
+    private List<Codition> _conditionsList;
+    private List<Consult> _consultsList;
+
+    // Obtener datos de los componentes hijos / Obtain data of the child component 
+    private ComConditions conditionRef;
+    private ComDiagnosis diagnosisRef;
+    private ComPersonalData personalDataRef;
+    private ComPhysicalExam physicalExamRef;
+    private ComPregnancy pregnancyRef;
+    private ComFamilyHistory familyHistoryRef;
+    private ComLaboratory laboratoryRef;
+    
+    public async Task<Patient?> SelectPatientId()
+    {
+        if (int.TryParse(id, out patientId))
+        {
+            var result = await DbService.GetPatientById(patientId); 
+            return result;
+        }
+        else return null;
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {   
+        listVisibles[0] = VisiblePant;
+        listVisibles[1] = VisiblePreg;
+        listVisibles[2] = VisibleFamily;
+        listVisibles[3] = VisibleHistory;
+        listVisibles[4] = VisiblePhyE;
+        listVisibles[5] = VisibleCond;
+        listVisibles[6] = VisibleLab;
+        listVisibles[7] = VisibleDiag;
+        
+        var selectPatient = await SelectPatientId();
+        
+        if (selectPatient != null)
+        {
+            await LoadAllData(selectPatient);
+        }        
+        StateHasChanged();
+    }
+
+    //Esta funcion es para ocultar y mostrar las secciones / This function is for hidden and show sections
+
+    void ContentOnOF(int numList)
+    {
+        for (int i = 0; i < listVisibles.Length; i++)
+        {
+            listVisibles[i] = false;
+
+            if (numList == i)
+            {
+                listVisibles[i] = true;
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    public void ModalVisible()
+    {
+        _cssModalVisible = _cssModalVisible == "modal-visible-n" ? "modal-visible-y" : "modal-visible-n";
+        _cssButtonVisible = _cssModalVisible == "button-modal-visible" ? "button-modal-y" : "button-modal-n";
+    }
+
+    public async Task ModalConsultVisible()
+    {
+        _cssModalVisible = "modal-visible-n";
+        
+        selectPatient = await SelectPatientId();
+        
+        ContentOnOF(4);
+        
+        _cssModalConsultVisible = "moda-visible-y";
+    }
+
+    private async Task LoadAllData(Patient patient)
+    {
+        selectPatient = patient;
+
+        _patientList = await DbService.GetPatients();
+        _diagnosisList = await DbService.GetDiagnosis(patient.IdPatient);
+        _laboratoriesList = await DbService.GetLaboratories(patient.IdPatient);
+        _physicalExamsList = await DbService.GetPhysicalExams(patient.IdPatient);
+        _conditionsList = await DbService.GetCoditions(patient.IdPatient);
+        _familyHistoriesList = await DbService.GetFamilyHistories(patient.IdPatient);
+        _pregnanciesList = await DbService.GetPregnancy(patient.IdPatient);
+        _personDatumsList = await DbService.GetPersonData(patient.IdPatient);
+        _consultsList = await DbService.GetConsult(patient.IdPatient);
+        StateHasChanged();
+    }
+    
+    private async Task SavePatientData()
+    {
+        if (personalDataRef != null)
+        {
+            Patient dataPatient = personalDataRef.GetModelPatient();
+            dataPatient.IdPatient = patientId;
+            PersonDatum dataPersonData = personalDataRef.GetModelPersonaldata();
+            dataPersonData.PkPatient = patientId;
+            AntecedentPerson dataAntecedentPerson = personalDataRef.GetModelAntecedentPerson();
+            dataAntecedentPerson.PkPatient = patientId;
+            
+            await DbService.UpdateAntecedentPersonAsync(dataAntecedentPerson);
+            await DbService.UpdatePatientAsync(dataPatient);
+            await DbService.UpdatePersonDataAsync(dataPersonData);
+        }
+
+        if (pregnancyRef != null)
+        {
+            Pregnancy dataPregnancy = pregnancyRef.GetModulePregnancy();
+            dataPregnancy.PkPatient = patientId;
+
+            if (dataPregnancy.IdPregnancy > 0) 
+                await DbService.UpdatePregnancyAsync(dataPregnancy);
+            else 
+                await DbService.CreatePregnancyAsync(dataPregnancy);
+        }
+
+        if (familyHistoryRef != null)
+        {
+            FamilyHistory dataFamilyHistory = familyHistoryRef.GetModelFamilyHistory();
+            dataFamilyHistory.PkPatient = patientId;
+        
+            if (dataFamilyHistory.IdFamilyHistory > 0)
+                await DbService.UpdateFamilyHistoryAsync(dataFamilyHistory);
+            else
+                await DbService.CreateFamilyHistoryAsync(dataFamilyHistory);
+        }
+    }
+
+    private async Task SaveConsultData()
+    {
+        Laboratory dataLaboratory = null;
+        PhysicalExam dataPhysicalExam = null;
+        Codition dataCondition = null;
+        Diagnosis dataDiagnosis = null;
+        
+        if (laboratoryRef != null)
+        {
+            dataLaboratory = laboratoryRef.GetModelLaboratory();
+            dataLaboratory.PkPatient = patientId;
+            await DbService.CreateLaboratoryAsync(dataLaboratory);
+        }
+
+        if (physicalExamRef != null)
+        {
+            dataPhysicalExam = physicalExamRef.GetModelPhysicalExam();
+            dataPhysicalExam.PkPatient = patientId;
+            await DbService.CreatePhysicalExamAsync(dataPhysicalExam);
+        }
+        
+        if (conditionRef != null)
+        {
+            dataCondition = conditionRef.GetModelConditions();
+            dataCondition.PkPatient = patientId;
+            await DbService.CreateCoditionAsync(dataCondition);
+        }
+        
+        if (diagnosisRef != null)
+        {
+            dataDiagnosis = diagnosisRef.GetModelDiagnosis();
+            dataDiagnosis.PkPatient = patientId;
+            await DbService.CreateDiagnosisAsync(dataDiagnosis);
+        }
+        
+        Consult dataConsult = new Consult()
+        {
+            ReasonConsult = InputReasonConsult,
+            PkPatient = selectPatient?.IdPatient,
+            PkCondition = dataCondition.IdConditions,
+            PkDiagnosis = dataDiagnosis.IdDiagnosis, 
+            PkPhysicalExam = dataPhysicalExam.IdPhysicalExam,
+            PkLaboratory = dataLaboratory.IdLaboratory,
+            Date = DateTime.Now.ToString("dd/MM/yyyy"),
+        };
+        
+        await DbService.CreateConsultAsync(dataConsult);
+
+    }
+
+    private Consult _selectedConsult;
+
+    private async Task GetDataConsult(int id)
+    {
+        // Asegúrate de que el nombre del método coincida con el que definiste arriba
+        _selectedConsult = await DbService.GetConsultById(id); 
+
+        if (_selectedConsult != null)
+        {
+            InputReasonConsult = _selectedConsult.ReasonConsult;
+            _cssModalVisible = "modal-visible-n"; 
+            _cssModalConsultVisible = "modal-visible-y";
+            ContentOnOF(4);
+        }
+    }
+}

@@ -1,0 +1,67 @@
+﻿@using SGCMP.ModelsDB
+<p class="sub-title">Diagnostico:</p>
+<ul>
+    <li>
+        <label for="input1">1.-</label>
+        <input type="text"
+               placeholder=""
+               id="input1"
+               @bind="inputDiag1">
+    </li>
+    <li>
+                    
+        <label for="input2">2.-</label>
+        <input type="text"
+               placeholder=""
+               id="input2"
+               @bind="inputDiag2">
+    </li>
+    <li>
+        <label for="input3">3.-</label>
+        <input type="text"
+               placeholder=""
+               id="input3"
+               @bind="inputDiag3">
+    </li>
+    <li>
+        <label for="input4">4.-</label>
+        <input type="text"
+               placeholder=""
+               id="input4"
+               @bind="inputDiag4">
+    </li>
+</ul>
+
+<p>Riesgo Quirúrgicos:</p>
+<input type="text"
+       placeholder=""
+       id=""
+       @bind="inputSurgical_risk">
+<p>Observaciones:</p>
+<input type="text"
+       placeholder=""
+       id=""
+       @bing="inputObservation">
+
+@code {
+    [CascadingParameter] public int patientId { get; set; }
+    
+    private string? inputDiag1;
+    private string? inputDiag2;
+    private string? inputDiag3;
+    private string? inputDiag4;
+    private string? inputSurgical_risk;
+    private string? inputObservation;
+
+    public Diagnosis GetModelDiagnosis() => new Diagnosis()
+    {
+        PkPatient = patientId,
+        _1 = inputDiag1,
+        _2 = inputDiag2,
+        _3 = inputDiag3,
+        _4 = inputDiag4,
+        SurgicalRisk = inputSurgical_risk,
+        Observations = inputObservation,
+    };
+
+}

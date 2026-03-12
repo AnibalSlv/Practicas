@@ -1,0 +1,75 @@
+﻿section{
+    display: flex;
+}
+
+#x{
+    margin: auto;
+}
+
+ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    justify-content: space-around;
+}
+
+li{
+    padding: 20px 0;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(250, 250, 250, 0.8);
+    border: none;
+    color: rgb(0, 116, 211);
+    transition: .5s;
+}
+
+li:hover{
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 135, 245);
+    transform: translateY(-5px);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    z-index: 0;
+}
+
+#container{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+#graph{
+    margin: 14px auto 0 auto;
+    padding: 0 25px 25px 25px;
+    width: 90%;
+    height: calc(95vh - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(250, 250, 250, 0.8);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+    border-radius: 20px;
+    transition: .5s;
+}
+
+#options{
+    width: 100%;
+    display: flex;
+    transition: .5s;
+}
+
+p{
+    padding: 10px 25px;
+    margin: 25px 0;
+    border-radius: 5px;
+    color: rgb(0, 116, 211);
+    transition: .5s;
+}
+
+p:hover{
+    cursor: pointer;
+    color: rgb(0, 135, 245);
+    transform: translateY(-5px);
+    box-shadow: rgb(0, 116, 211, 0.40) 0 2px 4px, rgba(0, 116, 211, 0.3) 0 7px 13px -3px, rgba(0, 116, 211, 0.2) 0 -3px 0 inset;
+}

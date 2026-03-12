@@ -1,0 +1,10 @@
+﻿<section class="section-one">
+    @ChildContent
+    <hr />
+</section>
+
+@code {
+    [Parameter]
+    //Permite renderizar otros elementos dentro del section / Allow render others element in the section
+    public RenderFragment? ChildContent { get; set; }
+}

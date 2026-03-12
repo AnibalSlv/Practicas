@@ -1,0 +1,112 @@
+﻿@page "/Appointment" 
+@rendermode InteractiveServer   
+
+
+<ToolBar/>
+<section>
+    <SideBar AppointmentsClass="active"/>
+
+    <main class="section-two">
+        <table>
+            <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Edad</th>
+                <th>Representante</th>
+                <th>Teléfono</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var data in DataList)
+            {	
+                <tr>
+                    <td>@data.NameChild</td>
+                    <td>@data.Age</td>
+                    <td>@data.NameRepresentative</td>
+                    <td>@data.Telephone</td>
+                    <td>@data.ProxConsult.ToShortDateString()</td>
+                </tr>
+            }
+            </tbody>		
+        </table>
+        <ul class="pagination">
+            <li><a href="#" class="disabled">&larr;</a></li>
+            <li><a href="#" class="active">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&rarr;</a></li>
+        </ul>
+    </main>
+
+    <div id="modal" class="@_cssModalVisible" >
+        <div id="modal-container">
+            <div id="modal-title">
+                <h2>Agregar paciente</h2>
+                <button id="exit" @onclick="ModalVisible">X</button>
+            </div>
+            <form id="modal-elements">
+                <label for="name-patient">Nombre del paciente:</label>
+                <input type="text" id="name-patient" name="name-patient" />
+                <label for="age-patient">Edad del paciente:</label>
+                <input type="number" id="age-patient" name="age-patient" />
+                <label for="name-representative">Nombre del representante:</label>
+                <input type="text" id="name-representative" name="name-representative" />
+                <label for="telephone">Teléfono:</label>
+                <input type="tel" id="telephone" name="telephone" />
+                <label for="date">Fecha:</label>
+                <input type="date" id="date" name="date" />
+            </form>
+            <div id="x">
+                <div id="container-button">
+                    <button>Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="button-floating">
+    <button @onclick="ModalVisible"></button>
+</div>
+
+@code {
+    
+    private string _cssModalVisible = "modal-visible-n";
+
+    private void ModalVisible()
+    {
+        //Esto es un if simplificado / This is one if simple 
+        _cssModalVisible = _cssModalVisible == "modal-visible-n" ? "modal-visible-y" : "modal-visible-n"; 
+    }
+    
+	public readonly new List<Info> DataList = new ()
+	{
+		new Info("Carajito1", 1,  "si", 0, new DateTime(2025, 10, 20)),
+		new Info("Carlitos Juan Casas Azul", 19, "Roberto Buena Vista Azul", 4122453127, new DateTime(2025, 10, 20)),
+		new Info("Carlitos Juan Casas Azul", 19, "Roberto Buena Vista Azul", 4122453127, new DateTime(2025, 10, 20)),
+		new Info("Carlitos Juan Casas Azul", 19, "Roberto Buena Vista Azul", 4122453127, new DateTime(2025, 10, 20)),
+		new Info("Carlitos Juan Casas Azul", 19, "Roberto Buena Vista Azul", 4122453127, new DateTime(2025, 10, 20)),
+		new Info("Carlitos Juan Casas Azul", 19, "Roberto Buena Vista Azul", 4122453127, new DateTime(2025, 10, 20)),
+	};
+	
+	public class Info
+	{
+		public readonly string NameChild;
+		public readonly int Age;
+		public readonly DateTime ProxConsult;
+		public readonly string NameRepresentative;
+		public readonly double Telephone;
+
+		public Info(string nameChild, int age,string nameRepresentative, double telephone,  DateTime proxConsult)
+		{
+			this.NameChild = nameChild;
+			this.Age = age;
+			this.ProxConsult = proxConsult;
+			this.NameRepresentative = nameRepresentative;
+			this.Telephone = telephone;
+		}
+	};
+}

@@ -1,0 +1,31 @@
+.SectionHero {
+    width: 100%;
+    height: 60vh; 
+    min-height: 200px;
+    max-height: 600px; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SectionHero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    max-width: 1920px;
+}
+
+@media (max-width: 1024px) { 
+    .SectionHero {
+        max-height: 250px;
+        width: 100%;
+    }
+
+    .SectionHero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; 
+        max-width: 1920px;
+}
+}

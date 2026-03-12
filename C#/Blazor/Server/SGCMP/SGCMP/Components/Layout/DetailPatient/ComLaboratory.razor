@@ -1,0 +1,185 @@
+﻿@using SGCMP.ModelsDB
+<p class="sub-title">Laboratorio:</p>
+<label>Fecha: </label>
+<input type="date"
+       placeholder="">
+<br>
+<div id="container-data-lab">
+    <div class="data-lab">
+        <label for="inputLeuc">Leuc: </label>
+        <input type="number"
+               placeholder=""
+               id="inputLeuc"
+                @bind="inputLeuc">
+        <label>mm3</label>
+
+        <label for="inputLinf">Linf: </label>
+        <input type="number"
+               placeholder=""
+               id="inputLinf"
+               @bind="inputLinf">
+        <label>%</label>
+
+        <label for="inputEos">Eos: </label>
+        <input type="number"
+               placeholder=""
+               id="inputEos"
+               @bind="inputEos">
+        <label>%</label>
+
+        <label for="inputHgb">Hgb: </label>
+        <input type="number"
+               placeholder=""
+               id="inputHgb"
+               @bind="inputHgb">
+        <label>gr/dL</label>
+
+    </div>
+    <div class="data-lab">
+        <label for="inputHto">Hto: </label>
+        <input type="number"
+               placeholder=""
+               id="inputHto"
+               @bind="inputHto">
+        <label>%</label>
+
+        <label for="inputPlq">Plq: </label>
+        <input type="number"
+               placeholder=""
+               id="inputPlq"
+               @bind="inputPlq">
+        <label>mm3</label>
+
+        <label for="inputGlicemia">Glicemia: </label>
+        <input type="number"
+               placeholder=""
+               id="inputGlicemia"
+               @bind="inputGlicemia">
+        <label>mg/dL</label>
+
+        <label for="inputUrea">Urea: </label>
+        <input type="number"
+               placeholder=""
+               id="inputUrea"
+               @bind="inputUrea">
+        <label>mg/dL</label>
+
+        <label for="inputCreatina">Creatinina: </label>
+        <input type="number"
+               placeholder=""
+               id="inputCreatina"
+               @bind="inputCreatina">
+        <label>mg/dL</label>
+    </div>
+    <div class="adjustment-data-lab">
+        <label for="inputHIV">HIV: </label>
+        <input type="checkbox"
+               name=""
+               class="input-check"
+               id="inputHIV"
+               @bind="inputHiv">
+        <br>
+        <br>
+
+        <label for="inputVDR">VDR: </label>
+        <input type="checkbox"
+               name=""
+               class="input-check"
+               id="inputVDR"
+               @bind="inputVdr">
+        <br>
+        <br>
+
+        <label for="inputGS">Grupo Sanguíneo: </label>
+        <input type="text"
+               placeholder="A+ A- AB..."
+               id="inputGS"
+               @bind="inputGs">
+    </div>
+</div>
+<br>
+<br>
+
+<div class="container-data-lab">
+    <div class="adjustment-data-lab-2">
+        <label>PT: </label>
+        <div class="data-lab-2">
+            <label for="inputPTP">(p)</label>
+            <input type="number"
+                   placeholder=""
+                   id="inputPTP"
+                   @bind="inputPtp">
+            <label>seg</label>
+
+            <label for="inputPTC">&copy;</label>
+            <input type="number"
+                   placeholder=""
+                   id="inputPTC"
+                   @bind="inputPtc">
+            <label>seg</label>
+        </div>
+    </div>
+    <div class="adjustment-data-lab-2">
+        <label>PTT:</label>
+        <div class="data-lab-2">
+            <label for="inputPTTP">(p)</label>
+            <input type="number"
+                   placeholder=""
+                   id="inputPTTP"
+                   @bind="inputPttp">
+            <label>seg</label>
+
+            <label for="inputPTTC">&copy;</label>
+            <input type="number"
+                   placeholder=""
+                   id="inputPTTC"
+                   @bind="inputPttc">
+            <label>seg</label>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+@code {
+    [CascadingParameter] public int patientId { get; set; }
+
+    private int? inputLeuc;
+    private int? inputLinf;
+    private int? inputEos;
+    private int? inputHgb;
+    private int? inputHto;
+    private int? inputPlq;
+    private int? inputGlicemia;
+    private int? inputUrea;
+    private int? inputCreatina;
+    private int? inputHiv;
+    private int? inputVdr;
+    private string? inputGs;
+    private int? inputPtp;
+    private int? inputPtc;
+    private int? inputPttp;
+    private int? inputPttc;
+
+    public Laboratory GetModelLaboratory() => new Laboratory()
+    {
+        PkPatient = patientId,
+        Leuc = inputLeuc,
+        Linf = inputLinf,
+        Eos = inputEos,
+        Hgb = inputHgb,
+        Hto = inputHto,
+        Plq = inputPlq,
+        Glycemia = inputGlicemia,
+        Urea = inputUrea,
+        Creatinine = inputCreatina,
+        Hiv = inputHiv,
+        Vdr = inputVdr,
+        BloodGroup = inputGs,
+        PtP = inputPtp,
+        PtC = inputPtc,
+        PttP = inputPttp,
+        PttC = inputPttc,
+    };
+
+}

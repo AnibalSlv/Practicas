@@ -1,0 +1,105 @@
+﻿Me base en esto https://www.youtube.com/watch?v=Gua0O0Q7I58&t=127s
+
+TODO -------------------------------------------------------------------------------------------------------------------
+                      Esto es para crear una Api que se comunica con una db (SQL Server)
+              Para que esto se comunique con otro lenguaje solo haz un metodo get desde ese lenguaje
+                                            Para recibir el json
+TODO ------------------------------------------------------------------------------------------------------------------- 
+
+Paso 1: Para ver la configuracion del proyecto arrastra la solucion (creo que se llama asi) al editor de codigo
+en este caso es Test2CreateApi, al hacerlo encontraras más instrucciones
+
+Paso2: En Program.cs hay explicacion de que hace cada cosa mírala para que recuerdes para que es cada cosa y no 
+te quedes con que es brujeria
+
+Paso3: Cree Models y en esta carpeta en Person.cs se explica que hace get y set
+
+paso4: Cree Context y el archivo AppDbContext desde aquí se puede manipular la db (Colocar en el nombre del archivo Context)
+es como por buena práctica
+
+paso5: Modifique appsetting.json para agregar una conexion: 
+    "ConnectionStrings": {
+        "Connection": "Server=.\\SQLExpress;Database=PersonDB;Trusted_Connection=True;TrustServerCertificate=true"
+      }
+    Donde dice Connection puedes colocar cualquier nombre 
+    Copia y pega eso pq no quiero instalar SMSS para eso o vs.
+    
+    * El punto (.) es un atajo para localhost. Le dice a la app: "Busca en esta misma máquina la instancia llamada SQLExpress".
+    
+    * En Database= El nombre de la base de datos a la que quieres entrar. Si no existe aún y usas Entity Framework (Migrations), 
+      este será el nombre que le ponga al crearla.
+      
+    * Trusted_Connection=True No me pidas usuario ni contraseña; confía en la cuenta de Windows con la que inicié 
+      sesión en este ordenador.
+      
+    * Fundamental. SQL Server suele usar cifrado, y sin esto, .NET rechazaría la conexión porque el certificado de 
+      SQL Express es "autofirmado" (no es de una entidad oficial).
+      
+paso6: No lo mencione creo asi que revisa los Nuget para saber qué descargar
+
+paso7: Entra en Program.cs y crea una variable para una cadena de conexion
+
+  var connectionString = builder.Configuration.GetConnectionString("Connection");
+  builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+  
+TODO: Para mas informacion entra e.e
+
+Paso8: Descargamos entity tools para hacer migraciones 
+
+paso9: Entra en la consola del administrador de paquetes Nuget (como estoy en rider: entra en la terminal y escribe:
+dotnet ef y el comando) y escribe:
+    * (Nota: Recuerda moverte a tu carpeta con el ejecutable (O sea cd nombre_de_tu_proyecto))
+    * dotnet ef Migration Add Initial
+    * Initial es como el estandar (Initial es el nombre que le pones a la migracion)
+
+Dentro de la carpeta Migrations se crearán 2 archivos:
+    * El snapshot: ni idea
+    * El 20260302000456_Initial.cs: Su nombre con numeros es la fecha e Initial es el nombre que le dimos 
+        - Aquí adentro estaran las instrucciones para crear la base de datos si te fijas a dentro dice CreateTable
+          este da instrucciones claras de como crear la tabla (supongo que en este caso) en la db y si te fijas
+          las propiedades que tiene (Id, Name, Age) son los mismos que el de nuestro modelo Person.cs y que además
+          esto es gracias (supongo) porque en nuestro context (AppDbContext) el DbSet tiene como tipo de dato 
+          (supongo en <>) nuestro modelo (Person) 
+          
+Paso10: Colocar en la terminal:
+    dotnet database update
+
+Esto crea la base de datos si no existe (paso5) y crea la tabla
+Nota:
+    * Debido a que no uso SMSS para ver la tabla tienes que meterte en la consola SQL del servidor (Query Console)
+    * Cambiar de tabla arriba a la derecha a la de tu base de datos (en esta prueba es PersonaDB) y darle a introspection
+    * Es una opcion de la que Rider te alerta para que lo hagas cuando estás en la consola de tu db
+    * Al hacerlo te aparecera ahora si la base de datos en tu servidor
+    * Tu tabla estara en un schema llamado dbo 
+    * Estara otra tabla llamada: __EFMigrationHistory
+        - Aquí estara el historial de migraciones que hagamos
+    * Si quiere borrar la migracion es con dotnet ef migration remove (creo)
+      (este para la última si quieres hacerlo para una específica dotnet ef migration remove nombre_migracion (creo))
+      
+Paso11: Segundo clic en la carpeta Controllers -> Add -> Scaffolder item -> Api Controller whit actions, using Entity Framework
+    * Seleccionas el Modelo y el Context
+    * En este caso cree uno llamado PersonController
+    * Asi se crea una Minimal Api
+    * Una Api grande utiliza estructuras por capas y x
+
+Paso12: Ya creaste una Api FELICIDADES!!!!!!!!!!!
+    * Route("api/[controller]")] Esto está encima de tu clase ea es la ruta donde se encuentra tu api
+    * Por ejemplo la mia es esta: http://localhost:5009/api/person
+    * Puedes verificarlo abriendo el localhost que la terminal te da y colocando api/nombre_de_tu_controlador
+
+TODO NOTA:
+    * Estoy usando bruno actualmente y si quieres probar la Api:
+        - Le das a New Request
+        - Seleccionas el metodo
+        - Le pones el link de tu Api (en mi caso http://localhost:5009/api/person)
+        - Vas al Body a la derecha cambias de "No Body" a Json
+        - Copias tu estructura del Json y ejecutas 
+        - Ejemplo:
+            {
+              "name": "Anibal Silva",
+              "age": 19
+            }
+    * Si quieres que se genere automaticamente tienes que hacer unos pasos extras como importar un algo (no sé qué es)
+      de OpenApi (algo asi, ahorita no tengo ni idea de como se hace asi que lo dejaré para después :p)
+    * Lo importante es que ya sabes como crear la Api
+  

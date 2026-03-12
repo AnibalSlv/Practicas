@@ -1,0 +1,67 @@
+﻿@page "/ClientBilling/{UserName}"
+@rendermode InteractiveServer
+@inject NavigationManager NavManager
+
+<NavMenu UserName="@UserName"/>
+
+<MudPaper Height="75vh" Style="margin: 50px; padding: 20px 100px">
+    <MudText Align="Align.Center" Color="Color.Secondary" Style="font-size: 18px">Datos del cliente</MudText>
+    <MudGrid Spacing="10" Justify="Justify.Center">
+        <MudItem>
+            <label style="color: red">@WarningClientName</label>
+            <MudText Color="Color.Secondary">Nombre del Cliente</MudText>
+            <MudTextField @bind-Value="ClientName" Placeholder="Juan" Style="width: 200px"/>
+            <br/>
+            <label style="color: red">@WarningClientLastName</label>
+            <MudText Color="Color.Secondary">Apellido del Cliente</MudText>
+            <MudTextField @bind-Value="ClientLastName" Placeholder="Castillos" Style="width: 200px"/>
+        </MudItem>
+        <MudItem>
+            <br/>
+            <MudText Color="Color.Secondary">Teléfono</MudText>
+            <MudTextField @bind-Value="ClientTelephone" Placeholder="04******" Style="width: 200px"/>
+            <br/>
+            <br/>
+            <MudText Color="Color.Secondary">Dirección</MudText>
+            <MudTextField @bind-Value="ClientDirection" Placeholder="Porlamar..." Style="width: 200px"/>
+        </MudItem>
+    </MudGrid>
+    <div style="width: 100%; display: flex; justify-content: center">
+        <MudButton Variant="Variant.Outlined" Color="Color.Default" Style="margin: 50px" @onclick="BackBilling">Regresar</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin: 50px" @onclick="ContinueBilling">Continuar</MudButton>
+    </div>
+</MudPaper>
+            
+@code { 
+    [Parameter] public string UserName { get; set; }
+    
+    public string? ClientName;
+    public string WarningClientName = "";
+    public string? ClientLastName;
+    public string WarningClientLastName = "";
+    public string? ClientTelephone;
+    public string? ClientDirection;
+
+    public void BackBilling()
+    {
+        NavManager.NavigateTo("/Home");
+    }
+    
+    public void ContinueBilling()
+    {
+        if (string.IsNullOrWhiteSpace(ClientName))
+        {
+            WarningClientName = "Ingrese nombre del cliente";
+            WarningClientLastName = "";
+        }
+        else if (string.IsNullOrWhiteSpace(ClientLastName))
+        {
+            WarningClientName = "";
+            WarningClientLastName = "Ingrese apellido del cliente";
+        }
+        else
+        {
+            NavManager.NavigateTo($"/Billing/{UserName}");
+        }
+    }
+}

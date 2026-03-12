@@ -1,0 +1,100 @@
+﻿@page "/Home/{UserName}/"
+@rendermode InteractiveServer
+@using System.Globalization
+@using AVWintory.Components.Modules
+
+@inject IProductService ProductS
+@inject ISaleService SaleService
+@inject ISaleDetailService SaleDetailService
+
+@*
+    Se instalo mudBlazor / The system use mudBlazor
+*@
+<PageTitle>AVWintory</PageTitle>
+
+<NavMenu UserName="@UserName" />
+<MudPaper Width="100%" Style="background-color: transparent" Elevation="0">
+    @*
+        GuutterBottom Es para dejar un espacio en blanco entre el contenido y el texto 
+        / GutterBottom Is for leave one space in white between content ant the text
+    *@
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="align-items: center; flex-direction: column; width: 85%">
+        <MudGrid Spacing="4" Justify="Justify.Center">
+            @* xs pantallas grandes sm pantallas pequeñas / xs windows big sm windows small *@
+            <MudItem xs="6" sm="3">
+                <MudPaper Class="pa-16 ma-2" Elevation="3" Height="200px">
+                    <MudText Color="Color.Secondary">Precio del dólar</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="6" sm="3">
+                <MudButton Href="@($"/ClientBilling/{UserName}")" 
+                           Variant="Variant.Filled" 
+                           Class="pa-16 ma-2"
+                           Style="height:200px; width:95%; text-transform:none; background: white">
+                    <MudText Color="Color.Secondary">Facturación</MudText>
+                </MudButton>
+            </MudItem>
+            <MudItem xs="6" sm="3">
+                <MudButton Href="@($"/Inventory/{UserName}")" 
+                           Variant="Variant.Filled" 
+                           Class="pa-16 ma-2" 
+                           Style="height:200px; width:95%; text-transform:none; background: white">
+                    <MudText Color="Color.Secondary">Inventario</MudText>
+                </MudButton>
+            </MudItem>
+            <MudItem xs="6" sm="3">
+                <MudButton Href="@($"/Reports/{UserName}")" 
+                           Variant="Variant.Filled" 
+                           Class="pa-16 ma-2" 
+                           Style="height:200px; width:95%; text-transform:none; background: white">
+                    <MudText Color="Color.Secondary">Reportes</MudText>
+                </MudButton>
+            </MudItem>
+            <MudItem xs="2" sm="2">
+                <MudPaper Class="pa-4 ma-2" Elevation="3" Height="400px">
+                    <MudText Color="Color.Secondary">Partes del inventario</MudText>
+                    @foreach(var p in ProductS.GetProducts())
+                    {
+                        <MudGrid Spacing="2">
+                            <MudItem>
+                                <MudText Color="Color.Secondary">
+                                    <code>@p.Description</code>
+                                </MudText>
+                            </MudItem>
+                            <MudItem>
+                                <MudText Color="Color.Secondary">
+                                    x<code>@p.Stock</code>
+                                </MudText>
+                            </MudItem>
+                        </MudGrid>
+                    }
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="5" sm="5">
+                <MudPaper Class="pa-4 ma-2" Elevation="3" Height="400px" Style="color: #ff4081">
+                    <MudText Align="Align.Center" Class="ma-2" Color="Color.Secondary">Cantidad vendidas en el mes</MudText>
+                    <MudChart ChartType="ChartType.Pie" InputData="@_data" InputLabels="@_labels" Width="100%" Height="85%"/>
+                    @*<MudChart ChartType="ChartType.Line" ChartSeries="@ProductIncome" Width="100%" Height="95%"/>*@
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="5" sm="5">
+                <MudPaper Class="pa-4 ma-2" Elevation="3" Height="400px">Grafica 2</MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudPaper>
+
+@code{
+    [Parameter] public string UserName { get; set; }
+    
+    private double[] _data;
+    private string[] _labels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        (_data, _labels) = await SaleService.GetSaleChart();
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+}

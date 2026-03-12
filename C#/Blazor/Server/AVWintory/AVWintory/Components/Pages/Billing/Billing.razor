@@ -1,0 +1,108 @@
+﻿@page "/Billing/{UserName}"
+@rendermode InteractiveServer
+@using System.Globalization
+@using AVWintory.ModulesDb
+@inject NavigationManager NavManager
+@inject ISaleDetailService SaleDetailService
+@inject ISaleService SaleService
+@inject IProductService ProductService
+
+<PageTitle>Facturación</PageTitle>
+
+<NavMenu UserName="@UserName"/>
+
+<MudPaper Height="75vh" Style="margin: 50px; padding: 20px 100px">
+    <MudText Align="Align.Center" Color="Color.Secondary" Style="font-size: 18px">Facturación</MudText>
+    <MudGrid Spacing="10" Justify="Justify.SpaceBetween">
+        <MudItem>
+            <br/>
+            <MudText Color="Color.Secondary">Ingresar producto</MudText>
+            <MudTextField @bind-Value="AddProduct" Placeholder="Código del Producto" Style="width: 200px"/>
+            <MudNumericField @bind-Value="AddQuantity" Placeholder="Código del Producto" Style="width: 200px"/>
+            @* Nota1: Usas la expresion lambda () => cuando necesitas pasar argumentos a un metodo *@
+            @* Nota2: Recuerda que un parametro es una variable que se declara en una funcion y el argumento es el valor *@
+            @* Nota3: Recuerda tambien que en C# tod0 esta dentro de una clase entonces las funciones son metodos *@
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Style="margin-top: 10px"
+                       @onclick="@(() => AddProductList(AddProduct, AddQuantity))">Agregar Producto</MudButton>
+            <MudTextField @bind-Value="Method" Placeholder="Método de pago" Style="width: 200px"/>
+        </MudItem>
+        <MudItem>
+            <br/>
+            <MudPaper Width="400px" Height="380px" Style="overflow: scroll" Class="pa-6">
+                @foreach(var s in shoppingCar)
+                {
+                    <MudGrid Spacing="5">
+                        <MudItem>
+                            <MudText>
+                                <code>@s.PkProductNavigation.Description</code>
+                            </MudText>
+                        </MudItem>
+                        <MudItem>
+                            <MudText>
+                                @* Los parametros dentro del ToString es para elegir en que formato quiero que mustre los
+                                Numeros, al agregar el new CultureInfo hago que siempre sea en formato USA*@
+                                <code>@s.PriceMoment$</code>
+                            </MudText>
+                        </MudItem>
+                        <MudItem>
+                            <MudText>
+                                x<code>@s.Quantity</code>
+                            </MudText>
+                        </MudItem>
+                    </MudGrid>
+                    <br/>
+                }
+            </MudPaper>
+            <MudText>Total: @_total.ToString("C", new CultureInfo("en-US"))</MudText>
+            
+        </MudItem>
+    </MudGrid>
+
+    <div style="width: 100%; display: flex; justify-content: center">
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Style="margin: 20px"
+                   @onclick="@(()=> BillingPay(_total, Method, shoppingCar))">Pagar</MudButton>
+    </div>
+</MudPaper> 
+
+
+@code
+{
+    [Parameter] public string UserName { get; set; }
+
+    public string? AddProduct;
+    public string? Method;
+    public int AddQuantity = 1;
+    private decimal _total;
+    private List<SaleDetail> shoppingCar { get; set; } = new List<SaleDetail>();
+
+    private async Task AddProductList(string code, int quantity)
+    {
+        var productSelect = ProductService.GetOneProductByCode(code);
+        
+        if (productSelect != null)
+        {
+            var productDetails = new SaleDetail{
+                PkProduct = productSelect.Code,      
+                Quantity = quantity.ToString(),
+                PriceMoment = productSelect.PriceSale,
+                PkProductNavigation = productSelect
+            };
+
+            shoppingCar.Add(productDetails);
+            Console.WriteLine($"Esto se ejecuta");
+            _total += int.Parse(productDetails.PriceMoment) * quantity;
+        }
+
+        //Esto es de mientras no tengo la DB
+        await Task.CompletedTask;
+    }
+
+    private async Task BillingPay(decimal total, string method, List<SaleDetail> items)
+    {   
+        await SaleService.Pay(total, method, items);
+
+        shoppingCar.Clear();
+        NavManager.NavigateTo($"/Home/{UserName}");
+    }
+}
+

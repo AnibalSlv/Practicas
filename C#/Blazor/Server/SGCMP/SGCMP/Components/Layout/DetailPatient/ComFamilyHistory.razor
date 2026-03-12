@@ -1,0 +1,63 @@
+﻿@using SGCMP.ModelsDB
+<p class="sub-title">Antecedentes Familiares:</p>
+<br>
+
+<div id="container-family">
+    <label for="inputMother">Madre: </label>
+    <input type="text"
+           placeholder=""
+           id="inputMother"
+           @bind="inputMother">
+    <br>
+
+    <label for="inputFather">Padre: </label>
+    <input type="text"
+           placeholder=""
+           id="inputFather"
+           @bind="inputFather">
+    <br>
+
+    <label for="inputBrother">Hermanos: </label>
+    <input type="text"
+           placeholder=""
+           id="inputBrother"
+           @bind="inputBrother">
+    <br>
+
+    <label for="inputGrandFather">Abuelos: </label>
+    <input type="text"
+           placeholder=""
+           id="inputGrandFather"
+           @bind="inputGrandFather">
+</div>
+@code {
+    [CascadingParameter] public int patientId { get; set; }
+    [Parameter] public FamilyHistory familyHistoryData { get; set; }
+
+    private int idFamilyHistory;
+    
+    private string? inputMother;
+    private string? inputFather;
+    private string? inputBrother;
+    private string? inputGrandFather;
+
+    public FamilyHistory GetModelFamilyHistory() => new FamilyHistory()
+    {
+        IdFamilyHistory =  idFamilyHistory,
+        PkPatient = patientId,
+        Mother = inputMother,
+        Father = inputFather,
+        Brothers = inputBrother,
+        Grandparents = inputGrandFather,
+    };
+
+    protected override void OnParametersSet()
+    {
+        idFamilyHistory = familyHistoryData?.IdFamilyHistory ?? 0;   
+        inputMother = familyHistoryData?.Mother;
+        inputFather = familyHistoryData?.Father;
+        inputBrother = familyHistoryData?.Brothers;
+        inputGrandFather = familyHistoryData?.Grandparents;
+    }
+    
+}

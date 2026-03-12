@@ -1,0 +1,89 @@
+﻿@page "/expediente"
+@using SGCMP.Components.Services
+@rendermode InteractiveServer
+@inject IOperationDbServices DbService
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-6">
+    <MudGrid>
+        @* 1. LISTA DE PACIENTES *@
+        <MudItem xs="12" md="4">
+            <MudPaper Elevation="3" Class="pa-4">
+                <MudText Typo="Typo.h6">Seleccione un Paciente</MudText>
+                
+                @* Especificamos el Namespace completo en la T *@
+                <MudList T="SGCMP.ModelsDB.Patient" Clickable="true" SelectedValueChanged="CargarTodo">
+                    @if (pacientes == null)
+                    {
+                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                    }
+                    else
+                    {
+                        @foreach (var p in pacientes)
+                        {
+                            <MudListItem Text="@($"{p.Name} {p.LastName}")" 
+                                         SecondaryText="@($"ID: {p.IdPatient}")" 
+                                         Value="@p" />
+                        }
+                    }
+                </MudList>
+            </MudPaper>
+        </MudItem>
+
+        @* 2. DETALLE DEL EXPEDIENTE *@
+        <MudItem xs="12" md="8">
+            @if (pacienteSeleccionado != null)
+            {
+                <MudCard Class="mb-4">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">@pacienteSeleccionado.Name @pacienteSeleccionado.LastName</MudText>
+                        <MudText Typo="Typo.caption">ID Interno: @pacienteSeleccionado.IdPatient</MudText>
+                    </MudCardContent>
+                </MudCard>
+
+                <MudTabs Elevation="2" Rounded="true" Color="Color.Primary">
+                    <MudTabPanel Text="Diagnósticos" Icon="@Icons.Material.Filled.Assignment">
+                        @foreach (var d in diagnosticos)
+                        {
+                            <MudAlert Severity="Severity.Normal" Class="mb-2">@d.Observations</MudAlert>
+                        }
+                    </MudTabPanel>
+                    <MudTabPanel Text="Laboratorios" Icon="@Icons.Material.Filled.Science">
+                        @foreach (var l in laboratorios)
+                        {
+                            <MudAlert Severity="Severity.Info" Class="mb-2">@l.BloodGroup</MudAlert>
+                        }
+                    </MudTabPanel>
+                </MudTabs>
+            }
+            else
+            {
+                <MudAlert Severity="Severity.Warning">Seleccione un paciente de la lista para cargar su historial.</MudAlert>
+            }
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    // Usamos nombres completos para evitar el error "Cannot resolve symbol"
+    private List<SGCMP.ModelsDB.Patient>? pacientes;
+    private SGCMP.ModelsDB.Patient? pacienteSeleccionado;
+    
+    private List<SGCMP.ModelsDB.Diagnosis> diagnosticos = new();
+    private List<SGCMP.ModelsDB.Laboratory> laboratorios = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        pacientes = await DbService.GetPatients();
+    }
+
+    private async Task CargarTodo(SGCMP.ModelsDB.Patient p)
+    {
+        pacienteSeleccionado = p;
+
+        // Aquí usamos el IdPatient que el compilador ya debería reconocer
+        diagnosticos = await DbService.GetDiagnosis(p.IdPatient);
+        laboratorios = await DbService.GetLaboratories(p.IdPatient);
+
+        StateHasChanged();
+    }
+}

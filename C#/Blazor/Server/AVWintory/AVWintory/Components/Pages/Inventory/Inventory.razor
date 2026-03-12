@@ -1,0 +1,82 @@
+﻿@page "/Inventory/{UserName}"
+@rendermode InteractiveServer
+@using AVWintory.Components.Layout;
+@using AVWintory.Components.Services;
+@inject IProductService ProductService
+
+<PageTitle>Inventario</PageTitle>
+
+<NavMenu UserName="@UserName"/>
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Style="height: 90vh">
+    <MudContainer Style="display: flex; align-items: center; flex-direction: column; 
+    width: 100%; justify-content: center">
+        <MudSimpleTable Style="overflow-x: auto; transform: translateY(10px)" Dense="true">
+            <thead>
+            <tr id="tr-head">
+                <th>Código</th>
+                <th>Descripción</th>
+                <th>Stock</th>
+                <th>Categoria</th>
+                <th>Precio Base</th>
+                <th>Precio Venta</th>
+                <th>Numero de Factura</th>
+                <th></th>
+                <th>
+                    <MudButton Href="@($"/AddDetailProduct/{UserName}")" Style="background-color: #26b050; color: white">Añadir</MudButton>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @*
+                .Skip = Salta los elementos de la lista / Skip the elemnts of the list
+                .Take = Agarra una cantidad de elementos (rowProductPage) / Take one quantity of elements (rowProductPage)
+                Ejemplo: / Example:
+                list[0,1,2,3,4,5,6,7,8,9,10] -> .Skip(1 - 1) * 5 = 0 -> .Take(5) -> list[0,1,2,3,4]
+                list[0,1,2,3,4,5,6,7,8,9,10] -> .Skip(2 - 1) * 5 = 5 -> .Take(5) -> list[5,6,7,8,9]
+            *@
+            @foreach (var p in ProductService.GetProducts().Skip((_currentPage - 1) * _rowProductPage).Take(_rowProductPage))
+            {
+                <tr>
+                    <td>@p.Code</td>
+                    <td>@p.Description</td>
+                    <td style="text-align: right;">@p.Stock</td>
+                    <td>@p.Category</td>
+                    <td style="text-align: right;">@p.PriceBase$</td>
+                    <td style="text-align: right;">@p.PriceSale$</td>
+                    <td>@p.NBillProduct</td>
+                    <td class="btn-edit">
+                        <div style="display: flex">
+                            <MudIcon Icon="@Icons.Material.Filled.Edit" Style="color: #26b050"/>
+                            <MudText Style="color: #26b050; padding-left: 4px">Editar</MudText>
+                        </div>
+                    </td>
+                    <td><MudButton class="btn-delete" OnClick="@(() => ProductService.DeleteProduct(p))" Style="color: red">X</MudButton></td>
+                </tr>
+
+            }
+            </tbody>
+        </MudSimpleTable>
+        <MudPagination BoundaryCount="2" MiddleCount="5" Count="@TotalPage" SelectedChanged="changePage" Class="mt-4"/>
+    </MudContainer>
+</MudContainer>
+
+@code{
+    [Parameter] public string UserName { get; set; }
+    
+    private int _selected = 0;
+    private int _currentPage = 1;
+    private int _rowProductPage = 10;
+    
+    /*
+     * Se calcula el total de paginas / This calcule the total of page
+     * ProductList.Count = 19
+     * rowProductPage = 10
+     * 19 / 10 = 1,9 (pero / but) Math.Ceiling -> 2,0 (Redondea / Round up) int -> 2
+     */
+    private int TotalPage => (int)Math.Ceiling((decimal)ProductService.GetProducts().Count / _rowProductPage);
+
+    private void changePage(int i)
+    {
+        _currentPage = i;
+    }
+} 

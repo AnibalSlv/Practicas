@@ -1,0 +1,8 @@
+﻿html {
+    height: 100%;
+    background: #f8f8f8;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+}

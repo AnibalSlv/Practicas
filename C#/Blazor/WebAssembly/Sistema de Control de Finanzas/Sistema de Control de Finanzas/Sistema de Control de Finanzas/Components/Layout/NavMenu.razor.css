@@ -1,0 +1,44 @@
+﻿nav{
+    background-color: rgb(30, 30, 30);
+    color: rgb(202, 202, 202);
+    height: auto;
+}
+
+nav ul{
+    display: flex;
+    width: 100%;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    justify-content: end;
+}
+
+.name{
+    margin-right: auto;
+}
+
+li {
+    display: flex;
+    list-style: none;
+    padding: 0 20px;
+    height: 35px;
+    align-items: center;
+    border: solid 1px transparent;
+    transition: .5s;
+    z-index: 999;
+}
+
+.options:hover{
+    background-color: rgb(64, 64, 64);
+    cursor: pointer;
+    border-bottom: solid 1px rgb(154, 133, 1);
+}
+
+li p{
+    margin: auto;
+    transition: .5s;
+}
+
+li:hover > p{
+    transform: translateY(-5px);
+}

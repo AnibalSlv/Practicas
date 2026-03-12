@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+        x:Class="Prueba001.MainWindow"
+        Width="400" Height="450" Title="Prueba02">
+    <StackPanel HorizontalAlignment="Center" Spacing="10">
+        <!--Para no centrar vertical solo elimina VerticalAlignment o no lo pongas pos-->
+        <Border Margin="5" Background="CornflowerBlue" CornerRadius="5" Padding="50 10">
+            <TextBlock x:Name="CounterText" Text="Prueba0001" FontSize="12" HorizontalAlignment="Center"/>
+        </Border>
+        <Grid ShowGridLines="True" Margin="5" ColumnDefinitions="120, 100" RowDefinitions="Auto, Auto, Auto"> <!--Aqui se define las propiedades de la tabla-->
+            <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">Numero 1</Label> <!--Grid.Row y Grid.Column determina la posicion de los elementos en la tabla-->
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="Number1" Text="0"/>
+            <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">Numero 2</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="Number2" Text="0"/>
+        </Grid>
+        <Button HorizontalAlignment="Center" Background="MidnightBlue" Foreground="White" Click="Calculate">Calcular</Button> <!--Dato curioso el blanco es muy blanco-->
+        <!--Nota: Puedes colocar * para hacer filas y columnas dinamicas ColumnDefinitions="*" RowDefinitions="*"-->
+        <!--Tambien pudes usar 2* 3* n* esto quiere decir que si * Reparte por igualdad 2* Le otorga el doble de espacio a ese elemento y asi-->
+        <Grid ShowGridLines="True" ColumnDefinitions="100, 120" RowDefinitions="Auto, Auto, Auto">
+            <Label Grid.Row="0" Grid.Column="0">Resultado: </Label>
+            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="ResultText"/>
+        </Grid>
+    </StackPanel>
+</Window>
